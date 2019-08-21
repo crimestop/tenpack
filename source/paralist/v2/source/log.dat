@@ -1,0 +1,2 @@
+old: don’t use character(len=*) in class(*) (bug in 4.9.0) and don’t use character(:),allocatable
+old_v2: add append

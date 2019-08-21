@@ -1,0 +1,6 @@
+v2: use allocatable and init strategy to get around a bug in tianhe
+v3: add getvalue, real(8) and complex(8) in di and zi
+v4: use class(*)
+v5: from v3, add support for array, adjust structure
+v6: add a function: check_contain, set_value add a para add_tag
+v7: tn to tns

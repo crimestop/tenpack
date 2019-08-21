@@ -1,0 +1,6 @@
+v1:  original
+old: don’t use character(len=*) in class(*) (bug in 4.9.0) and don’t use character(:),allocatable. following is based on old
+v2: add append
+v3: add EOF identifier ‘/’
+v4: add tensor
+v5: delete tensor, class extends from dictionary

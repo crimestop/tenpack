@@ -1,0 +1,35 @@
+v1: original
+v2: add I/O, generate random tns, includes env on bonds, add absorb/spit env
+v3: use dictionary instead of paralist
+v4: add a function: transpose
+v5: change a little when draw
+v6: add assignment of site
+v7: modify mode in draw
+v8: fix a bug in set_bond_raw when two end points of a bond is the same site, fix a bug in move_pos/name when actually unmoved, modify tn_draw
+v9: tn_tensor add a method: take
+v10: change structure in tn_tensor, add draw_mode
+v11: refinement in site_consistency
+v12: add set_bond_as_cluster
+v13: add group in lattice, add get_nb_name, add check_tag option (true by default) in draw
+v14: fix bugs in set_bond_as_cluster, add get_bonds that return multiple bonds
+v15: add absorb_except and invert bonds in tn_tensor, in group: remove get_size and add point_lat, in update_tensor: type->class 
+v16: add add_from_lat_pos and get_empty_tag and get_pos, fix a bug in set_bond_as_cluster, minor fixes
+v17: add backup and restore
+v18: add path in lattice, fix a bug in I/O
+v19: modify draw
+v20: optimize tn%invert_bond, tn%absorb
+v21: add info in lattice, split assignment in tntensor
+v22: don't use class(*)
+v23: add type in generate_ten
+v24: modify a little in check/exist, in generate_ten use select case.
+v25: in generate_env add type and delete para 'datatype' and D, modify absorb/split_env_bond, add some env related funcs
+v26: add lattice_clt to cope with clusters. in lattice: group add get_num, modify add_from_ten, in draw use lat name as file name, add move_row and move_column
+v27: modify cut_bonds, copy_line
+v28: add remove_bond
+v29: use tensors instead of tensor
+v30: add lat_absorb_env for ring update
+v31: add some env function
+v32: in path add get name/pos from order
+v33: in group/path/tn_tensor, add get_lattice_link to get the link
+v34: add copy_lat_link
+v35: in lattice: path add check_contain, lattice add set_bond_as_path, path and group add name. in tn_tensor: add take_except, fix a bug in absorb_except. in lattice_clt: rewrite, now extends the lattice, support infinite nesting
