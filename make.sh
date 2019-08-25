@@ -1,5 +1,5 @@
 #!/bin/bash
-version=v4.9
+version=v5.0
 echo Compling Pack $version
 while read line; do
 	echo
