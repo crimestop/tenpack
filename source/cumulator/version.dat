@@ -1,2 +1,0 @@
-v2: add a subroutine iadd
-v3: add get_weight, use wc_reduce_tensor and wc_allreduce_tensor

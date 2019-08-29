@@ -1,8 +1,0 @@
-v0: do not use character(len=*) in class(*) 
-v1:  use character(len=*) in class(*) (bug in 4.9.0)
-v2: in ary2str, add optional argument split, fix a bug: length in int2str: when 0, fix a  bug when output 1e-4, 1e-5, …
-v3: add a para in str to control accuracy
-v4: add str_ary2str, before_dot
-v5: change split : no ,
-v6: 0 to 0.0000..., fix a bug, digit to digit-1
-v7: add str_before and str_after

@@ -4,13 +4,18 @@ echo Compling Pack $version
 while read line; do
 	echo
 	echo Compling $line
-	ary=($line)
-	cd source/${ary[0]}/${ary[1]}
+	pwd
+	echo "source/$line"
+	if [ -d "source/$line" ]; then	
+		cd source/${line}
 		make
-		cp *.mod ../../../include
-		mv *.a ../../../lib
-	cd ../../..
-done < versions/${version}.dat
+		cp *.mod ../../include
+		mv *.a ../../lib
+		cd ../..
+	else
+		echo $line is not contained in version $version
+	fi
+done < components.dat
 rm -r output/lib_${version}
 cp -r lib output/lib_${version}
 rm -r output/include_${version}
