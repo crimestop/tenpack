@@ -109,8 +109,10 @@ function dbl2str(num,digit_) result(str2)
 	integer(1) :: temp(20),i,j,dotpos,st,len_not0
 	real(8) :: compare(8)=[1d-2,1d-1,1d0,1d1,1d2,1d3,1d4,1d5]
 
+	temp=0
 	if(present(digit_)) then
 		digit=digit_
+		if(digit<1 .or. digit>13)  call wc_error_stop('string.dbl2str','digit='//int2str(digit)//', not in [1,13].')
 	else
 		digit=7
 	end if
@@ -125,6 +127,12 @@ function dbl2str(num,digit_) result(str2)
 		st=1
 	else
 		str2='0'
+		if(digit>1)then
+			str2(2:2)='.'
+			do i=1,digit-1
+				str2(i+2:i+2)='0'
+			end do
+		end if
 		return
 	end if
 
@@ -145,22 +153,22 @@ function dbl2str(num,digit_) result(str2)
 		!now 1 - 5.1d-7<=abs_num<10 - 5.1d-6
 
 		num_int=abs_num
-		do i=1,digit
+		do i=1,digit-1
 			num_int=num_int*10
 		end do
 		appro=nint(num_int)
-		do i=1,digit+1
+		do i=1,digit
 			temp(i)=mod(appro,10)
 			appro=appro/10
 		end do
 
-		str(st+1:st+1)=char(temp(digit+1)+48)
+		str(st+1:st+1)=char(temp(digit)+48)
 		st=st+1
 		str(st+1:st+1)='.'
-		do j=2,digit+1
-			str(st+j:st+j)=char(temp(digit+2-j)+48)
+		do j=2,digit
+			str(st+j:st+j)=char(temp(digit+1-j)+48)
 		end do	
-		st=st+digit+1
+		st=st+digit
 
 		str(st+1:st+1)='E'
 		str(st+2:)=int2str(tenexp)
@@ -168,35 +176,43 @@ function dbl2str(num,digit_) result(str2)
 		dotpos=count(abs_num>(compare*(1 - 5.1d-7)))
 		abs_num=abs_num/compare(dotpos)
 		num_int=abs_num
-		do i=1,digit
+		do i=1,digit-1
 			num_int=num_int*10
 		end do
 		appro=nint(num_int)
 		dotpos=dotpos-count(0.9>compare)
 		!now 1<=abs_num<10
-		!dotpos = 0 if 0.1-1
+		!dotpos is how many digits before dot, = 0 if 0.1-1
 
-		do i=1,digit+1
+		do i=1,digit
 			temp(i)=mod(appro,10)
 			appro=appro/10
 		end do
 
 		if(dotpos<=0)then
 			str(st+1:st+2)='0.'
-			if(dotpos<0) str(st+3:st+3-dotpos)=repeat('0',-dotpos)
+			if(dotpos<0) str(st+3:st+2-dotpos)=repeat('0',-dotpos)
 			st=st+2-dotpos
-			do j=1,digit+1
-				str(st+j:st+j)=char(temp(digit+2-j)+48)
+			do j=1,digit
+				str(st+j:st+j)=char(temp(digit+1-j)+48)
 			end do	
 		else
 			do j=1,dotpos
-				str(st+j:st+j)=char(temp(digit+2-j)+48)
+				str(st+j:st+j)=char(temp(digit+1-j)+48)
 			end do
-			if(digit+1>dotpos)then
+			if(digit>dotpos)then
+				do j=1,dotpos
+					str(st+j:st+j)=char(temp(digit+1-j)+48)
+				end do
 				str(st+dotpos+1:st+dotpos+1)='.'
-				do j=dotpos+1,digit+1
-					str(st+j+1:st+j+1)=char(temp(digit+2-j)+48)
+				do j=dotpos+1,digit
+					str(st+j+1:st+j+1)=char(temp(digit+1-j)+48)
 				end do	
+			else
+				do j=1,digit
+					str(st+j:st+j)=char(temp(digit+1-j)+48)
+				end do
+				str(st+digit+1:st+dotpos)=repeat('0',dotpos-digit)
 			end if
 		end if
 	end if

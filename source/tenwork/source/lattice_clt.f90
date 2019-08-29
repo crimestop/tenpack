@@ -17,7 +17,7 @@ type lattice_clt
 	type(lattice),public::lat
 	type(lattice),allocatable::lat_clt(:,:)
 	type(group),allocatable::cluster(:,:)
-	integer,allocatable::pos2clt(:,:,:)
+	integer,allocatable::pos2clt(:,:,:)		! ori pos to clt pos
 	logical,allocatable::to_calc(:,:)
 	logical,allocatable::backed_up(:,:)
 

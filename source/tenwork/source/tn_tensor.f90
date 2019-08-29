@@ -29,6 +29,7 @@ type, extends(tensor):: tn_tensor
 	procedure::absorb0_except_name
 	generic,public::absorb_except=>absorb0_except_pos,absorb0_except_name,absorb1_except_pos
 	procedure,public::invert_bond
+	procedure,public::get_lattice_link
 
 end type  
 
@@ -508,6 +509,15 @@ subroutine invert_bond(T)
 	class(tn_tensor),intent(inout)::T
 
 	call T%grp%invert_bond(T%tensor)
+
+end subroutine
+
+subroutine get_lattice_link(T,L)
+
+	class(tn_tensor),target,intent(in)::T
+	type(lattice),pointer,intent(inout)::L
+
+	call T%grp%get_lattice_link(L)
 
 end subroutine
 

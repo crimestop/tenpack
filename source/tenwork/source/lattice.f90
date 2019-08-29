@@ -273,8 +273,10 @@ type group
 	generic,public::get_num=>get_num_group
 	procedure,public::point_lat
 	procedure::invert_bond_grp
-	generic,public:: invert_bond=>invert_bond_grp
+	generic,public::invert_bond=>invert_bond_grp
 	procedure,public::get_dangle_inds
+	procedure::get_lattice_link_grp
+	generic,public::get_lattice_link=>get_lattice_link_grp
 
 end type  
 
@@ -316,6 +318,8 @@ type path
 	generic,public::generate=>generate_path
 	procedure::draw_path
 	generic,public::draw=>draw_path
+	procedure::get_lattice_link_path
+	generic,public::get_lattice_link=>get_lattice_link_path
 
 end type
 
@@ -3960,7 +3964,16 @@ function get_dangle_inds(G,pos) result(inds)
 
 end function
 
-!path
+subroutine get_lattice_link_grp(G,L)
+
+	class(group),target,intent(in)::G
+	type(lattice),pointer,intent(inout)::L
+
+	L=>G%lat
+
+end subroutine
+
+!!!!!!!!!!!!path!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 subroutine belong_path(P,L)
 
@@ -4322,6 +4335,15 @@ subroutine draw_path(P,filename,label_bond,fixed,check_tag)
 	end if
 
 	call P%lat%draw_tn(filename,filename,[(.false.,i=1,P%lat%max_site_num)],P%raw_path,label_bond,fixed,check_tag)
+
+end subroutine
+
+subroutine get_lattice_link_path(P,L)
+
+	class(path),target,intent(in)::P
+	type(lattice),pointer,intent(inout)::L
+
+	L=>P%lat
 
 end subroutine
 
