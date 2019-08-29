@@ -59,6 +59,8 @@ type lattice
 
 	procedure,public:: mirror_con
 	procedure,public:: copy_line
+	procedure,public:: copy_line_ten
+	procedure,public:: copy_line_link
 	procedure::set_bond_as_pure
 	procedure::set_bond_as_cluster
 	generic,public::set_bond_as=>set_bond_as_pure,set_bond_as_cluster
@@ -1403,6 +1405,130 @@ subroutine copy_line(L,line,L_old,line2,nline)
 			pos=L_old%sites(i)%pos
 			if(pos(1)>=line2_ .and. pos(1)<=line2_+nline-1) then
 				call L%add([pos(1)-line2_+line,pos(2)],L_old%sites(i)%name,L_old%sites(i)%tensor,L_old%sites(i)%tensor_save_tag)
+				if(L_old%sites(i)%con_tag) call L%set_contag(L_old%sites(i)%name,.true.)
+			end if
+		end if
+	end do
+
+	do i=1,L_old%max_site_num
+		if(L_old%sites(i)%exist_tag)then
+			pos=L_old%sites(i)%pos
+			if(pos(1)>=line2_ .and. pos(1)<=line2_+nline-1) then
+				do j=1,L_old%sites(i)%nb_num
+					nb_rawpos=L_old%sites(i)%bonds(j)%nb_rawpos
+					nb_pos=L_old%sites(nb_rawpos)%pos
+					if(nb_rawpos>i .and. nb_pos(1)>=line2_ .and. nb_pos(1)<=line2_+nline-1) then
+						nb_no=L_old%sites(i)%bonds(j)%nb_no
+						dir=L_old%sites(i)%bonds(j)%ind
+						dir2=L_old%sites(nb_rawpos)%bonds(nb_no)%ind
+						name=L_old%sites(i)%name
+						name2=L_old%sites(nb_rawpos)%name
+						call L%set_bond(name,name2,dir,dir2)
+					end if
+				end do
+			end if
+		end if
+	end do
+			
+end subroutine
+
+subroutine copy_line_ten(L,line,L_old,line2,nline)
+
+	class(lattice),intent(inout)::L
+	type(lattice),intent(in)::L_old
+	integer,intent(in)::line,line2,nline
+	integer::i,j,k,L1_old,L2_old,pos(2),nb_pos(2),nb_rawpos,nb_no,line2_
+	character(len=max_char_length)::dir,dir2,name,name2
+
+	call L%check_unempty()
+	if (all(L_old%raw_pos==0)) return ! nothing to copy
+
+	call L_old%get_size(L1_old,L2_old)
+	if(line2>=0) then 									! line2=-1 for last line
+		line2_=line2
+	else
+		do i=L1_old,1,-1
+			if(any(L_old%raw_pos(i,:)>0))then
+				line2_=i+line2+1
+				exit
+			end if
+		end do
+	end if
+
+	if(.not.(1<=line.and.line+nline-1<=L%L1)) then
+		call wc_error_stop('lattice.copy_line','Input for lattice: '//trim(L%name)//' is out of range')
+	end if
+	if(.not.(1<=line2_.and.line2_+nline-1<=L1_old)) then
+		call wc_error_stop('lattice.copy_line','Input for lattice: '//trim(L_old%get_name())//' is out of range')
+	end if
+
+	do i=1,L_old%max_site_num
+		if(L_old%sites(i)%exist_tag)then
+			pos=L_old%sites(i)%pos
+			if(pos(1)>=line2_ .and. pos(1)<=line2_+nline-1) then
+				call L%add([pos(1)-line2_+line,pos(2)],L_old%sites(i)%name,L_old%sites(i)%tensor,.true.)
+				if(L_old%sites(i)%con_tag) call L%set_contag(L_old%sites(i)%name,.true.)
+			end if
+		end if
+	end do
+
+	do i=1,L_old%max_site_num
+		if(L_old%sites(i)%exist_tag)then
+			pos=L_old%sites(i)%pos
+			if(pos(1)>=line2_ .and. pos(1)<=line2_+nline-1) then
+				do j=1,L_old%sites(i)%nb_num
+					nb_rawpos=L_old%sites(i)%bonds(j)%nb_rawpos
+					nb_pos=L_old%sites(nb_rawpos)%pos
+					if(nb_rawpos>i .and. nb_pos(1)>=line2_ .and. nb_pos(1)<=line2_+nline-1) then
+						nb_no=L_old%sites(i)%bonds(j)%nb_no
+						dir=L_old%sites(i)%bonds(j)%ind
+						dir2=L_old%sites(nb_rawpos)%bonds(nb_no)%ind
+						name=L_old%sites(i)%name
+						name2=L_old%sites(nb_rawpos)%name
+						call L%set_bond(name,name2,dir,dir2)
+					end if
+				end do
+			end if
+		end if
+	end do
+			
+end subroutine
+
+subroutine copy_line_link(L,line,L_old,line2,nline)
+
+	class(lattice),intent(inout)::L
+	type(lattice),intent(in)::L_old
+	integer,intent(in)::line,line2,nline
+	integer::i,j,k,L1_old,L2_old,pos(2),nb_pos(2),nb_rawpos,nb_no,line2_
+	character(len=max_char_length)::dir,dir2,name,name2
+
+	call L%check_unempty()
+	if (all(L_old%raw_pos==0)) return ! nothing to copy
+
+	call L_old%get_size(L1_old,L2_old)
+	if(line2>=0) then 									! line2=-1 for last line
+		line2_=line2
+	else
+		do i=L1_old,1,-1
+			if(any(L_old%raw_pos(i,:)>0))then
+				line2_=i+line2+1
+				exit
+			end if
+		end do
+	end if
+
+	if(.not.(1<=line.and.line+nline-1<=L%L1)) then
+		call wc_error_stop('lattice.copy_line','Input for lattice: '//trim(L%name)//' is out of range')
+	end if
+	if(.not.(1<=line2_.and.line2_+nline-1<=L1_old)) then
+		call wc_error_stop('lattice.copy_line','Input for lattice: '//trim(L_old%get_name())//' is out of range')
+	end if
+
+	do i=1,L_old%max_site_num
+		if(L_old%sites(i)%exist_tag)then
+			pos=L_old%sites(i)%pos
+			if(pos(1)>=line2_ .and. pos(1)<=line2_+nline-1) then
+				call L%add([pos(1)-line2_+line,pos(2)],L_old%sites(i)%name,L_old%sites(i)%tensor,.false.)
 				if(L_old%sites(i)%con_tag) call L%set_contag(L_old%sites(i)%name,.true.)
 			end if
 		end if
