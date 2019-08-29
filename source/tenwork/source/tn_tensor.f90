@@ -17,6 +17,8 @@ type, extends(tensor):: tn_tensor
 	procedure,public:: draw
 	procedure,public:: empty
 	procedure,public:: absorb
+	procedure,public:: absorb_with_env
+	procedure,public:: absorb_just_env
 	procedure,public:: take
 	procedure:: absorb_all0
 	procedure:: absorb_all1
@@ -265,6 +267,28 @@ subroutine absorb(T,pos)	!if already includes or pos have no tn, don't do anythi
 		
 	call lat_absorb_tensor(T%tensor,T%tensor,T%grp,pos)
 	if(draw_mode) call T%draw('tn_absorb')
+
+end subroutine
+
+subroutine absorb_just_env(T,pos)	!if already includes or pos have no tn, don't do anything
+
+	class(tn_tensor),intent(inout)::T
+	type(tensor)::tt
+	integer,intent(in)::pos(2)
+		
+	call lat_absorb_env(T%tensor,T%tensor,T%grp,pos)
+	if(draw_mode) call T%draw('tn_absorb')
+
+end subroutine
+
+subroutine absorb_with_env(T,pos)	!if already includes or pos have no tn, don't do anything
+
+	class(tn_tensor),intent(inout)::T
+	type(tensor)::tt
+	integer,intent(in)::pos(2)
+		
+	call absorb_just_env(T,pos)
+	call absorb(T,pos)
 
 end subroutine
 

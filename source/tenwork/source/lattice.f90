@@ -311,7 +311,7 @@ type path
 
 end type
 
-public lattice,group,path,lat_absorb_tensor,lat_contract_type
+public lattice,group,path,lat_absorb_tensor,lat_absorb_env,lat_contract_type
 
 contains
 
@@ -3335,7 +3335,7 @@ subroutine absorb(L,pos,nb_pos)
 
 	class(lattice),intent(inout)::L
 	integer,intent(in)::pos(2),nb_pos(2)
-	character(len=max_char_length)::leg(8),leg_nb(8)
+	character(len=max_char_length)::leg(20),leg_nb(20)
 	integer::i,num,nb(2),nb_no,rawpos,nb_rawpos
 	integer,allocatable::move(:)
 
@@ -3559,7 +3559,7 @@ subroutine lat_absorb_tensor(fn_tensor,ori_tensor,G,pos)
 	type(tensor),target,intent(inout)::ori_tensor
 	type(tensor),target,intent(inout)::fn_tensor
 	integer,intent(in)::pos(2)
-	character(len=max_char_length)::leg(8),leg_nb(8)
+	character(len=max_char_length)::leg(20),leg_nb(20)
 	integer::k,num,nb(2),nb_no,rawpos,nb_rawpos
 	type(tensor)::testen
 	type(tensor),pointer::tpf,tpo
@@ -3612,6 +3612,44 @@ subroutine lat_absorb_tensor(fn_tensor,ori_tensor,G,pos)
 		end if
 	end if
 	call G%take(pos)
+
+end subroutine
+
+subroutine lat_absorb_env(fn_tensor,ori_tensor,G,pos)
+
+	type(group),intent(inout)::G
+	type(tensor),target,intent(inout)::ori_tensor
+	type(tensor),target,intent(inout)::fn_tensor
+	integer,intent(in)::pos(2)
+	character(len=max_char_length)::nb_ind
+	integer::k,num,nb_no,rawpos,nb_rawpos
+	type(tensor)::env
+	type(tensor),pointer::tpf,tpo
+
+	call G%lat%check_unempty()
+	rawpos=G%lat%raw_pos(pos(1),pos(2))
+	if(rawpos<=0) return
+	tpf=>fn_tensor
+	tpo=>ori_tensor
+
+	if(any(G%includes).and.(.not. G%includes(rawpos))) then
+		do k=1,G%lat%sites(rawpos)%nb_num
+			nb_rawpos=G%lat%sites(rawpos)%bonds(k)%nb_rawpos
+			nb_no=G%lat%sites(rawpos)%bonds(k)%nb_no
+			nb_ind=G%lat%sites(nb_rawpos)%bonds(nb_no)%ind
+			if(G%includes(nb_rawpos)) then
+				if(G%lat%sites(nb_rawpos)%bonds(nb_no)%env_tag)then
+					env=G%lat%sites(nb_rawpos)%bonds(nb_no)%env
+					if(associated(tpf,tpo))then
+						call fn_tensor%contract(nb_ind,env,'env.in')
+					else
+						fn_tensor=contract(ori_tensor,nb_ind,env,'env.in')
+					end if
+					call fn_tensor%setName('env.out',nb_ind)
+				end if
+			end if
+		end do
+	end if
 
 end subroutine
 
