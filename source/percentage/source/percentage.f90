@@ -1,73 +1,59 @@
 module mod_percent
 use mod_mpi_info
+use error
 implicit none
 private
 real(8)::perc_save= 0d0
+integer::line_length=80
 
 public percent,percent_end 
 
 contains
 
-subroutine percent(perc_in,step_,words_before_,words_after_)
+subroutine percent(words_in,perc_in,step_)
 
 	real(8),intent(in)::perc_in
-	character(len=*),intent(in),optional::words_before_,words_after_
+	character(len=*),intent(in)::words_in
 	real(8),intent(in),optional::step_
 	real(8)::step
-	character(:),allocatable::words_before,words_after
+	character(len=line_length)::words
 
 	if(present(step_))then
 		step=step_
 	else
 		step=1d0
 	end if
-	if(present(words_before_))then
-		words_before=words_before_
-	else
-		words_before=''
+
+	if(len_trim(words_in)+1>line_length)then
+		call wc_error_stop('percent','input words are too long.')
 	end if
-	if(present(words_after_))then
-		words_after=', '//words_after_
-	else
-		words_after=''
-	end if
+	words=''
+	words(1:1)=char(13)
+	words(2:)=words_in
 
 	if(abs(perc_in-perc_save)>=step)then
 		if(my_rank==0)then
-			if(perc_in<0)then
-				write(*,'(1a1,a,F4.2,a,$)')char(13),words_before//' 0% finished'//words_after//'    '
-			else if(perc_in<10)then
-				write(*,'(1a1,a,F4.2,a,$)')char(13),words_before//' ',perc_in,'% finished'//words_after//' '
-			else if (perc_in<100)then
-				write(*,'(1a1,a,F5.2,a,$)')char(13),words_before//' ',perc_in,'% finished'//words_after
-			else
-				write(*,'(1a1,a,$)')char(13),words_before//' 100% finished'//words_after//'  '
-			end if
+			write(*,'(a,$)') words
 		end if
 		perc_save=perc_in
 	end if
 
 end subroutine
 
-subroutine percent_end(words_before_,words_after_)
+subroutine percent_end(words_in)
 
-	character(len=*),intent(in),optional::words_before_,words_after_
-	character(:),allocatable::words_before,words_after
+	character(len=*),intent(in)::words_in
+	character(len=line_length)::words
 
-	if(present(words_before_))then
-		words_before=words_before_
-	else
-		words_before=''
+	if(len_trim(words_in)+1>line_length)then
+		call wc_error_stop('percent','input words are too long.')
 	end if
-	if(present(words_after_))then
-		words_after=', '//words_after_
-	else
-		words_after=''
-	end if
+	words=''
+	words(1:1)=char(13)
+	words(2:)=words_in
 	
 	if(my_rank==0) then
-		write(*,'(1a1,a,$)')char(13),'                                                                      ' ! erase last line
-		write(*,'(1a1,a)')char(13),words_before//' 100% finished'//words_after
+		write(*,'(a)')words
 	end if
 	perc_save=0d0
 
