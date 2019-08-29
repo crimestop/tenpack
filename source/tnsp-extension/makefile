@@ -3,6 +3,7 @@ include ../../make.inc
 libname=libtnsp_ext
 
 file := \
+tensors.o \
 tensor_tools.o
 
 all:	$(file)

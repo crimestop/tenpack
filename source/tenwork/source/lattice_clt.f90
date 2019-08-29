@@ -1,6 +1,6 @@
 module tensor_network_cluster
 use tensor_network
-use tensor_type
+use tensor_types
 use error 
 use tools
 use string
@@ -123,7 +123,7 @@ subroutine generate_cluster_single(lattice_ori,lat_cluster,cluster,name)
 	type(group),intent(inout)::cluster
 	character(len=*),intent(in)::name
 	character(len=max_char_length), allocatable::names(:)
-	type(tensor),pointer::tenp
+	type(tensors),pointer::tenp
 	integer::num,nb_no,i,k
 	character(len=max_char_length)::dir,nb_dir,nb_name
 
@@ -163,12 +163,12 @@ subroutine set_tensor(LC,tenname,tenp,to_calc)
 
 	class(lattice_clt),intent(inout)::LC
 	character(len=*),intent(in)::tenname
-	type(tensor),intent(inout)::tenp
+	type(tensors),intent(inout)::tenp
 	logical,intent(in)::to_calc
 	integer::L1,L2,i,j,pos(2),pos2(2)
 	type(tn_tensor)::temp
 	complex(8)::ws
-	type(tensor),pointer::tp1,tp2
+	type(tensors),pointer::tp1,tp2
 
 	call LC%lat_pre%get_size(L1,L2)
 	call LC%lat_pre%set_tensor(tenname,tenp)

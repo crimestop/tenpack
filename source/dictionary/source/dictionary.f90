@@ -1,7 +1,7 @@
 module mod_dictionary
 use error
 use string
-use tensor_type
+use tensor_types
 implicit none
 private
 
@@ -34,7 +34,7 @@ type dictionary
 	logical,allocatable :: logi_ary_val(:,:)
 	integer,allocatable::logi_ary_len(:)
 
-	type(tensor),allocatable :: ten_val(:)
+	type(tensors),allocatable :: ten_val(:)
 
 	character(len=max_char_length),allocatable:: names(:,:)
 	integer,allocatable::itemcurn(:)
@@ -352,7 +352,7 @@ subroutine insert_ten(D,name,value)
 
 	class(dictionary), intent(inout)::D
 	character(len=*), intent(in) :: name
-	type(tensor), intent(in) :: value
+	type(tensors), intent(in) :: value
 	integer::type
 	
 	if (.not. D%inited) call D%init()
@@ -461,7 +461,7 @@ function ti(D,name) result(res)
 
 	class(dictionary),intent(in)::D
 	character(len=*),intent(in)::name
-	type(tensor)::res
+	type(tensors)::res
 
 	call D%tgetvalue(name,res)
 
@@ -892,7 +892,7 @@ subroutine tsetvalue(D,name,val,add_tag)
 
 	class(dictionary),intent(inout)::D
 	character(len=*),intent(in)::name
-	type(tensor),intent(in)::val
+	type(tensors),intent(in)::val
 	integer::type,pos
 	logical,intent(in),optional::add_tag
 	logical::add_tag_,existed
@@ -1109,7 +1109,7 @@ subroutine tgetvalue(D,name,val)
 
 	class(dictionary),intent(in)::D
 	character(len=*),intent(in)::name
-	type(tensor),intent(inout)::val
+	type(tensors),intent(inout)::val
 	integer::type,pos
 
 	call D%find(name,type,pos)
@@ -1301,7 +1301,7 @@ subroutine read(G,unit)
 	complex(8)::zval 
 	character(len=max_char_length)::aval 
 	logical::lval 
-	type(tensor)::tval
+	type(tensors)::tval
 	integer,allocatable::mival(:)
 	real(8),allocatable::mdval(:)
 	character(len=max_char_length),allocatable::maval(:)

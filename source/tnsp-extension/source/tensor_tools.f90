@@ -1,5 +1,8 @@
 module tnsp_ext
+use tensor_types
 use tensor_type
+use SymTensor_type
+use QuantumNumber_Type 
 use tools
 use string
 use error
@@ -9,8 +12,8 @@ implicit none
 
 type tnary
 
-	type(Tensor)::tn	
-	type(Tensor),allocatable::tns(:,:)
+	type(Tensors)::tn	
+	type(Tensors),allocatable::tns(:,:)
 
 end type
 
@@ -72,9 +75,9 @@ end subroutine
 subroutine HOSVD(T,uni,env,cen,names,Dc)
 
 	character(len=*),intent(in)::names(:)
-	type(tensor),intent(inout)::T,cen,uni(:),env(:)
+	type(tensors),intent(inout)::T,cen,uni(:),env(:)
 	integer,intent(in),optional::Dc
-	type(tensor)::useless,invten,invenv,env_temp,test
+	type(tensors)::SVD(3),invten,invenv,test
 	character(len=max_char_length),allocatable::name_bac(:)
 	integer::i,j,rank,dim_env
 
@@ -89,8 +92,9 @@ subroutine HOSVD(T,uni,env,cen,names,Dc)
 				call T%setname(j,'temp^_^.'+j)
 			end if
 		end do
-		call T%SVDroutine(uni(i),env_temp,useless,names(i),'temp^_^',Dc)
-		env(i)=eye(env_temp)
+		call T%SVD(SVD,names(i),'temp^_^',Dc)
+		uni(i)=SVD(1)
+		env(i)=SVD(2)
 		call uni(i)%setname(uni(i)%getrank(),names(i)+'.hosvd')
 		call env(i)%setname(1,'env.in')
 		call env(i)%setname(2,'env.out')
@@ -106,11 +110,7 @@ subroutine HOSVD(T,uni,env,cen,names,Dc)
 	cen=T
 	do i=1,size(names)
 		invten=.con.uni(i)
-		invenv=env(i)
-		dim_env=invenv.dim.1
-		do j=1,dim_env
-			call invenv%setvalue([j,j],1/invenv%di([j,j]))
-		end do
+		invenv=env(i)%inverse()
 		invten=contract(invten,names(i)+'.hosvd',invenv,'env.in')
 		call invten%setname('env.out','center.hosvd'+i)
 		cen=contract(cen,invten)
@@ -119,19 +119,26 @@ subroutine HOSVD(T,uni,env,cen,names,Dc)
 
 end subroutine
 
-function dbl(T) result(res)
+subroutine cre_ann_number(A,A_dg,N,N2,D,sym)
 
-	class(tensor), intent(in) ::T 
-	real(8) :: res
+	type(Tensors),intent(inout)::A,A_dg,N,N2
+	integer,intent(in)::D
+	character(len=*),intent(in)::sym
 
-	res=T
-	
-end function
+	select case (sym)
+	case('none')
+		call cre_ann_number_nosym(A,A_dg,N,N2,D)
+	case('U1','parity')
+		call cre_ann_number_U1parity(A,A_dg,N,N2,D)
+	end select
 
-subroutine cre_ann_number(A,A_dg,N,N2,D)	! generate (bosonic) creation & annhilation & number operators
-								! N2=N*(N-1), leg: 1 in 2 out, partical number range is 0~D-1
+end subroutine
 
-	type(Tensor),intent(out)::A,A_dg,N,N2
+subroutine cre_ann_number_nosym(A_,A_dg_,N_,N2_,D)	! generate (bosonic) creation & annhilation & number operators
+								! N2=N*(N-1), leg: 2 in 1 out, partical number range is 0~D-1
+
+	type(Tensors),intent(out)::A_,A_dg_,N_,N2_
+	type(Tensor)::A,A_dg,N,N2
 	integer,intent(in)::D
 	integer::i
 
@@ -145,7 +152,7 @@ subroutine cre_ann_number(A,A_dg,N,N2,D)	! generate (bosonic) creation & annhila
 	call N2%setvalue(0d0)
 
 	do i=1,D-1
-		call A%setvalue([i,i+1],sqrt(real(i)))
+		call A%setvalue([i+1,i],sqrt(real(i)))
 	end do
 	do i=1,D
 		call N%setvalue([i,i],i-1)
@@ -153,56 +160,92 @@ subroutine cre_ann_number(A,A_dg,N,N2,D)	! generate (bosonic) creation & annhila
 	end do
 	A_dg=transpose(A)
 
-end subroutine cre_ann_number
+	A_=A
+	A_dg_=A_dg
+	N_=N
+	N2_=N2
 
-subroutine spin_matrix(sx,sy,sz,s)			! generate standard matrices (as in book by H. Georgi) of s_i
-						  			! of a spin-s representation. s is an int or a half-int.
-									! row/column = 1 ... 2s+1 means m = -s ... s
-	type(Tensor),intent(inout)::sx,sy,sz
-	real(8),intent(in)::s
-	real(8),allocatable::sp(:,:)	!s+ = sx + isy ; s- = sx - isy; sx = (s+ + s-)/2; sy = (-s+ + s-)/2*i
-	integer::i,D
+end subroutine
 
-	D=floor(2*s+1.01)
-	call sx%allocate([D,D],'real*8')
-	call sx%setvalue(0d0)
-	call sy%allocate([D,D],'complex*16')
-	call sy%setvalue(0d0)
-	call sz%allocate([D,D],'real*8')
-	call sz%setvalue(0d0)
-	allocate(sp(D,D))
-	sp=0
-	do i=1,D-1								!m=-s+i-1
-		sp(i+1,i)=sqrt(real(i*(2*s+1-i)))	!sp(m+1,m)=sqrt((s+m+1)*(s-m))
+subroutine cre_ann_number_U1parity(A_,A_dg_,N_,N2_,D)	! generate (bosonic) creation & annhilation & number operators
+								! N2=N*(N-1), leg: 2 in 1 out, partical number range is 0~D-1
+
+	type(Tensors),intent(out)::A_,A_dg_,N_,N2_
+	type(symTensor)::A,A_dg,N,N2
+	type(QuanNum)::QN_in,QN_out
+	type(tensor)::elem
+	integer,intent(in)::D
+	integer::i
+
+	call QN_in%setQN([(real(i),i=0,D-1)])
+	call QN_in%setDeg([(1,i=0,D-1)])
+	call QN_in%setRule(-1)
+	call QN_out%setQN([(real(i),i=0,D-1)])
+	call QN_out%setDeg([(1,i=0,D-1)])
+	call QN_out%setRule(1)
+
+	call A%allocate([QN_out,QN_in],'real*8')
+	call A%zero()
+	call A_dg%allocate([QN_out,QN_in],'real*8')
+	call A_dg%zero()
+	call N%allocate([QN_out,QN_in],'real*8')
+	call N%zero()
+	call N2%allocate([QN_out,QN_in],'real*8')
+	call N2%zero()
+
+	do i=1,D-1
+		elem=sqrt(real(i))
+		call A%setvalue([i+1,i],elem)
 	end do
-	sx=(sp+transpose(sp))/2
-	sy=(-sp+transpose(sp))/2*dcmplx(0,1)
 	do i=1,D
-		call sz%setvalue([i,i],-s+i-1)
+		elem=i-1
+		call N%setvalue([i,i],elem)
+		elem=(i-1)*(i-2)
+		call N2%setvalue([i,i],elem)
 	end do
+	A_dg=A.pb.1
 
-	deallocate(sp)
+	A_=A
+	A_dg_=A_dg
+	N_=N
+	N2_=N2
 
-end subroutine spin_matrix
+end subroutine
 
-subroutine spin_matrix2(sx,sy,sz,sp,sm,s)			! generate standard matrices (as in book by H. Georgi) of s_i
+subroutine spin_matrix(sx,sy,sz,sp,sm,one,s,sym)
+
+	type(Tensors),intent(inout)::sx,sy,sz,sp,sm,one
+	real(8),intent(in)::s
+	character(len=*),intent(in)::sym
+
+	select case (sym)
+	case('none')
+		call spin_matrix_nosym(sx,sy,sz,sp,sm,one,s)
+	case('U1','parity')
+		call spin_matrix_U1parity2(sx,sy,sz,sp,sm,one,s)
+	end select
+
+end subroutine
+
+subroutine spin_matrix_nosym(sx_,sy_,sz_,sp_,sm_,one_,s)			! generate standard matrices (as in book by H. Georgi) of s_i
 						  			! of a spin-s representation. s is an int or a half-int.
 									! row/column = 1 ... 2s+1 means m = -s ... s
-	type(Tensor),intent(inout)::sx,sy,sz,sp,sm
+	type(Tensors),intent(inout)::sx_,sy_,sz_,sp_,sm_,one_
+	type(Tensor)::sx,sy,sz,sp,sm,one
 	real(8),intent(in)::s
 	real(8),allocatable::spm(:,:)	!s+ = sx + isy ; s- = sx - isy; sx = (s+ + s-)/2; sy = (-s+ + s-)/2*i
 	integer::i,D
 
 	D=floor(2*s+1.01)
 	call sx%allocate([D,D],'complex*16')
-	call sx%setvalue(0)
+	call sx%zero()
 	call sy%allocate([D,D],'complex*16')
-	call sy%setvalue(0)
+	call sy%zero()
 	call sz%allocate([D,D],'complex*16')
-	call sz%setvalue(0)
+	call sz%zero()
 	allocate(spm(D,D))
-	
 	spm=0
+	
 	do i=1,D-1								!m=-s+i-1
 		spm(i+1,i)=sqrt(real(i*(2*s+1-i)))	!sp(m+1,m)=sqrt((s+m+1)*(s-m))
 	end do
@@ -215,12 +258,130 @@ subroutine spin_matrix2(sx,sy,sz,sp,sm,s)			! generate standard matrices (as in 
 	sp=spm 
 	sm=transpose(spm)
 
-	deallocate(spm)
+	one=eye(D,D,'real*8')
 
-end subroutine spin_matrix2
+	sx_=sx
+	sy_=sy
+	sz_=sz
+	sp_=sp
+	sm_=sm
+	one_=one
+
+end subroutine
+
+subroutine spin_matrix_U1parity(sx_,sy_,sz_,sp_,sm_,one_,s)			! generate standard matrices (as in book by H. Georgi) of s_i
+						  			! of a spin-s representation. s is an int or a half-int.
+									! row/column = 1 ... 2s+1 means m = -s ... s
+									!s+ = sx + isy ; s- = sx - isy; sx = (s+ + s-)/2; sy = (-s+ + s-)/2*i
+	type(Tensors),intent(inout)::sx_,sy_,sz_,sp_,sm_,one_
+	type(symTensor)::sx,sy,sz,sp,sm,one
+	real(8),intent(in)::s
+	type(QuanNum)::QN_in,QN_out
+	type(tensor)::elem
+	integer::i,D
+
+	D=floor(2*s+1.01)
+
+	call QN_in%setQN([(real(i-s-1),i=1,D)])
+	call QN_in%setDeg([(1,i=1,D)])
+	call QN_in%setRule(-1)
+	call QN_out%setQN([(real(i-s-1),i=1,D)])
+	call QN_out%setDeg([(1,i=1,D)])
+	call QN_out%setRule(1)
+
+	call sp%allocate([QN_out,QN_in],'real*8')
+	call sp%zero()
+	call sm%allocate([QN_out,QN_in],'real*8')
+	call sm%zero()
+	call sx%allocate([QN_out,QN_in],'complex*16')
+	call sx%zero()
+	call sy%allocate([QN_out,QN_in],'complex*16')
+	call sy%zero()
+	call sz%allocate([QN_out,QN_in],'complex*16')
+	call sz%zero()
+	call one%allocate([QN_out,QN_in],'complex*16')
+	call one%zero()
+	
+	do i=1,D-1								!m=-s+i-1
+		elem=sqrt(real(i*(2*s+1-i)))
+		call sp%setvalue([i+1,i],elem) 	!sp(m+1,m)=sqrt((s+m+1)*(s-m))
+	end do
+	sm=sp.pb.1
+	sx=(sp+sm)/2
+	sy=(sm-sp)/2*dcmplx(0,1)
+	do i=1,D
+		elem=-s+i-1
+		call sz%setvalue([i,i],elem)
+	end do
+	call one%eye()
+
+	sx_=sx
+	sy_=sy
+	sz_=sz
+	sp_=sp
+	sm_=sm
+	one_=one
+
+end subroutine
+
+subroutine spin_matrix_U1parity2(sx_,sy_,sz_,sp_,sm_,one_,s)			! generate standard matrices (as in book by H. Georgi) of s_i
+						  			! of a spin-s representation. s is an int or a half-int.
+									! row/column = 1 ... 2s+1 means m = -s ... s
+									!s+ = sx + isy ; s- = sx - isy; sx = (s+ + s-)/2; sy = (-s+ + s-)/2*i
+
+									!!! quantum number is 2*sz
+	type(Tensors),intent(inout)::sx_,sy_,sz_,sp_,sm_,one_
+	type(symTensor)::sx,sy,sz,sp,sm,one
+	real(8),intent(in)::s
+	type(QuanNum)::QN_in,QN_out
+	type(tensor)::elem
+	integer::i,D
+
+	D=floor(2*s+1.01)
+
+	call QN_in%setQN([(2*real(i-s-1),i=1,D)])
+	call QN_in%setDeg([(1,i=1,D)])
+	call QN_in%setRule(-1)
+	call QN_out%setQN([(2*real(i-s-1),i=1,D)])
+	call QN_out%setDeg([(1,i=1,D)])
+	call QN_out%setRule(1)
+
+	call sp%allocate([QN_out,QN_in],'real*8')
+	call sp%zero()
+	call sm%allocate([QN_out,QN_in],'real*8')
+	call sm%zero()
+	call sx%allocate([QN_out,QN_in],'complex*16')
+	call sx%zero()
+	call sy%allocate([QN_out,QN_in],'complex*16')
+	call sy%zero()
+	call sz%allocate([QN_out,QN_in],'complex*16')
+	call sz%zero()
+	call one%allocate([QN_out,QN_in],'complex*16')
+	call one%zero()
+	
+	do i=1,D-1								!m=-s+i-1
+		elem=sqrt(real(i*(2*s+1-i)))
+		call sp%setvalue([i+1,i],elem) 	!sp(m+1,m)=sqrt((s+m+1)*(s-m))
+	end do
+	sm=sp.pb.1
+	sx=(sp+sm)/2
+	sy=(sm-sp)/2*dcmplx(0,1)
+	do i=1,D
+		elem=-s+i-1
+		call sz%setvalue([i,i],elem)
+	end do
+	call one%eye()
+
+	sx_=sx
+	sy_=sy
+	sz_=sz
+	sp_=sp
+	sm_=sm
+	one_=one
+
+end subroutine
 
 subroutine set_Dc(myten,Dc,randomscal)
-implicit none
 
 	type(tensor),pointer,intent(inout)::myten
 	integer,intent(in)::Dc
@@ -317,6 +478,9 @@ subroutine ind2pos(ind,dims,pos)
 end subroutine
 
 function randten_sign(ten,th1,th2,rand_grad,n1,n2,tot) result(rand_ten)
+	! x > th1 : sign(x)*rand, n1 ++
+	! th1> x > th2 : x/th1*rand, n2 ++
+	! th2> x : 0
 
 	type(tensor),intent(in)::ten
 	type(tensor)::rand_ten
@@ -335,15 +499,14 @@ function randten_sign(ten,th1,th2,rand_grad,n1,n2,tot) result(rand_ten)
 		call rand_ten%pointer(dpointer)
 		do l=1, rand_ten%getTotalData()
 			if(abs(dpointer(l))>th1)then
-				grad_elem=sign(rand_grad%randreal(),dpointer(l))
+				dpointer(l)=sign(rand_grad%randreal(),dpointer(l))
 				n1=n1+1
 			else if(abs(dpointer(l))>th2)then
-				grad_elem=rand_grad%randreal()*dpointer(l)/th1
+				dpointer(l)=rand_grad%randreal()*dpointer(l)/th1
 				n2=n2+1
 			else
-				grad_elem=0
+				dpointer(l)=0
 			end if
-			dpointer(l)=grad_elem
 		enddo
 	case(5)
 		call rand_ten%pointer(zpointer)
@@ -351,16 +514,16 @@ function randten_sign(ten,th1,th2,rand_grad,n1,n2,tot) result(rand_ten)
 			if(abs(zpointer(l))>th1)then
 				grad_elem_re=sign(rand_grad%randreal(),real(zpointer(l)))
 				grad_elem_im=sign(rand_grad%randreal(),imag(zpointer(l)))
+				zpointer(l)=dcmplx(grad_elem_re,grad_elem_im)
 				n1=n1+1
 			else if(abs(zpointer(l))>th2)then
 				grad_elem_re=rand_grad%randreal()*dble(zpointer(l))/th1
 				grad_elem_im=rand_grad%randreal()*imag(zpointer(l))/th1
+				zpointer(l)=dcmplx(grad_elem_re,grad_elem_im)
 				n2=n2+1
 			else
-				grad_elem_re=0
-				grad_elem_im=0
+				zpointer(l)=0
 			end if
-			zpointer(l)=dcmplx(grad_elem_re,grad_elem_im)
 		enddo
 	end select
 
@@ -394,17 +557,17 @@ subroutine wc_allreduce_Tensor(inTensor,outTensor,OP,MPIcommon,ierr)
 	call mpi_comm_rank(mpi_comm,proID,ierr)
 	call mpi_comm_size(mpi_comm,proNum,ierr )
 	
-	if(test_not_empty(inTensor,mpi_comm)==0)then	! if the Tensor is empty
+	if(.not.test_not_empty(inTensor,mpi_comm))then	! if the Tensor is empty
 		call writemess('ERROR in ALLREDUCE_Tensor,the is no date in one or some Tensors')
 		call error_stop
 	end if
 	
-	if(test_same_type(inTensor,mpi_comm)==0)then	! if the Tensor is the same data type
+	if(.not.test_same_type(inTensor,mpi_comm))then	! if the Tensor is the same data type
 		call writemess('ERROR in ALLREDUCE_Tensor,the Data type in the Tensors are not the sames')
 		call error_stop
 	end if
 
-	if(test_same_length(inTensor,mpi_comm)==0)then	! if the length of the Tensor is the same
+	if(.not.test_same_length(inTensor,mpi_comm))then	! if the length of the Tensor is the same
 		call writemess('ERROR in ALLREDUCE_Tensor,the length od the Tensor is not the same')
 		call error_stop
 	end if
@@ -513,17 +676,17 @@ subroutine wc_reduce_Tensor(inTensor,outTensor,OP,root,MPIcommon,ierr)
 		call error_stop
 	end if
 	
-	if(test_not_empty(inTensor,mpi_comm)==0)then	! if the Tensor is empty
+	if(.not.test_not_empty(inTensor,mpi_comm))then	! if the Tensor is empty
 		call writemess('ERROR in REDUCE_Tensor,the is no date in one or some Tensors')
 		call error_stop
 	end if
 	
-	if(test_same_type(inTensor,mpi_comm)==0)then	! if the Tensor is the same data type
+	if(.not.test_same_type(inTensor,mpi_comm))then	! if the Tensor is the same data type
 		call writemess('ERROR in REDUCE_Tensor,the Data type in the Tensors are not the sames')
 		call error_stop
 	end if
 
-	if(test_same_length(inTensor,mpi_comm)==0)then	! if the length of the Tensor is the same
+	if(.not.test_same_length(inTensor,mpi_comm))then	! if the length of the Tensor is the same
 		call writemess('ERROR in REDUCE_Tensor,the length od the Tensor is not the same')
 		call error_stop
 	end if
@@ -613,56 +776,47 @@ end function
 
 function test_not_empty(T,mpi_comm) result(res)
 
-	integer :: res,goonFlag
+	integer :: ept,any_ept
+	logical:: res
 	type (tensor),intent(in) :: T
 	integer,intent(in) :: mpi_comm
 	integer :: ierr
 
-	if(T%getFlag()) goonFlag=0
-	call MPI_ALLREDUCE(goonFlag,res,1,MPI_INTEGER,MPI_SUM,mpi_comm,ierr)
-	if(res==0)then
-		res=1
-	else
-		res=0
-	end if
+	if(T%getFlag()) ept=0
+	call MPI_ALLREDUCE(ept,any_ept,1,MPI_INTEGER,MPI_SUM,mpi_comm,ierr)
+	res=(any_ept==0)
 
 end function 
 
 function test_same_type(T,mpi_comm) result(res)
 
-	integer :: res,goonFlag
+	integer :: all_same,same
+	logical:: res
 	type (tensor),intent(in) :: T
 	integer,intent(in) :: mpi_comm
 	integer :: ierr,classtype
 
 	classtype=T%getType()
 	call MPI_BCAST(classtype,1,MPI_integer,0,mpi_comm,ierr)
-	if(T%getType() == classtype) goonFlag=0
-	call MPI_ALLREDUCE(goonFlag,res,1,MPI_INTEGER,MPI_SUM,mpi_comm,ierr)
-	if(res==0)then
-		res=1
-	else
-		res=0
-	end if
+	if(T%getType() == classtype) same=0
+	call MPI_ALLREDUCE(same,all_same,1,MPI_INTEGER,MPI_SUM,mpi_comm,ierr)
+	res=(all_same==0)
 
 end function 
 
 function test_same_length(T,mpi_comm) result(res)
 
-	integer :: res,goonFlag
+	integer :: all_same,same
+	logical:: res
 	type (tensor),intent(in) :: T
 	integer,intent(in) :: mpi_comm
 	integer :: ierr,length
 
 	length=T%getTotalData()
 	call MPI_BCAST(length,1,MPI_integer,0,mpi_comm,ierr)
-	if(T%getTotalData() == length) goonFlag=0
-	call MPI_ALLREDUCE(goonFlag,res,1,MPI_INTEGER,MPI_SUM,mpi_comm,ierr)
-	if(res==0)then
-		res=1
-	else
-		res=0
-	end if
+	if(T%getTotalData() == length) same=0
+	call MPI_ALLREDUCE(same,all_same,1,MPI_INTEGER,MPI_SUM,mpi_comm,ierr)
+	res=(all_same==0)
 
 end function 
 

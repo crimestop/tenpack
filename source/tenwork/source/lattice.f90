@@ -1,5 +1,6 @@
 MODULE tensor_network
 use tensor_type
+use tensor_types
 use error 
 use tools
 use string
@@ -14,7 +15,7 @@ type bond
 	integer::nb_rawpos
 	integer::nb_no
 	logical:: env_tag=.false.
-	type(tensor)::env
+	type(tensors)::env
 	character(len=max_char_length)::ind=''
 end type
 
@@ -23,9 +24,9 @@ type site
 	integer::pos(2)=0
 	type(bond),allocatable::bonds(:)
 	character(len=max_char_length)::name=''
-	type(tensor),pointer::tensor=>Null()
-	type(tensor)::tensor_save
-	type(tensor)::tensor_bac
+	type(tensors),pointer::tensor=>Null()
+	type(tensors)::tensor_save
+	type(tensors)::tensor_bac
 	integer::nb_num=0
 	logical::tensor_save_tag=.false.
 	logical::back_up_tag=.false.
@@ -101,8 +102,6 @@ type lattice
 	generic,public:: get_env_link=>get_env_link_pos,get_env_link_name
 	procedure:: get_env_bond_pos
 	generic,public:: get_env_bond=>get_env_bond_pos
-	procedure:: set_env_bond_pos
-	generic,public:: set_env_bond=>set_env_bond_pos
 	procedure:: update_tensor_pos
 	procedure:: update_tensor_name
 	generic,public:: update_tensor=>update_tensor_pos,update_tensor_name
@@ -141,7 +140,7 @@ type lattice
 
 	procedure:: get_rawpos_pos
 	procedure:: get_rawpos_name
-	generic:: get_rawpos=>get_rawpos_pos,get_rawpos_name
+	generic,public:: get_rawpos=>get_rawpos_pos,get_rawpos_name
 	procedure,public:: get_size
 	procedure,public:: get_range
 	procedure:: get_max_site_num
@@ -195,12 +194,8 @@ type lattice
 	procedure:: absorb_env_pos_bond
 	procedure:: absorb_env_name_bond
 	procedure:: absorb_env_inner
-	procedure:: absorb_env_pos_site
-	procedure::tensor_absorb_env_pos
 	generic,public::absorb_env=>absorb_env_whole
 	generic,public::absorb_env_bond=>absorb_env_pos_bond,absorb_env_name_bond
-	generic,public::absorb_env_site=>absorb_env_pos_site
-	generic,public::tensor_absorb_env=>tensor_absorb_env_pos
 	procedure:: spit_env_whole
 	procedure:: spit_env_pos_bond
 	procedure:: spit_env_name_bond
@@ -470,29 +465,32 @@ subroutine generate_ten(L,D,datatype,type_)
 	do i=1,L%max_site_num
 		if(L%sites(i)%exist_tag) then
 			nb_num=L%sites(i)%nb_num
-			phy_dim=L%sites(i)%info%ii('Dp')
-			L%sites(i)%tensor=>L%sites(i)%tensor_save
-			L%sites(i)%tensor_save_tag=.true.
-			if(phy_dim>0)then
-				call L%sites(i)%tensor%allocate([(D,k=1,nb_num),phy_dim],datatype)
-			else
-				call L%sites(i)%tensor%allocate([(D,k=1,nb_num)],datatype)
-			end if
-			select case(type)
-			case('rand')
-				call L%sites(i)%tensor%random([-1.0d0,1.0d0])
-			case('one')
-				call L%sites(i)%tensor%random([1.0d0-1d-2,1.0d0+1d-2])
-			case('zero')
-				call L%sites(i)%tensor%setValue(0d0)
-			case default
-				call wc_error_stop('lattice.generate_ten','The type '//trim(type)//' is unidentified.')
-			end select
+			if(.not. associated(L%sites(i)%tensor))then   ! need a better logic
+				phy_dim=L%sites(i)%info%ii('Dp')
+				L%sites(i)%tensor=>L%sites(i)%tensor_save
+				L%sites(i)%tensor_save_tag=.true.
+				if(phy_dim>0)then
+					call L%sites(i)%tensor%allocate([(D,k=1,nb_num),phy_dim],datatype)
+				else
+					call L%sites(i)%tensor%allocate([(D,k=1,nb_num)],datatype)
+				end if
+				select case(type)
+				case('rand')
+					call L%sites(i)%tensor%random([-1.0d0,1.0d0])
+				case('one')
+					call L%sites(i)%tensor%random([1.0d0-1d-2,1.0d0+1d-2])
+				case('zero')
+					call L%sites(i)%tensor%zero()
+				case default
+					call wc_error_stop('lattice.generate_ten','The type '//trim(type)//' is unidentified.')
+				end select
+				!call L%sites(i)%tensor%print()
 
-			do k=1,nb_num
-				call L%sites(i)%tensor%setName(k,L%sites(i)%bonds(k)%ind)
-			end do
-			if(phy_dim>0) call L%sites(i)%tensor%setName(nb_num+1,L%sites(i)%name+'.phy')
+				do k=1,nb_num
+					call L%sites(i)%tensor%setName(k,L%sites(i)%bonds(k)%ind)
+				end do
+				if(phy_dim>0) call L%sites(i)%tensor%setName(nb_num+1,L%sites(i)%name+'.phy')
+			end if
 		end if
 	end do
 
@@ -502,9 +500,8 @@ subroutine generate_env(L,type_)
 
 	class(lattice),intent(inout) ::L
 	character(len=*),optional::type_
+	character(len=max_char_length)::type
 	integer::i,k,nb_num,nb_k,nb_rawpos,D
-	character(len=max_char_length)::ind,type
-	type(tensor)::env
 
 	if(present(type_)) then
 		type=type_
@@ -523,20 +520,17 @@ subroutine generate_env(L,type_)
 					nb_k=L%sites(i)%bonds(k)%nb_no
 					L%sites(i)%bonds(k)%env=L%sites(nb_rawpos)%bonds(nb_k)%env
 				else
-					ind=L%sites(i)%bonds(k)%ind
-					D=L%sites(i)%tensor%dim(ind)
+					L%sites(i)%bonds(k)%env=square_mat(L%sites(i)%tensor,L%sites(i)%bonds(k)%ind)
 					select case(type)
 					case('rand')
-						call env%deallocate()
-						call env%allocate([D,D],'real*8')
-						call env%random()
-						!env=eye(env)
+						call L%sites(i)%bonds(k)%env%random()
 					case('one')
-						env=eye(D,D)
+						call L%sites(i)%bonds(k)%env%eye()
 					end select
-					L%sites(i)%bonds(k)%env=env
 					call L%sites(i)%bonds(k)%env%setName(1,'env.in')
 					call L%sites(i)%bonds(k)%env%setName(2,'env.out')
+					!call L%sites(i)%bonds(k)%env%print()
+					!stop
 				end if
 			end do
 		end if
@@ -936,56 +930,11 @@ subroutine absorb_env_whole(L)
 end subroutine
 
 
-subroutine absorb_env_pos_site(L,pos,T)
-
-	class(lattice),intent(inout)::L
-	integer,intent(in)::pos(2)
-	type(tensor),intent(inout)::T
-	integer::n,rawpos,k
-	type(tensor)::temp
-
-	rawpos=L%get_rawpos(pos)
-	T=L%sites(rawpos)%tensor
-	if(L%sites(rawpos)%info%li('absorb_env'))then
-		do k=1,L%sites(rawpos)%nb_num
-				temp=L%sites(rawpos)%bonds(k)%env
-				do n=1,temp%dim(1)
-					call temp%setValue([n,n], dsqrt(temp%di([n,n])) )
-				end do
-				T=contract(T,L%sites(rawpos)%bonds(k)%ind,temp,'env.in')
-				call T%setName('env.out',L%sites(rawpos)%bonds(k)%ind)
-		end do
-	end if
-
-end subroutine
-
-subroutine tensor_absorb_env_pos(L,pos1,pos2,T)
-
-	class(lattice),intent(inout)::L
-	integer,intent(in)::pos1(2),pos2(2)
-	integer::n,rawpos1,rawpos2,no,nb_no
-	type(tensor),intent(inout)::T
-	type(tensor)::temp
-	character(len=max_char_length)::ind,nb_ind
-
-	rawpos1=L%get_rawpos(pos1)
-	rawpos2=L%get_rawpos(pos2)
-	call L%get_bond(pos1,no,ind,pos2,nb_no,nb_ind)
-	temp=L%sites(rawpos1)%bonds(no)%env
-	do n=1,temp%dim(1)
-		call temp%setValue([n,n], dsqrt(temp%di([n,n])) )
-	end do
-	T=contract(T,L%sites(rawpos1)%bonds(no)%ind,temp,'env.in')
-	call T%setName('env.out',L%sites(rawpos1)%bonds(no)%ind)
-
-end subroutine
-
 subroutine absorb_env_pos_bond(L,pos1,pos2)
 
 	class(lattice),intent(inout)::L
 	integer,intent(in)::pos1(2),pos2(2)
 	integer::n,rawpos1,rawpos2,no,nb_no
-	type(tensor)::temp
 	character(len=max_char_length)::ind,nb_ind
 
 	rawpos1=L%get_rawpos(pos1)
@@ -1002,7 +951,6 @@ subroutine absorb_env_name_bond(L,name1,name2)
 	class(lattice),intent(inout)::L
 	character(len=*),intent(in)::name1,name2
 	integer::n,rawpos1,rawpos2,no,nb_no
-	type(tensor)::temp
 	character(len=max_char_length)::ind,nb_ind
 
 	rawpos1=L%get_rawpos(name1)
@@ -1019,13 +967,9 @@ subroutine absorb_env_inner(L,rawpos,no)
 
 	class(lattice),intent(inout)::L
 	integer,intent(in)::rawpos,no
-	integer::n
-	type(tensor)::temp
+	type(tensors)::temp
 
-	temp=L%sites(rawpos)%bonds(no)%env
-	do n=1,temp%dim(1)
-		call temp%setValue([n,n], dsqrt(temp%di([n,n])) )
-	end do
+	temp=L%sites(rawpos)%bonds(no)%env%sqrt()
 	L%sites(rawpos)%tensor=contract(L%sites(rawpos)%tensor,L%sites(rawpos)%bonds(no)%ind,temp,'env.in')
 	call L%sites(rawpos)%tensor%setName('env.out',L%sites(rawpos)%bonds(no)%ind)
 
@@ -1054,7 +998,6 @@ subroutine spit_env_pos_bond(L,pos1,pos2)
 	class(lattice),intent(inout)::L
 	integer,intent(in)::pos1(2),pos2(2)
 	integer::n,rawpos1,rawpos2,no,nb_no
-	type(tensor)::temp
 	character(len=max_char_length)::ind,nb_ind
 
 	rawpos1=L%get_rawpos(pos1)
@@ -1071,7 +1014,6 @@ subroutine spit_env_name_bond(L,name1,name2)
 	class(lattice),intent(inout)::L
 	character(len=*),intent(in)::name1,name2
 	integer::n,rawpos1,rawpos2,no,nb_no
-	type(tensor)::temp
 	character(len=max_char_length)::ind,nb_ind
 
 	rawpos1=L%get_rawpos(name1)
@@ -1087,13 +1029,9 @@ subroutine spit_env_inner(L,rawpos,no)
 
 	class(lattice),intent(inout)::L
 	integer,intent(in)::rawpos,no
-	integer::n
-	type(tensor)::temp
+	type(tensors)::temp
 
-	temp=L%sites(rawpos)%bonds(no)%env
-	do n=1,temp%dim(1)
-		call temp%setValue([n,n], 1/dsqrt(temp%di([n,n])) )
-	end do
+	temp=L%sites(rawpos)%bonds(no)%env%inverse()
 	L%sites(rawpos)%tensor=contract(L%sites(rawpos)%tensor,L%sites(rawpos)%bonds(no)%ind,temp,'env.in')
 	call L%sites(rawpos)%tensor%setName('env.out',L%sites(rawpos)%bonds(no)%ind)
 
@@ -1425,7 +1363,7 @@ subroutine mirror_con(L,L_old,line2,nline)
 	integer,intent(in)::line2,nline
 	integer::i,j,k,L1_old,L2_old,pos(2),nb_pos(2),rawpos,nb_rawpos,nb_no,tn_num
 	character(len=max_char_length)::name,name2,ind,ind2
-	type(tensor),pointer:: tn_pointer
+	type(tensors),pointer:: tn_pointer
 
 	call L%clean()
 	call L_old%get_size(L1_old,L2_old)
@@ -1636,7 +1574,7 @@ subroutine add_from_ten(L,pos,my_name,my_tensor,save_tag)
 	class(lattice),intent(inout),target ::L
 	integer,intent(in)::pos(2)
 	character(len=*),intent(in) :: my_name
-	type(tensor),intent(in),optional::my_tensor
+	type(tensors),intent(in),optional::my_tensor
 	logical,intent(in),optional::save_tag
 	integer::rawpos
 
@@ -1668,7 +1606,7 @@ subroutine add_from_lat_pos(L,pos,lat,pos2,save_tag)
 	type(lattice), intent(in) :: lat
 	logical,intent(in),optional::save_tag
 	character(len=max_char_length)::my_name
-	type(tensor),pointer::my_tensor
+	type(tensors),pointer::my_tensor
 
 	call lat%check_unempty(pos2)
 	my_name=lat%get_name(pos2)
@@ -1821,7 +1759,7 @@ subroutine move_name(L,name,new_pos)
 
 end subroutine
 
-type(tensor) function get_tensor_pos(L,pos)
+type(tensors) function get_tensor_pos(L,pos)
 
 	class(lattice),intent(in) ::L
 	integer,intent(in)::pos(2)
@@ -1832,7 +1770,7 @@ type(tensor) function get_tensor_pos(L,pos)
 
 end function
 
-type(tensor) function get_tensor_name(L,name)
+type(tensors) function get_tensor_name(L,name)
 
 	class(lattice),intent(in) ::L
 	character(len=*),intent(in) :: name
@@ -1847,7 +1785,7 @@ subroutine get_tensor_link_pos(L,pos,tlink)
 
 	class(lattice),intent(in) ::L
 	integer,intent(in)::pos(2)
-	type(tensor),pointer,intent(out)::tlink
+	type(tensors),pointer,intent(out)::tlink
 	integer::rawpos
 	
 	rawpos=L%get_rawpos(pos)
@@ -1859,7 +1797,7 @@ subroutine get_tensor_link_name(L,name,tlink)
 
 	class(lattice),intent(in) ::L
 	character(len=*),optional,intent(in)::name
-	type(tensor),pointer,intent(out)::tlink
+	type(tensors),pointer,intent(out)::tlink
 	integer::rawpos
 	
 	rawpos=L%get_rawpos(name)
@@ -1871,7 +1809,7 @@ subroutine get_env_link_pos(L,pos,no,tlink)
 
 	class(lattice),intent(in),target ::L
 	integer,intent(in)::pos(2),no
-	type(tensor),pointer,intent(out)::tlink
+	type(tensors),pointer,intent(out)::tlink
 	integer::rawpos
 	
 	rawpos=L%get_rawpos(pos)
@@ -1886,7 +1824,7 @@ function get_env_bond_pos(L,pos1,pos2) result(res)
 
 	class(lattice),intent(in),target ::L
 	integer,intent(in)::pos1(2),pos2(2)
-	type(tensor)::res
+	type(tensors)::res
 	integer::rawpos1,rawpos2,no,nb_no
 	character(len=max_char_length)::ind,nb_ind
 
@@ -1899,32 +1837,12 @@ function get_env_bond_pos(L,pos1,pos2) result(res)
 	res=L%sites(rawpos1)%bonds(no)%env
 
 end function
-
-subroutine set_env_bond_pos(L,pos1,pos2,env)
-
-	class(lattice),intent(inout),target ::L
-	integer,intent(in)::pos1(2),pos2(2)
-	type(tensor),intent(in)::env
-	integer::rawpos1,rawpos2,no,nb_no
-	character(len=max_char_length)::ind,nb_ind
-
-	rawpos1=L%get_rawpos(pos1)
-	rawpos2=L%get_rawpos(pos2)
-	call L%get_bond(pos1,no,ind,pos2,nb_no,nb_ind)
-	if(.not.L%sites(rawpos1)%bonds(no)%env_tag)then
-		call wc_error_stop('lattice.get_env_link','env at '//trim(str(pos1))//'-'//trim(str(pos2))//' does not exist')
-	end if
-	L%sites(rawpos1)%bonds(no)%env=env
-	L%sites(rawpos2)%bonds(nb_no)%env=env
-
-end subroutine
-
 subroutine get_env_link_name(L,name,no,tlink)
 
 	class(lattice),intent(in),target ::L
 	character(len=*),optional,intent(in)::name
 	integer,intent(in)::no
-	type(tensor),pointer,intent(out)::tlink
+	type(tensors),pointer,intent(out)::tlink
 	integer::rawpos
 	
 	rawpos=L%get_rawpos(name)
@@ -1938,7 +1856,7 @@ end subroutine
 subroutine update_tensor_pos(L,pos,new_tensor)
 
 	class(lattice),intent(inout) ::L
-	class(tensor),intent(in)::new_tensor
+	class(tensors),intent(in)::new_tensor
 	integer,intent(in)::pos(2)
 	integer::rawpos
 	
@@ -1950,7 +1868,7 @@ end subroutine
 subroutine update_tensor_name(L,name,new_tensor)
 
 	class(lattice),intent(inout) ::L
-	class(tensor),intent(in)::new_tensor
+	class(tensors),intent(in)::new_tensor
 	character(len=*),intent(in)::name
 	integer::rawpos
 		
@@ -1963,7 +1881,7 @@ subroutine set_tensor_name(L,name,my_tensor,save_tag_)
 
 	class(lattice),intent(inout),target ::L
 	character(len=*),intent(in)::name
-	type(tensor),intent(in),target::my_tensor
+	type(tensors),intent(in),target::my_tensor
 	logical,intent(in),optional::save_tag_
 	logical :: save_tag
 	integer::rawpos
@@ -1989,7 +1907,7 @@ subroutine set_tensor_pos(L,pos,my_tensor,save_tag_)
 
 	class(lattice),intent(inout),target ::L
 	integer,intent(in)::pos(2)
-	type(tensor),intent(in),target::my_tensor
+	type(tensors),intent(in),target::my_tensor
 	logical,intent(in),optional::save_tag_
 	logical :: save_tag
 	integer::rawpos
@@ -2497,7 +2415,7 @@ end subroutine
 subroutine invert_bond(L,pos,temp)
 
 	class(lattice),intent(in)::L
-	class(tensor),intent(inout)::temp
+	type(tensors),intent(inout)::temp
 	integer,intent(in)::pos(2)
 	integer::no,nb_pos(2),nb_no,rawpos,nb_rawpos
 
@@ -2653,7 +2571,7 @@ subroutine tget_info_whole(L,val_name,val)
 
 	class(lattice),intent(inout),target ::L
 	character(len=*),intent(in)::val_name
-	type(tensor), intent(inout) :: val
+	type(tensors), intent(inout) :: val
 
 	call L%check_unempty()
 	call L%info%getvalue(val_name,val)
@@ -2730,7 +2648,7 @@ subroutine tget_info_name(L,name,val_name,val)
 	class(lattice),intent(inout),target ::L
 	character(len=*),intent(in)::name
 	character(len=*),intent(in)::val_name
-	type(tensor), intent(inout) :: val
+	type(tensors), intent(inout) :: val
 	integer::rawpos
 
 	rawpos=L%get_rawpos(name)
@@ -2808,7 +2726,7 @@ subroutine tget_info_pos(L,pos,val_name,val)
 	class(lattice),intent(inout),target ::L
 	integer,intent(in)::pos(2)
 	character(len=*),intent(in)::val_name
-	type(tensor), intent(inout) :: val
+	type(tensors), intent(inout) :: val
 	integer::rawpos
 
 	rawpos=L%get_rawpos(pos)
@@ -2875,7 +2793,7 @@ subroutine tset_info_whole(L,val_name,val)
 
 	class(lattice),intent(inout),target ::L
 	character(len=*),intent(in)::val_name
-	type(tensor), intent(in) :: val
+	type(tensors), intent(in) :: val
 
 	call L%check_unempty()
 	call L%info%setvalue(val_name,val)
@@ -2952,7 +2870,7 @@ subroutine tset_info_name(L,name,val_name,val)
 	class(lattice),intent(inout),target ::L
 	character(len=*),intent(in)::name
 	character(len=*),intent(in)::val_name
-	type(tensor), intent(in) :: val
+	type(tensors), intent(in) :: val
 	integer::rawpos
 
 	rawpos=L%get_rawpos(name)
@@ -3030,7 +2948,7 @@ subroutine tset_info_pos(L,pos,val_name,val)
 	class(lattice),intent(inout),target ::L
 	integer,intent(in)::pos(2)
 	character(len=*),intent(in)::val_name
-	type(tensor), intent(in) :: val
+	type(tensors), intent(in) :: val
 	integer::rawpos
 
 	rawpos=L%get_rawpos(pos)
@@ -3097,7 +3015,7 @@ subroutine tinsert_info_whole(L,val_name,val)
 
 	class(lattice),intent(inout),target ::L
 	character(len=*),intent(in)::val_name
-	type(tensor), intent(in) :: val
+	type(tensors), intent(in) :: val
 
 	call L%check_unempty()
 	call L%info%insert(val_name,val)
@@ -3174,7 +3092,7 @@ subroutine tinsert_info_name(L,name,val_name,val)
 	class(lattice),intent(inout),target ::L
 	character(len=*),intent(in)::name
 	character(len=*),intent(in)::val_name
-	type(tensor), intent(in) :: val
+	type(tensors), intent(in) :: val
 	integer::rawpos
 
 	rawpos=L%get_rawpos(name)
@@ -3252,7 +3170,7 @@ subroutine tinsert_info_pos(L,pos,val_name,val)
 	class(lattice),intent(inout),target ::L
 	integer,intent(in)::pos(2)
 	character(len=*),intent(in)::val_name
-	type(tensor), intent(in) :: val
+	type(tensors), intent(in) :: val
 	integer::rawpos
 
 	rawpos=L%get_rawpos(pos)
@@ -3556,13 +3474,13 @@ end subroutine
 subroutine lat_absorb_tensor(fn_tensor,ori_tensor,G,pos)
 
 	type(group),intent(inout)::G
-	type(tensor),target,intent(inout)::ori_tensor
-	type(tensor),target,intent(inout)::fn_tensor
+	type(tensors),target,intent(inout)::ori_tensor
+	type(tensors),target,intent(inout)::fn_tensor
 	integer,intent(in)::pos(2)
 	character(len=max_char_length)::leg(8),leg_nb(8)
 	integer::k,num,nb(2),nb_no,rawpos,nb_rawpos
-	type(tensor)::testen
-	type(tensor),pointer::tpf,tpo
+	type(tensors)::testen
+	type(tensors),pointer::tpf,tpo
 	complex(8),pointer::tendata(:)
 
 	call G%lat%check_unempty()
@@ -3618,10 +3536,10 @@ end subroutine
 subroutine lat_contract_type(Tout,T1,T2,G1,G2)	! G1 will take G2
 
 	type(group),intent(inout)::G1,G2
-	type(tensor),intent(inout)::Tout,T1,T2
+	type(tensors),intent(inout)::Tout,T1,T2
 	character(len=max_char_length)::leg(30),leg_nb(30)
 	integer::m,n,k,num,nb_no,rawpos,nb_rawpos
-	type(tensor)::test_speed
+	type(tensors)::test_speed
 
 	call G1%check_can_take(G2)
 	call G1%lat%check_unempty()
@@ -3851,7 +3769,7 @@ end function
 subroutine invert_bond_grp(G,T)
 
 	class(group),intent(in)::G
-	class(tensor),intent(inout)::T
+	class(tensors),intent(inout)::T
 	integer::i,j,nb_i,nb_j
 
 	if(.not. associated(G%lat))then

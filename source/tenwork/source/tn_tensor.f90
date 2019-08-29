@@ -2,11 +2,11 @@ MODULE tn_tensor_type
 use error 
 use tools
 use tensor_network
-use tensor_type
+use tensor_types
 implicit none
 private
 
-type, extends(tensor):: tn_tensor
+type, extends(tensors):: tn_tensor
 	private
 
 	type(group)::grp
@@ -31,10 +31,16 @@ type, extends(tensor):: tn_tensor
 end type  
 
 interface assignment(=)
-	module procedure assignmentDTN
-	module procedure assignmentZTN
-	module procedure assignmentTTN
-	module procedure assignmentTNTN
+	module procedure assignmentTN
+end interface
+
+interface absorb_all_rt
+	module procedure absorb_all0_rt
+	module procedure absorb_all1_rt
+end interface
+
+interface TNcontract
+	module procedure contract_TNTN
 end interface
 
 interface operator(*)
@@ -49,14 +55,6 @@ interface operator(.con.)
 	module procedure conjugate_tn
 end interface
 
-interface absorb_all_rt
-	module procedure absorb_all0_rt
-	module procedure absorb_all1_rt
-end interface
-
-interface TNcontract
-	module procedure contract_TNTN
-end interface
 
 logical :: draw_mode=.false.
 
@@ -73,6 +71,32 @@ subroutine tn_draw_off()
 	draw_mode=.false.
 end subroutine
 
+subroutine assignmentTN(T1,T2)
+
+	class(*),intent(inout)::T1
+	type(tn_tensor),intent(in)::T2
+
+	select type(T1)
+	type is(real(4))
+		T1=T2%tensors
+	type is(real(8))
+		T1=T2%tensors
+	type is(complex(4))
+		T1=T2%tensors
+	type is(complex(8))
+		T1=T2%tensors
+	type is(tensors)
+		T1=T2%tensors
+	type is(tn_tensor)
+		write(*,*)'called2'
+		T1%grp=T2%grp
+		T1%tensors=T2%tensors
+		write(*,*)'return2'
+	end select
+
+end subroutine
+
+
 type(tn_tensor) function scale_tn(T,mul)
 
 	type(tn_tensor),intent(in)::T
@@ -82,13 +106,13 @@ type(tn_tensor) function scale_tn(T,mul)
 
 	select type(mul)
 	type is(real(4))
-		scale_tn%tensor=T%tensor*mul
+		scale_tn%tensors=T%tensors*mul
 	type is(real(8))
-		scale_tn%tensor=T%tensor*mul
+		scale_tn%tensors=T%tensors*mul
 	type is(complex(4))
-		scale_tn%tensor=T%tensor*mul
+		scale_tn%tensors=T%tensors*mul
 	type is(complex(8))
-		scale_tn%tensor=T%tensor*mul
+		scale_tn%tensors=T%tensors*mul
 	end select
 
 end function
@@ -102,13 +126,13 @@ type(tn_tensor) function divide_tn(T,mul)
 
 	select type(mul)
 	type is(real(4))
-		divide_tn%tensor=T%tensor/mul
+		divide_tn%tensors=T%tensors/mul
 	type is(real(8))
-		divide_tn%tensor=T%tensor/mul
+		divide_tn%tensors=T%tensors/mul
 	type is(complex(4))
-		divide_tn%tensor=T%tensor/mul
+		divide_tn%tensors=T%tensors/mul
 	type is(complex(8))
-		divide_tn%tensor=T%tensor/mul
+		divide_tn%tensors=T%tensors/mul
 	end select
 
 end function
@@ -118,93 +142,9 @@ type(tn_tensor) function conjugate_tn(T)
 	type(tn_tensor),intent(in)::T
 
 	conjugate_tn%grp=T%grp
-	conjugate_tn%tensor=.con. T%tensor	
+	conjugate_tn%tensors=.con. T%tensors
 
 end function
-
-subroutine assignmentTN(T1,T2)
-
-	type(tn_tensor),intent(in)::T2
-	class(*),intent(inout)::T1
-
-	select type(T1)
-	type is(real(4))
-		if(T2%gettotaldata()==1) then
-			T1=T2%si([1,1])
-		else
-			call wc_error_stop('assignmentTN','Tensor should be 1D to assign to a real4 number')
-		end if
-	type is(real(8))
-		if(T2%gettotaldata()==1) then
-			T1=T2%di([1,1])
-		else
-			call wc_error_stop('assignmentTN','Tensor should be 1D to assign to a real8 number')
-		end if
-	type is(complex(4))
-		if(T2%gettotaldata()==1) then
-			T1=T2%ci([1,1])
-		else
-			call wc_error_stop('assignmentTN','Tensor should be 1D to assign to a com4 number')
-		end if
-	type is(complex(8))
-		if(T2%gettotaldata()==1) then
-			T1=T2%zi([1,1])
-		else
-			call wc_error_stop('assignmentTN','Tensor should be 1D to assign to a com8 number')
-		end if
-	type is(tensor)
-		T1=T2%tensor
-	type is(tn_tensor)
-		T1%grp=T2%grp
-		T1%tensor=T2%tensor
-	end select
-
-end subroutine
-
-subroutine assignmentDTN(T1,T2)
-
-	type(tn_tensor),intent(in)::T2
-	real(8),intent(inout)::T1
-
-	if(T2%gettotaldata()==1) then
-		T1=T2%di([1,1])
-	else
-		call wc_error_stop('assignmentTN','Tensor should be 1D to assign to a real8 number')
-	end if
-
-end subroutine
-
-subroutine assignmentZTN(T1,T2)
-
-	type(tn_tensor),intent(in)::T2
-	complex(8),intent(inout)::T1
-
-	if(T2%gettotaldata()==1) then
-		T1=T2%zi([1,1])
-	else
-		call wc_error_stop('assignmentTN','Tensor should be 1D to assign to a com8 number')
-	end if
-
-end subroutine
-
-subroutine assignmentTTN(T1,T2)
-
-	type(tn_tensor),intent(in)::T2
-	type(tensor),intent(inout)::T1
-
-	T1=T2%tensor
-
-end subroutine
-
-subroutine assignmentTNTN(T1,T2)
-
-	type(tn_tensor),intent(in)::T2
-	type(tn_tensor),intent(inout)::T1
-
-	T1%grp=T2%grp
-	T1%tensor=T2%tensor
-
-end subroutine
 
 subroutine belong(T,L)
 
@@ -215,12 +155,12 @@ subroutine belong(T,L)
 
 end subroutine
 
-subroutine empty(T)
+subroutine empty(Ts)
 
-	class(tn_tensor),intent(inout)::T
+	class(tn_tensor),intent(inout)::Ts
 
-	call T%grp%empty
-	call T%tensor%empty()
+	call Ts%grp%empty
+	call Ts%tensors%empty()
 
 end subroutine
 
@@ -260,10 +200,9 @@ end subroutine
 subroutine absorb(T,pos)	!if already includes or pos have no tn, don't do anything
 
 	class(tn_tensor),intent(inout)::T
-	type(tensor)::tt
 	integer,intent(in)::pos(2)
 		
-	call lat_absorb_tensor(T%tensor,T%tensor,T%grp,pos)
+	call lat_absorb_tensor(T%tensors,T%tensors,T%grp,pos)
 	if(draw_mode) call T%draw('tn_absorb')
 
 end subroutine
@@ -274,7 +213,7 @@ subroutine absorb_rt(Tout,Tin,pos)	!if already includes or pos have no tn, don't
 	integer,intent(in)::pos(2)
 
 	Tout%grp=Tin%grp
-	call lat_absorb_tensor(Tout%tensor,Tin%tensor,Tout%grp,pos)
+	call lat_absorb_tensor(Tout%tensors,Tin%tensors,Tout%grp,pos)
 	if(draw_mode) call Tout%draw('tn_absorb')
 
 end subroutine
@@ -285,7 +224,7 @@ type(tn_tensor) function contract_TNTN(T1,T2) result(Res)
 	integer::num
 
 	Res%grp=T1%grp
-	call lat_contract_type(Res%Tensor,T1%Tensor,T2%Tensor,Res%grp,T2%grp)
+	call lat_contract_type(Res%Tensors,T1%Tensors,T2%Tensors,Res%grp,T2%grp)
 	if(draw_mode) call Res%draw('tn_contract')
 
 end function
@@ -318,7 +257,7 @@ subroutine absorb_all1(T1,T2,abp_)
 	if(draw_mode) call T1%draw('tn_absorb_all_T1_after')
 	if(draw_mode) call T2%draw('tn_absorb_all_T2')
 
-	call lat_contract_type(T1%Tensor,T1%Tensor,T2%Tensor,T1%grp,T2%grp)
+	call lat_contract_type(T1%Tensors,T1%Tensors,T2%Tensors,T1%grp,T2%grp)
 	if(draw_mode) call T1%draw('tn_absorb_result')
 
 end subroutine
@@ -454,7 +393,7 @@ subroutine absorb1_except_pos(T,T2,pos,abp_)
 	if(draw_mode) call T%draw('tn_absorb_all_except_T_after')
 	if(draw_mode) call T2%draw('tn_absorb_all_except_T2')
 
-	call lat_contract_type(T%Tensor,T%Tensor,T2%Tensor,T%grp,T2%grp)
+	call lat_contract_type(T%Tensors,T%Tensors,T2%Tensors,T%grp,T2%grp)
 
 	if(draw_mode) call T%draw('tn_absorb_all_except_result')
 
@@ -483,7 +422,7 @@ subroutine invert_bond(T)
 
 	class(tn_tensor),intent(inout)::T
 
-	call T%grp%invert_bond(T%tensor)
+	call T%grp%invert_bond(T%tensors)
 
 end subroutine
 
