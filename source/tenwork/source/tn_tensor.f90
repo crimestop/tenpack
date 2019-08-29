@@ -24,6 +24,11 @@ type, extends(tensor):: tn_tensor
 	procedure:: absorb_all1
 	generic,public:: absorb_all=>absorb_all0,absorb_all1
 	procedure,public:: belong
+	procedure:: take_except_pos
+	procedure:: take_except_name
+	procedure:: take_except_path
+	procedure:: take_except_group
+	generic,public::take_except=>take_except_pos,take_except_name,take_except_path,take_except_group
 	procedure::absorb0_except_pos
 	procedure::absorb1_except_pos
 	procedure::absorb0_except_name
@@ -212,7 +217,7 @@ end subroutine
 subroutine belong(T,L)
 
 	class(tn_tensor),intent(inout)::T
-	type(lattice),target,intent(in) ::L
+	class(lattice),target,intent(in) ::L
 
 	call T%grp%belong(L)
 
@@ -412,14 +417,11 @@ subroutine absorb0_except_pos(T,pos,abp_)
 		call wc_error_stop('tn_tensor.absorb_except','site at pos already contained in the group1')
 	end if
 
-	call avoid_grp%belong(plat)
-	call avoid_grp%take(pos)
-
 	if(present(abp_))then
 		abp=abp_
 	else
 		call abp%belong(plat)
-		call abp%generate('lu',avoid_grp)
+		call abp%generate('lu')
 	end if
 	!call abp%draw('absorb_except',check_tag=.false.)
 
@@ -428,7 +430,7 @@ subroutine absorb0_except_pos(T,pos,abp_)
 	do i=1, abp%get_num()
 		call abp%iterate(path_pos,(i==1))
 		!write(*,*)path_pos
-		call T%absorb(path_pos)
+		if(.not. all(path_pos==pos))call T%absorb(path_pos)
 		!call T%draw('tn_absorb_except_test',check_tag=.false.)
 	end do
 
@@ -436,6 +438,81 @@ subroutine absorb0_except_pos(T,pos,abp_)
 
 end subroutine
 
+subroutine take_except_pos(T,pos)
+
+	class(tn_tensor),intent(inout)::T
+	type(lattice),pointer::plat
+	integer,intent(in)::pos(2)
+	integer::i,path_pos(2)
+	type(path)::abp
+
+	call T%grp%point_lat(plat)
+	call abp%belong(plat)
+	call abp%generate('lu')
+
+	do i=1, abp%get_num()
+		call abp%iterate(path_pos,(i==1))
+		!write(*,*)path_pos
+		if(.not. all(path_pos==pos))call T%take(path_pos)
+		!call T%draw('tn_absorb_except_test',check_tag=.false.)
+	end do
+
+end subroutine
+
+subroutine take_except_name(T,name)
+
+	class(tn_tensor),intent(inout)::T
+	type(lattice),pointer::plat
+	character(len=*),intent(in)::name
+	integer::pos(2)
+
+	call T%grp%point_lat(plat)
+	pos=plat%get_pos(name)
+	call T%take_except_pos(pos)
+
+end subroutine
+
+subroutine take_except_path(T,pat)
+
+	class(tn_tensor),intent(inout)::T
+	type(lattice),pointer::plat
+	type(path),intent(in)::pat
+	integer::i,path_pos(2)
+	type(path)::abp
+
+	call T%grp%point_lat(plat)
+	call abp%belong(plat)
+	call abp%generate('lu')
+
+	do i=1, abp%get_num()
+		call abp%iterate(path_pos,(i==1))
+		!write(*,*)path_pos
+		if(.not. pat%check_contain(path_pos))call T%take(path_pos)
+		!call T%draw('tn_absorb_except_test',check_tag=.false.)
+	end do
+
+end subroutine
+
+subroutine take_except_group(T,grp)
+
+	class(tn_tensor),intent(inout)::T
+	type(lattice),pointer::plat
+	type(group),intent(in)::grp
+	integer::i,path_pos(2)
+	type(path)::abp
+
+	call T%grp%point_lat(plat)
+	call abp%belong(plat)
+	call abp%generate('lu')
+
+	do i=1, abp%get_num()
+		call abp%iterate(path_pos,(i==1))
+		!write(*,*)path_pos
+		if(.not. grp%check_contain(path_pos))call T%take(path_pos)
+		!call T%draw('tn_absorb_except_test',check_tag=.false.)
+	end do
+
+end subroutine
 subroutine absorb1_except_pos(T,T2,pos,abp_)
 
 	class(tn_tensor),intent(inout)::T,T2
@@ -444,7 +521,6 @@ subroutine absorb1_except_pos(T,T2,pos,abp_)
 	type(path),optional,intent(in)::abp_
 	integer::i,path_pos(2)
 	type(path)::abp
-	type(group)::avoid_grp
 
 	call T%grp%point_lat(plat)
 
@@ -456,14 +532,11 @@ subroutine absorb1_except_pos(T,T2,pos,abp_)
 		call wc_error_stop('tn_tensor.absorb_except','site at pos already contained in the group2')
 	end if
 
-	avoid_grp=T2%grp
-	call avoid_grp%take(pos)
-
 	if(present(abp_))then
 		abp=abp_
 	else
 		call abp%belong(plat)
-		call abp%generate('lu',avoid_grp)
+		call abp%generate('lu')
 	end if
 	!call abp%draw('absorb_except',check_tag=.false.)
 
@@ -472,7 +545,7 @@ subroutine absorb1_except_pos(T,T2,pos,abp_)
 	do i=1, abp%get_num()
 		call abp%iterate(path_pos,(i==1))
 		!write(*,*)path_pos
-		call T%absorb(path_pos)
+		if(.not. (all(path_pos==pos) .or. T2%grp%check_contain(path_pos)))call T%absorb(path_pos)
 		!call T%draw('tn_absorb_except_test',check_tag=.false.)
 	end do
 

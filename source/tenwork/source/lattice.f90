@@ -63,7 +63,8 @@ type lattice
 	procedure,public:: copy_line_link
 	procedure::set_bond_as_pure
 	procedure::set_bond_as_cluster
-	generic,public::set_bond_as=>set_bond_as_pure,set_bond_as_cluster
+	procedure::set_bond_as_path
+	generic,public::set_bond_as=>set_bond_as_pure,set_bond_as_cluster,set_bond_as_path
 
 	procedure,public:: draw_l
 	procedure,public:: draw_tn
@@ -149,11 +150,12 @@ type lattice
 	procedure,public:: get_size
 	procedure,public:: get_range
 	procedure:: get_max_site_num
-	procedure,public:: get_name_whole
-	procedure,public:: get_name_site
+	procedure:: get_name_whole
+	procedure:: get_name_site
 	generic,public::get_name=>get_name_whole,get_name_site
 	procedure,public:: get_pos
-	procedure,public:: set_name
+	procedure:: set_name_lat
+	generic,public::set_name=>set_name_lat
 	procedure,public:: ind_name
 	procedure,public:: check_boundary
 	procedure,public:: get_contag_pos
@@ -248,12 +250,18 @@ end type
 
 type group
 	private
-	type(lattice),pointer::lat=>NULL()
+	class(lattice),pointer::lat=>NULL()
+	character(len=max_char_length)::name=''
 	logical,allocatable::includes(:)
 
 	contains
 	private
+
 	procedure,public:: get_info
+	procedure::get_name_grp
+	generic,public::get_name=>get_name_grp
+	procedure::set_name_grp
+	generic,public::set_name=>set_name_grp
 	procedure:: draw_grp
 	generic,public::draw=>draw_grp
 	procedure:: empty_grp
@@ -263,9 +271,9 @@ type group
 	procedure:: take_name
 	procedure:: take_group
 	generic,public:: take=>take_pos,take_name,take_group
-	procedure::check_contain_pos
-	procedure::check_contain_name
-	generic,public:: check_contain=>check_contain_pos,check_contain_name
+	procedure::check_contain_grp_pos
+	procedure::check_contain_grp_name
+	generic,public:: check_contain=>check_contain_grp_pos,check_contain_grp_name
 	procedure:: belong_group
 	generic,public::belong=>belong_group
 	procedure:: copy_grp
@@ -285,11 +293,16 @@ end type
 type path
 	private
 	integer,allocatable::raw_path(:)
+	character(len=max_char_length)::name=''
 	integer::num=0,current_pos=0
-	type(lattice),pointer::lat=>null()
+	class(lattice),pointer::lat=>null()
 
 	contains
 	private
+	procedure::get_name_path
+	generic,public::get_name=>get_name_path
+	procedure::set_name_path
+	generic,public::set_name=>set_name_path
 	procedure::belong_path
 	generic,public::belong=>belong_path
 	procedure::add_name
@@ -322,6 +335,9 @@ type path
 	generic,public::draw=>draw_path
 	procedure::get_lattice_link_path
 	generic,public::get_lattice_link=>get_lattice_link_path
+	procedure::check_contain_path_pos
+	procedure::check_contain_path_name
+	generic,public:: check_contain=>check_contain_path_pos,check_contain_path_name
 
 end type
 
@@ -1321,6 +1337,99 @@ subroutine set_bond_as_cluster(L,L_old,clusters)
 							call L%set_bond(actual_name1,actual_name2,actual_ind1,actual_ind2)
 						end if
 						!call L%draw('set_bond_as',check_tag=.false.)
+					end if
+				end if
+			end do
+		end if
+	end do
+			
+end subroutine
+
+
+subroutine set_bond_as_path(L,L_old,clusters)
+
+	class(lattice),intent(inout)::L
+	type(lattice),intent(in)::L_old
+	type(path),target,intent(in)::clusters(:,:)
+	character(len=max_char_length)::ind1,ind2,name1,name2,actual_name1,actual_name2
+	logical::found1,found2,incl1,incl2
+	integer::i,j,k,m,n,p,nb_rawpos,no,nb_no,L1,L2
+	integer,allocatable::nos(:),nb_nos(:)
+	character(len=max_char_length),allocatable::inds(:),nb_inds(:)
+	type(path),pointer::belong1,belong2
+
+	L1=size(clusters,1)
+	L2=size(clusters,2)
+	call L%check_unempty()
+	do i=1,L_old%max_site_num
+		if(L_old%sites(i)%exist_tag)then
+			do j=1,L_old%sites(i)%nb_num
+				nb_rawpos=L_old%sites(i)%bonds(j)%nb_rawpos
+				!write(*,*)'########',trim(L_old%sites(i)%name),'#',trim(L_old%sites(nb_rawpos)%name)
+				if(nb_rawpos>i) then
+					found1=.false.
+					found2=.false.
+					name1=L_old%sites(i)%name
+					name2=L_old%sites(nb_rawpos)%name
+					ind1=L_old%sites(i)%bonds(j)%ind
+					nb_no=L_old%sites(i)%bonds(j)%nb_no
+					ind2=L_old%sites(nb_rawpos)%bonds(nb_no)%ind
+					!write(*,*)trim(ind1),' ',trim(ind2)
+					if(L%check_exist(name1))then
+						found1=.true.
+						actual_name1=name1
+						incl1=.false.
+					else
+						do m=1,L1
+							do n=1,L2
+								if(clusters(m,n)%get_num()>0) then
+									if(clusters(m,n)%check_contain(name1))then
+										actual_name1=clusters(m,n)%get_name()
+										if(found1) call wc_error_stop('lattice.set_bond_as','clusters overlap!')
+										found1=.true.
+										incl1=.true.
+										belong1=>clusters(m,n)
+										if(.not. L%check_exist(actual_name1))then
+											call wc_error_stop('lattice.set_bond_as','cluster of '&
+												//trim(actual_name1)//' missing in lattice!')
+										end if
+									end if
+								end if
+							end do
+						end do
+					end if
+					if(L%check_exist(name2))then
+						found2=.true.
+						actual_name2=name2
+						incl2=.false.
+					else
+						do m=1,L1
+							do n=1,L2
+								if( clusters(m,n)%get_num()>0) then
+									if(clusters(m,n)%check_contain(name2))then
+										actual_name2=clusters(m,n)%get_name()
+										if(found2) call wc_error_stop('lattice.set_bond_as','clusters overlap!')
+										found2=.true.
+										incl2=.true.
+										belong2=>clusters(m,n)
+										if(.not. L%check_exist(actual_name2))then
+											call wc_error_stop('lattice.set_bond_as','cluster of '&
+												//trim(actual_name2)//' missing in lattice!')
+										end if
+									end if
+								end if
+							end do
+						end do
+					end if
+					if(found1 .and. found2)then
+
+						if(incl1 .and. incl2)then
+							if(associated(belong1,belong2)) cycle ! in same cluster,do nothing
+						end if
+						
+						if(.not. L%check_exist_bond(actual_name1,actual_name2))then
+							call L%set_bond(actual_name1,actual_name2,ind1,ind2)
+						end if
 					end if
 				end if
 			end do
@@ -2546,7 +2655,7 @@ character(len=max_char_length) function get_name_site(L,pos)
 
 end function
 
-subroutine set_name(L,my_name)
+subroutine set_name_lat(L,my_name)
 
 	class(lattice),intent(inout) ::L
 	character(len=*),intent(in)::my_name
@@ -3852,8 +3961,25 @@ end subroutine
 
 !!!!!!!!!!!!!!!!!!!!!!!!!! Group !!!!!!!!!!!!!!!!!!!!!!!!
 
+subroutine set_name_grp(G,my_name)
 
-function check_contain_pos(G,pos) result(ct)
+	class(group),intent(inout) ::G
+	character(len=*),intent(in)::my_name
+
+	G%name=my_name
+	
+end subroutine
+
+function get_name_grp(G)result(my_name)
+
+	class(group),intent(in) ::G
+	character(len=max_char_length)::my_name
+
+	my_name=G%name
+	
+end function
+
+function check_contain_grp_pos(G,pos) result(ct)
 
 	class(group),intent(in)::G
 	integer,intent(in)::pos(2)
@@ -3870,7 +3996,7 @@ function check_contain_pos(G,pos) result(ct)
 
 end function
 
-function check_contain_name(G,name) result(ct)
+function check_contain_grp_name(G,name) result(ct)
 
 	class(group),intent(in)::G
 	character(len=*),intent(in)::name
@@ -3903,7 +4029,7 @@ end subroutine
 subroutine belong_group(G,L)
 
 	class(group),intent(inout)::G
-	type(lattice),target,intent(in) ::L
+	class(lattice),target,intent(in) ::L
 	integer::num
 
 	G%lat=>L
@@ -4101,10 +4227,65 @@ end subroutine
 
 !!!!!!!!!!!!path!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+
+
+subroutine set_name_path(P,my_name)
+
+	class(path),intent(inout) ::P
+	character(len=*),intent(in)::my_name
+
+	P%name=my_name
+	
+end subroutine
+
+function get_name_path(P)result(my_name)
+
+	class(path),intent(in) ::P
+	character(len=max_char_length)::my_name
+
+	my_name=P%name
+	
+end function
+
+
+function check_contain_path_pos(P,pos) result(ct)
+
+	class(path),intent(in)::P
+	integer,intent(in)::pos(2)
+	integer::rawpos
+	logical :: ct
+
+	ct=.false.
+	if(associated(P%lat))then
+		if(P%lat%check_exist(pos))then
+			rawpos=P%lat%get_rawpos(pos)
+			ct=any(P%raw_path==rawpos)
+		end if
+	end if
+
+end function
+
+function check_contain_path_name(P,name) result(ct)
+
+	class(path),intent(in)::P
+	character(len=*),intent(in)::name
+	integer::rawpos
+	logical :: ct
+
+	ct=.false.
+	if(associated(P%lat))then
+		if(P%lat%check_exist(name))then
+			rawpos=P%lat%get_rawpos(name)
+			ct=any(P%raw_path==rawpos)
+		end if
+	end if
+
+end function
+
 subroutine belong_path(P,L)
 
 	class(path),intent(inout)::P
-	type(lattice),target,intent(in) ::L
+	class(lattice),target,intent(in) ::L
 	integer::num
 
 	P%lat=>L
@@ -4325,7 +4506,7 @@ end subroutine
 
 function get_num_path(P) result(num)
 
-	class(path),intent(inout)::P
+	class(path),intent(in)::P
 	integer::num
 
 	num=P%num

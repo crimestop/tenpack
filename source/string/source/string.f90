@@ -25,7 +25,7 @@ interface operator(//)
 	module procedure concat
 end interface
 
-public max_char_length,str,operator(//),after_dot,before_dot
+public max_char_length,str,operator(//),after_dot,before_dot,str_before,str_after
 
 contains
 
@@ -86,6 +86,29 @@ function before_dot(str) result(res)
 
 end function
 
+function str_before(str,ch) result(res)
+
+	character(:),allocatable :: res
+	character(len=*),intent(in)::str
+	character(len=1),intent(in)::ch
+	integer::pos
+
+	pos=scan(str,ch)
+	res=str(1:pos-1)
+
+end function
+
+function str_after(str,ch) result(res)
+
+	character(:),allocatable :: res
+	character(len=*),intent(in)::str
+	character(len=1),intent(in)::ch
+	integer::pos
+
+	pos=scan(str,ch)
+	res=str(pos+1:len(str))
+
+end function
 ! 1 elem
 
 function flt2str(num,digit) result(str)
