@@ -130,7 +130,9 @@ type lattice
 	procedure:: remove_bond_pos
 	generic,public::remove_bond=>remove_bond_pos,remove_bond_name
 
-	procedure,public:: invert_bond
+	procedure:: invert_bond_pos
+	procedure:: invert_bond_name
+	generic,public::invert_bond=>invert_bond_pos,invert_bond_name
 	procedure:: move_nb
 	procedure:: remove_nb
 	procedure::get_nb_num_pos
@@ -295,6 +297,10 @@ type path
 	procedure::get_order_name
 	procedure::get_order_pos
 	generic,public::get_order=>get_order_name,get_order_pos
+	procedure::get_name_order
+	generic,public::get_name=>get_name_order
+	procedure::get_pos_order
+	generic,public::get_pos=>get_pos_order
 	procedure::get_num_path
 	generic,public::get_num=>get_num_path
 	procedure::iterate_pos
@@ -302,6 +308,8 @@ type path
 	generic,public::iterate=>iterate_pos,iterate_name
 	procedure:: copy_path
 	generic,public::assignment(=)=>copy_path
+	procedure::inverse_path
+	generic,public::inverse=>inverse_path
 	procedure::clean_path
 	generic,public::clean=>clean_path
 	procedure::generate_path
@@ -2494,7 +2502,23 @@ subroutine set_contag_name(L,name,status)
 
 end subroutine
 
-subroutine invert_bond(L,pos,temp)
+subroutine invert_bond_name(L,name,temp)
+
+	class(lattice),intent(in)::L
+	class(tensor),intent(inout)::temp
+	character(len=*),intent(in)::name
+	integer::no,nb_pos(2),nb_no,rawpos,nb_rawpos
+
+	rawpos=L%get_rawpos(name)
+	do no=1,L%sites(rawpos)%nb_num
+		nb_rawpos=L%sites(rawpos)%bonds(no)%nb_rawpos
+		nb_no=L%sites(rawpos)%bonds(no)%nb_no
+		call temp%setName(L%sites(nb_rawpos)%bonds(nb_no)%ind,L%sites(rawpos)%bonds(no)%ind)
+	end do
+
+end subroutine
+
+subroutine invert_bond_pos(L,pos,temp)
 
 	class(lattice),intent(in)::L
 	class(tensor),intent(inout)::temp
@@ -4005,7 +4029,7 @@ function get_order_name(P,name) result(order)
 	integer::rawpos
 
 	if(.not. associated(P%lat))then
-		call wc_error_stop('path.add','path not belong to any lattice')
+		call wc_error_stop('path.get_order','path not belong to any lattice')
 	end if
 	rawpos=P%lat%get_rawpos(name)
 	found=.false.
@@ -4030,7 +4054,7 @@ function get_order_pos(P,pos) result(order)
 	integer::rawpos
 
 	if(.not. associated(P%lat))then
-		call wc_error_stop('path.add','path not belong to any lattice')
+		call wc_error_stop('path.get_order','path not belong to any lattice')
 	end if
 	rawpos=P%lat%get_rawpos(pos)
 	found=.false.
@@ -4043,6 +4067,38 @@ function get_order_pos(P,pos) result(order)
 	if (.not. found)then
 		call wc_error_stop('path.get_order',trim(str(pos))//' is not found in the path.')
 	end if
+
+end function
+
+function get_name_order(P,order) result(name)
+
+	class(path),intent(inout)::P
+	integer,intent(in)::order
+	character(len=max_char_length)::name
+
+	if(.not. associated(P%lat))then
+		call wc_error_stop('path.get_name','path not belong to any lattice')
+	end if
+	if (.not. (order>=1 .and. order<=P%num) )then
+		call wc_error_stop('path.get_name',str(order)//' is not in the path.')
+	end if
+	name=P%lat%sites(P%raw_path(order))%name
+
+end function
+
+function get_pos_order(P,order) result(pos)
+
+	class(path),intent(inout)::P
+	integer,intent(in)::order
+	integer::pos(2)
+
+	if(.not. associated(P%lat))then
+		call wc_error_stop('path.get_pos','path not belong to any lattice')
+	end if
+	if (.not. (order>=1 .and. order<=P%num) )then
+		call wc_error_stop('path.get_pos',str(order)//' is not in the path.')
+	end if
+	pos=P%lat%sites(P%raw_path(order))%pos
 
 end function
 
@@ -4151,6 +4207,23 @@ subroutine copy_path(P1,P2)
 	end if
 
 end subroutine
+
+function inverse_path(P2) result(P1)
+
+	class(path),intent(inout)::P2
+	type(path)::P1
+	integer::i
+
+	if(associated(P2%lat))then
+		call P1%belong(P2%lat)
+		P1%num=P2%num
+		do i=1,P1%num
+			P1%raw_path(i)=P2%raw_path(P1%num+1-i)
+		end do
+		P1%current_pos=P2%current_pos
+	end if
+
+end function
 
 subroutine clean_path(P)
 
