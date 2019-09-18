@@ -28,9 +28,9 @@ var str =['(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal
 var myRE = new RegExp (str,'i');
 
 // $(document).ready(function(){alert(str)});
-$(document).ready(function(){alert(navigator.userAgent||navigator.vendor||window.opera)});
+$(document).ready(function(){alert((navigator.userAgent||navigator.vendor||window.opera).substr(0,4))});
 $(document).ready(function(){
-	if(myRE.test('sset')){
+	if(myRE.test((navigator.userAgent||navigator.vendor||window.opera).substr(0,4))){
 		alert("mobile");
 	}else{
 		alert("desktop");
