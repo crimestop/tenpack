@@ -3,7 +3,7 @@
 *.o
 *.a
 *.out
-*.zip
+/*.zip
 /output/**
 prep.sh
 !.gitkeep
