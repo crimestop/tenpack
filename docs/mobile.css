@@ -1,6 +1,5 @@
 .header {
     position: relative;
-    width: 799px;
     height: 86px;
     padding: 1px 0;
     padding-left: 2px;
@@ -27,9 +26,8 @@ body{
 }
 .global{
     background-color: #ffffff;
-    width: 799px;
     min-height: 1600px;
-    margin:  auto;
+    margin:  20;
     padding:5px 10px 100px 10px;
 }
 .logo {
@@ -39,7 +37,6 @@ body{
 }
 .nav {
     position: relative;
-    width: 799px;
     height: 40px;
     padding: 1px 0;
     padding-left: 2px;
@@ -49,7 +46,7 @@ body{
 
 .nav-cell {
     float: left;
-    width: 134px;
+    width: 16.75%;
     height: 40px;
     margin-left: -1px;
 }
