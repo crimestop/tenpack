@@ -29,7 +29,7 @@ body{
 }
 .nav {
     position: relative;
-    height: 60px;
+    height: 70px;
     padding: 1px 0;
     margin: 0 auto;
     background: #9d1518;
@@ -38,13 +38,13 @@ body{
 .nav-cell {
     float: left;
     display: block;
-    line-height: 60px;
+    line-height: 70px;
     text-align: center;
     color: #fff;
 }
 
 .nav-cell:not(#nav-cell-6){
-    background-image: url(pic/shutiao.png);
+    background-image: url(pic/shutiao_long.png);
     background-repeat:  no-repeat;
     background-position:  100% 50%;
 }
@@ -52,7 +52,7 @@ body{
 .nav-cell a {
     display: block;
     color: #fff;
-    font-size: 3.073vw;
+    font-size: 3.2vw;
     font-weight: bold;
     text-decoration: none;
     margin: 0 1px;
