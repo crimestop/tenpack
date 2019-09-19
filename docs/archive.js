@@ -28,14 +28,10 @@ var str2 =['1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|
 		'|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-'].join('')
 var myRE1 = new RegExp (str1,'i');
 var myRE2 = new RegExp (str2,'i');
-
-// $(document).ready(function(){alert(str)});
-$(document).ready(function(){alert((navigator.userAgent||navigator.vendor||window.opera).substr(0,4))});
-$(document).ready(function(){
-	if(myRE1.test(navigator.userAgent||navigator.vendor||window.opera)||
-		myRE2.test((navigator.userAgent||navigator.vendor||window.opera).substr(0,4))){
-		alert("mobile");
-	}else{
-		alert("desktop");
-	}
-});
+if(myRE1.test(navigator.userAgent||navigator.vendor||window.opera)||
+	myRE2.test((navigator.userAgent||navigator.vendor||window.opera).substr(0,4))){
+	1;
+}else{
+	var link = document.getElementById("lnk"); //Fetch the link by its ID
+	link.setAttribute("href", "mobile.css"); //Change its href attribute
+}
