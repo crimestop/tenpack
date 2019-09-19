@@ -1,3 +1,7 @@
+.hidden_desktop{
+    display:none;
+}
+
 .header {
     position: relative;
     width: 799px;
