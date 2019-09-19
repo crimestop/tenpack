@@ -46,13 +46,14 @@ body{
     width: 770px;
     height: 80px;
 }
+
 .nav {
     position: relative;
     width: 799px;
     height: 40px;
     padding: 1px 0;
     padding-left: 2px;
-    margin: 0 auto;
+    margin: 0 ;
     background: #9d1518;
 }
 
