@@ -1,0 +1,98 @@
+.header {
+    position: relative;
+    width: 799px;
+    height: 86px;
+    padding: 1px 0;
+    padding-left: 2px;
+    margin: 0 auto;
+}
+.person{
+    margin: 30px 10px;
+}
+.content {
+    margin: 10px 10px;
+    font-size:200%;
+}
+.content-elem{
+    margin: 10px 10px; 
+}
+.news {
+    width: 200px;
+    margin: 0; 
+    padding: 0;
+}
+.intro {
+    width: 560px;
+}
+body{
+    background-color: #f8f8f8;
+     margin: 0;
+      padding:0;
+}
+.global{
+    background-color: #ffffff;
+    width: 799px;
+    height: 2500px;
+    margin:  auto;
+    padding:5px 10px 100px 10px;
+}
+.logo {
+    float: left;
+    width: 770px;
+    height: 80px;
+}
+.nav {
+    position: relative;
+    width: 799px;
+    height: 40px;
+    padding: 1px 0;
+    padding-left: 2px;
+    margin: 0 auto;
+    background: #9d1518;
+}
+
+.nav-cell {
+    float: left;
+    width: 134px;
+    height: 40px;
+    margin-left: -1px;
+}
+
+.nav-cell span {
+    display: block;
+    width: 100%;
+    line-height: 40px;
+    text-align: center;
+    color: #fff;
+    background: url(pic/shutiao.png) no-repeat 100% 50%;
+}
+
+.nav-cell a {
+    display: block;
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+     margin: 0 1px
+}
+
+.nav-cell span.last {
+    background: none;
+}
+
+.nav-cell  a.first {
+    margin: 0 1px 0 0
+}
+.nav-cell  a.last {
+    margin: 0 0 0 1px
+}
+.nav-cell  a.now {
+    display: block;
+    background: #cd5c5c;
+}
+.nav-cell  a.other:hover {
+    color: #bd0509;
+}
+.nav-cell  span.other:hover {
+    background: #fff;
+}
