@@ -1,9 +1,7 @@
 .header {
     position: relative;
     height: 86px;
-    padding: 1px 0;
-    padding-left: 2px;
-    margin: 0 auto;
+    margin: 10px 10px;
 }
 .person{
     margin: 30px 10px;
@@ -27,7 +25,6 @@ body{
 .global{
     background-color: #ffffff;
     min-height: 1600px;
-    margin:  20;
     padding:5px 10px 100px 10px;
 }
 .logo {
@@ -62,7 +59,7 @@ body{
 .nav-cell a {
     display: block;
     color: #fff;
-    font-size: 24px;
+    font-size: 26px;
     font-weight: bold;
     text-decoration: none;
      margin: 0 1px
