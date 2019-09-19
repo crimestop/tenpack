@@ -17,12 +17,8 @@
     margin: 10px 10px; 
 }
 .news {
-    width: 200px;
     margin: 0; 
     padding: 0;
-}
-.intro {
-    width: 560px;
 }
 body{
     background-color: #f8f8f8;
@@ -32,7 +28,7 @@ body{
 .global{
     background-color: #ffffff;
     width: 799px;
-    min-height: 1800px;
+    min-height: 1600px;
     margin:  auto;
     padding:5px 10px 100px 10px;
 }
