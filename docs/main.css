@@ -68,8 +68,10 @@ body{
     margin-left: -1px;
 }
 
-.nav-cell:not(.nav-cell-last){
-    background: url(pic/shutiao.png) no-repeat 100% 50%;
+.nav-cell:not(#nav-cell-6){
+    background-image: url(pic/shutiao.png);
+    background-repeat:  no-repeat;
+    background-position:  100% 50%;
 }
 
 .nav a {
@@ -81,10 +83,10 @@ body{
     margin: 0 1px
 }
 
-.nav-cell-first a {
+#nav-cell-1 a {
     margin: 0 1px 0 0
 }
-.nav-cell-last a {
+#nav-cell-6 a {
     margin: 0 0 0 1px
 }
 .nav-cell-now a {
@@ -94,5 +96,5 @@ body{
     color: #bd0509;
 }
 .nav-cell-other:hover {
-    background: #fff;
+    background-color: #fff;
 }
