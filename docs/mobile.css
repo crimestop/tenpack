@@ -99,5 +99,6 @@ body{
 
 #version-selector {
    -webkit-appearance: menulist-button;
-   height: 30px;
+   font-size: 24px;
+   height: 36px;
 }
