@@ -23,7 +23,4 @@ if(myRE1.test(navigator.userAgent||navigator.vendor||window.opera)||
 	myRE2.test((navigator.userAgent||navigator.vendor||window.opera).substr(0,4))){
 	var link = document.getElementById("lnk"); //Fetch the link by its ID
 	link.setAttribute("href", "mobile.css"); //Change its href attribute
-	alert("mobile");
-}else{
-	alert("desktop");
 }
