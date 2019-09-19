@@ -20,6 +20,5 @@ var myRE1 = new RegExp (str1,'i');
 var myRE2 = new RegExp (str2,'i');
 var browser_info = (navigator.userAgent||navigator.vendor||window.opera)
 if(myRE1.test(browser_info)||myRE2.test(browser_info.substr(0,4))){
-	var link = document.getElementById("lnk");
-	link.setAttribute("href", "mobile.css");
+	$("#lnk").attr("href", "mobile.css");
 }
