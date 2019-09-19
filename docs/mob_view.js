@@ -27,4 +27,3 @@ if(myRE1.test(navigator.userAgent||navigator.vendor||window.opera)||
 }else{
 	alert("desktop");
 }
-}
