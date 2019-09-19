@@ -1,7 +1,6 @@
 var str1 =['(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop',
 		'|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone',
 		'|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino'].join('')
-
 var str2 =['1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)',
 		'|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w',
 		'|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica',
@@ -19,8 +18,8 @@ var str2 =['1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|
 		'|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-'].join('')
 var myRE1 = new RegExp (str1,'i');
 var myRE2 = new RegExp (str2,'i');
-if(myRE1.test(navigator.userAgent||navigator.vendor||window.opera)||
-	myRE2.test((navigator.userAgent||navigator.vendor||window.opera).substr(0,4))){
-	var link = document.getElementById("lnk"); //Fetch the link by its ID
-	link.setAttribute("href", "mobile.css"); //Change its href attribute
+var browser_info = (navigator.userAgent||navigator.vendor||window.opera)
+if(myRE1.test(browser_info)||myRE2.test(browser_info.substr(0,4))){
+	var link = document.getElementById("lnk");
+	link.setAttribute("href", "mobile.css");
 }
