@@ -1,6 +1,6 @@
 .header {
     position: relative;
-    height: 86px;
+    height: 104px;
     margin: 10px 10px;
 }
 .person{
@@ -24,8 +24,7 @@ body{
 }
 .logo {
     float: left;
-    width: 770px;
-    height: 80px;
+    width: 100%;
 }
 .nav {
     position: relative;

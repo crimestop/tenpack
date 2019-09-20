@@ -4,11 +4,9 @@
 
 .header {
     position: relative;
-    width: 799px;
-    height: 86px;
-    padding: 1px 0;
-    padding-left: 2px;
-    margin: 0 auto;
+    height: 102px;
+    padding: 10px;
+    margin: 0;
 }
 .person{
     margin: 30px 10px;
@@ -36,15 +34,14 @@ body{
 }
 .global{
     background-color: #ffffff;
-    width: 799px;
+    width: 801px;
     height: 800px;
     margin:  auto;
     padding:5px 10px 100px 10px;
 }
 .logo {
     float: left;
-    width: 770px;
-    height: 80px;
+    width: 100%;
 }
 
 .nav {
