@@ -2,7 +2,6 @@ module timer
 use type_unidic
 use string
 use error
-use tools
 implicit none
 private
 

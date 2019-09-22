@@ -1,12 +1,9 @@
 include ../../make.inc
 
-libname=libstring
-
 file := \
 string.o
 
 all:	$(file)
-	(ar rc $(libname).a *.o ;)
 
 %.o:	source/%.f90
 	$(FC) $(FFLAGS) -o $@ -c $(<)

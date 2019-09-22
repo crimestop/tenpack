@@ -14,7 +14,6 @@ OtherFunction.o
 
 all:	$(tn)
 	(ar rc libtnsp.a *.o ;)
-	(ar rc libtools.a Tools.o ;)
 
 %.o:	source/%.f90
 	$(FC) $(FFLAGS) -o $@ -c $(<)

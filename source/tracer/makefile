@@ -3,11 +3,9 @@ include ../../make.inc
 libname=libtracer
 
 file := \
-tracer.o \
-main.o
+tracer.o 
 
 all:	run.out
-	(ar rc $(libname).a *.o ;)
 
 run.out:$(file)
 	$(FC) $(FFLAGS) -o $@ $^ 
