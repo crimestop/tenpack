@@ -1,5 +1,5 @@
 #!/bin/bash
-version=v5.0
+version=v5.1
 echo Compling Pack $version
 while read line; do
 	echo
@@ -23,7 +23,7 @@ while read line; do
 done < kernel.dat
 ar rc lib/libkernel.a lib/*.o 
 rm lib/*.o
-rm -r output/lib_${version}
-cp -r lib output/lib_${version}
-rm -r output/include_${version}
-cp -r include output/include_${version}
+rm -r output/TNSG_${version}
+mkdir output/TNSG_${version}
+cp -r lib output/TNSG_${version}/lib
+cp -r include output/TNSG_${version}/include
