@@ -29,13 +29,14 @@
 }
 body{
     background-color: #f8f8f8;
-     margin: 0;
-      padding:0;
+    margin: 0;
+    padding:0;
+    font-family: PingFang SC;
 }
 .global{
     background-color: #ffffff;
     width: 801px;
-    height: 800px;
+    min-height: 800px;
     margin:  auto;
     padding:5px 10px 100px 10px;
 }
@@ -94,4 +95,11 @@ body{
 }
 .nav-cell-other:hover {
     background-color: #fff;
+}
+
+code {
+    background-color: #eee;
+    border: 1px solid #999;
+    display: block;
+    padding: 10px;
 }

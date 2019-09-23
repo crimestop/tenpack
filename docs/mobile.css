@@ -21,6 +21,7 @@ body{
     background-color: #ffffff;
     margin: 0;
     padding:5px 10px 100px 10px;
+    font-family: PingFang SC;
 }
 .logo {
     float: left;
@@ -86,7 +87,14 @@ body{
 }
 
 #version-selector {
-   -webkit-appearance: menulist-button;
-   font-size: 24px;
-   height: 36px;
+    -webkit-appearance: menulist-button;
+    font-size: 24px;
+    height: 36px;
+}
+
+code {
+    background-color: #eee;
+    border: 1px solid #999;
+    display: block;
+    padding: 10px;
 }

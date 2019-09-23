@@ -38,13 +38,7 @@
 	<!-- main-content -->
 	<div class="content">
 		<h2>
-			Latest
-		</h2>
-		<div class="content-elem">
-			<a href="resources/lib/Tensor-3.5.1.zip">version 3.5.1</a>
-		</div>
-		<h2>
-			Archive
+			Source Code
 		</h2>
 		<div class="content-elem">
 			<p>
@@ -53,45 +47,76 @@
 					<option value ="1">3.5.1</option>
 					<option value ="2">3.5.0</option>
 				</select>
-			</p>
-			<p>
-				Click 
+				and click 
 				<a href="resources/lib/Tensor-3.5.1.zip" id="version-url">here</a>
 				 to download.
+			</p>
+			<p>
+				 Or you can download through our <a href="https://github.com/crimestop/tenpack">github page</a>.
+			</p>
+		</div>
+		<h2>
+			Prerequisite
+		</h2>
+		<div class="content-elem">
+			<p>
+				TNSG uses many features of the Fortran 2003 standard, and can be successfully compiled by <a href="https://gcc.gnu.org/">GNU fortran compiler</a> later than 5.4.0 version. In Debian/Unbuntu, it can be installed by
 			 </p>
+			<code>
+				apt-get install gfortran
+			</code>
+			<p>
+				TNSG uses MPI for parallel programming. A popular choice is <a href="https://www.open-mpi.org/">Openmpi</a>. In Debian/Ubuntu, it can be installed by
+			</p>
+			<code>
+			    apt-get install libopenmpi-dev
+			</code>
+			<p>
+				TNSG uses <a href="http://www.netlib.org/lapack/">Lapack</a> and <a href="http://www.openblas.net">Blas</a> as math library. In Debian/Unbuntu, they can be installed by
+			</p>
+			<code>
+				apt-get install liblapack-dev
+			</code>
+			<p>
+				Or you may use <a href="https://software.intel.com/en-us/mkl/">Intel Math Kernel Library</a> which integrets Lapack and Blas.
+			</p>
 		</div>
 		<h2>
-			Requirement
+			Installation Guide
 		</h2>
 		<div class="content-elem">
 			<p>
-				Operating system: linux or macOS
-			</p>
-			<p>
-				Compiler: gfortran 4.8.4 or later
-			</p>
-			<p>
-				MPI: any
-			</p>
-			<p>
-				Math library: lapack or mkl
+				TNSP can be installed with make. Configuration have to be set in the make.inc file. A make.inc for a Linux or Mac OS running GNU compilers is given in the main directory. Then the user can do "make" in the current directory to build the standard library "output/TNSG_x"(x for version), and do "make test" to run the test PEPS program.
 			</p>
 		</div>
 		<h2>
-			External link
+			Using TNSG in Your Program
 		</h2>
 		<div class="content-elem">
 			<p>
-				<a href="https://gcc.gnu.org/">gcc</a>
+				Before using TNSG, the module should be used
+			</p>
+			<code>
+				use mod_name
+			</code>
+			<p>
+				To use the TNSP in your code, you should use the following option when compiling your code
+			</p>
+			<code>
+				-I$(TNSG)/TNSG_x/include
+			</code>
+			<p>
+				and the following option to link your code with the TNSP
+			</p>
+			<code>
+					-L$(TNSG)/TNSG_x/lib -lib_name
+			</code>
+			<p>
+				, where $(TNSG) is the TNSG directory and x is the version. And make sure you have linked TNSG with the math library.
 			</p>
 			<p>
-				<a href="https://www.open-mpi.org/">open-mpi</a>
+				For avaliable mod_name and lib_name, please visit our document page.
 			</p>
-			<p>
-				<a href="http://www.netlib.org/lapack/">lapack</a>
-			</p>
-		</div>
-
 	</div>
 </div>
 
