@@ -78,11 +78,9 @@
 			<p>
 				In Debian/Unbuntu, the prerequisites can be installed by
 			 </p>
-			 <pre>
-				<code>apt-get install gfortran
+			 <pre>apt-get install gfortran
 apt-get install libopenmpi-dev
-apt-get install libblas-dev liblapack-dev</code>
-			</pre>
+apt-get install libblas-dev liblapack-dev</pre>
 		</div>
 		<h3>
 			CentOS
@@ -91,17 +89,13 @@ apt-get install libblas-dev liblapack-dev</code>
 			<p>
 				In CentOS, the prerequisites can be installed by
 			 </p>
-			 <pre>
-				<code>yum install gcc
+			 <pre>yum install gcc
 yum install openmpi openmpi-devel
-yum install blas blas-devel lapack lapack-devel</code>
-			</pre>
+yum install blas blas-devel lapack lapack-devel</pre>
 			<p>
 				One may also need to load the module for openmpi
 			 </p>
-			 <pre>
-				<code>module add name_of_openmpi</code>
-			</pre>
+			 <pre>module add name_of_openmpi</pre>
 		</div>
 		<h3>
 			Mac Os
@@ -110,11 +104,9 @@ yum install blas blas-devel lapack lapack-devel</code>
 			<p>
 				In Mac Os, it would be conveniet to use a pack manager such as <a href="https://brew.sh">Homebrew</a>. Then the prerequisites can be installed by
 			 </p>
-			 <pre>
-				<code>brew install gcc
+			 <pre>brew install gcc
 brew install openmpi
-brew install openblas lapack</code>
-			</pre>
+brew install openblas lapack</pre>
 			<p>
 		</div>
 		<h2>
@@ -132,21 +124,15 @@ brew install openblas lapack</code>
 			<p>
 				Before using TNSG, the module should be used
 			</p>
-			<code>
-				use mod_name
-			</code>
+			<pre>use mod_name</pre>
 			<p>
 				To use the TNSP in your code, you should use the following option when compiling your code
 			</p>
-			<code>
-				-I$(TNSG)/TNSG_x/include
-			</code>
+			<pre>-I$(TNSG)/TNSG_x/include</pre>
 			<p>
 				and the following option to link your code with the TNSP
 			</p>
-			<code>
-					-L$(TNSG)/TNSG_x/lib -lib_name
-			</code>
+			<pre>-L$(TNSG)/TNSG_x/lib -lib_name</pre>
 			<p>
 				, where $(TNSG) is the TNSG directory and x is the version. And make sure you have linked TNSG with the math library.
 			</p>
