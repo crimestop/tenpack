@@ -92,9 +92,13 @@ body{
     height: 36px;
 }
 
+
 code {
     background-color: #eee;
     border: 1px solid #999;
     display: block;
     padding: 10px;
+}
+pre{
+    margin: -12px 0px -25px 0px ;
 }
