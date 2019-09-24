@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+    <meta name="description" content="Documentation for TNSG">
+   
+    <meta name="author" content="Wang Chao & Dong Shaojun" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>error.f90 &ndash; TNSG</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">TNSG </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>error.f90
+    <small>Source File</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 2.1% of total for source files.">175 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/error.f90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+  
+     <li class="active">error.f90</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#mods-0">Modules</a></h3></div>
+  <div id="mods-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/error.html">error</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/error.f90.html#src">error.f90</a>
+  </div>
+</div>
+
+
+
+</div>
+
+    </div>
+    <div class="col-md-9" id='text'>
+      
+      <br>
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">This file depends on</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: sourcefile~~error.f90~~EfferentGraph Pages: 1 -->
+<svg id="sourcefileerrorf90EfferentGraph" width="167pt" height="31pt"
+ viewBox="0.00 0.00 167.20 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~error.f90~~EfferentGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>sourcefile~~error.f90~~EfferentGraph</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-26.5 163.2014,-26.5 163.2014,4 -4,4"/>
+<!-- sourcefile~error.f90 -->
+<g id="sourcefile~~error.f90~~EfferentGraph_node1" class="node">
+<title>sourcefile~error.f90</title>
+<polygon fill="none" stroke="#000000" points="159.2014,-22.2554 105.2014,-22.2554 105.2014,-.2446 159.2014,-.2446 159.2014,-22.2554"/>
+<text text-anchor="middle" x="132.2014" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#000000">error.f90</text>
+</g>
+<!-- sourcefile~mpi_info.f90 -->
+<g id="sourcefile~~error.f90~~EfferentGraph_node2" class="node">
+<title>sourcefile~mpi_info.f90</title>
+<g id="a_sourcefile~~error.f90~~EfferentGraph_node2"><a xlink:href=".././sourcefile/mpi_info.f90.html" xlink:title="mpi_info.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="69.3024,-22.2554 -.101,-22.2554 -.101,-.2446 69.3024,-.2446 69.3024,-22.2554"/>
+<text text-anchor="middle" x="34.6007" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">mpi_info.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~error.f90&#45;&gt;sourcefile~mpi_info.f90 -->
+<g id="sourcefile~~error.f90~~EfferentGraph_edge1" class="edge">
+<title>sourcefile~error.f90&#45;&gt;sourcefile~mpi_info.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M105.0142,-11.25C97.0682,-11.25 88.1641,-11.25 79.4307,-11.25"/>
+<polygon fill="#000000" stroke="#000000" points="79.3246,-7.7501 69.3246,-11.25 79.3245,-14.7501 79.3246,-7.7501"/>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="186pt" height="31pt"
+ viewBox="0.00 0.00 186.41 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-26.5 182.4064,-26.5 182.4064,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node">
+<title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="65.1576,-22.2554 -.0526,-22.2554 -.0526,-.2446 65.1576,-.2446 65.1576,-22.2554"/>
+<text text-anchor="middle" x="32.5525" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="#000000" points="178.2607,-22.2554 82.8443,-22.2554 82.8443,-.2446 178.2607,-.2446 178.2607,-22.2554"/>
+<text text-anchor="middle" x="130.5525" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#000000">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a file to a file which it depends on. A file
+    is dependent upon another if the latter must be compiled before the former
+    can be.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+    
+      
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Files dependent on this one</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: sourcefile~~error.f90~~AfferentGraph Pages: 1 -->
+<svg id="sourcefileerrorf90AfferentGraph" width="632pt" height="444pt"
+ viewBox="0.00 0.00 631.81 443.52" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~error.f90~~AfferentGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 439.5153)">
+<title>sourcefile~~error.f90~~AfferentGraph</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-439.5153 627.8118,-439.5153 627.8118,4 -4,4"/>
+<!-- sourcefile~error.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_node1" class="node">
+<title>sourcefile~error.f90</title>
+<polygon fill="none" stroke="#000000" points="54,-278.2317 0,-278.2317 0,-256.2208 54,-256.2208 54,-278.2317"/>
+<text text-anchor="middle" x="27" y="-264.0763" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#000000">error.f90</text>
+</g>
+<!-- sourcefile~dictionary.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_node2" class="node">
+<title>sourcefile~dictionary.f90</title>
+<g id="a_sourcefile~~error.f90~~AfferentGraph_node2"><a xlink:href=".././sourcefile/dictionary.f90.html" xlink:title="dictionary.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="288.0902,-298.2317 214.7343,-298.2317 214.7343,-276.2208 288.0902,-276.2208 288.0902,-298.2317"/>
+<text text-anchor="middle" x="251.4122" y="-284.0763" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">dictionary.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~dictionary.f90&#45;&gt;sourcefile~error.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge1" class="edge">
+<title>sourcefile~dictionary.f90&#45;&gt;sourcefile~error.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M214.6347,-291.2268C190.5738,-292.8689 158.6039,-293.1953 131.0273,-287.2263"/>
+</g>
+<!-- sourcefile~string.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_node10" class="node">
+<title>sourcefile~string.f90</title>
+<g id="a_sourcefile~~error.f90~~AfferentGraph_node10"><a xlink:href=".././sourcefile/string.f90.html" xlink:title="string.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="158.7171,-259.2317 103.3376,-259.2317 103.3376,-237.2208 158.7171,-237.2208 158.7171,-259.2317"/>
+<text text-anchor="middle" x="131.0273" y="-245.0763" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">string.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~dictionary.f90&#45;&gt;sourcefile~string.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge21" class="edge">
+<title>sourcefile~dictionary.f90&#45;&gt;sourcefile~string.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M217.2368,-276.1547C202.0686,-271.2409 184.1711,-265.4428 168.6256,-260.4066"/>
+<polygon fill="#000000" stroke="#000000" points="169.3939,-256.9765 158.802,-257.2241 167.2365,-263.6358 169.3939,-256.9765"/>
+</g>
+<!-- sourcefile~percentage.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_node3" class="node">
+<title>sourcefile~percentage.f90</title>
+<g id="a_sourcefile~~error.f90~~AfferentGraph_node3"><a xlink:href=".././sourcefile/percentage.f90.html" xlink:title="percentage.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="172.082,-378.2317 89.9726,-378.2317 89.9726,-356.2208 172.082,-356.2208 172.082,-378.2317"/>
+<text text-anchor="middle" x="131.0273" y="-364.0763" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">percentage.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~percentage.f90&#45;&gt;sourcefile~error.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge3" class="edge">
+<title>sourcefile~percentage.f90&#45;&gt;sourcefile~error.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M105.2535,-356.1587C99.9463,-353.3098 94.5842,-349.974 90,-346.2263 69.2587,-329.2694 50.8436,-304.4295 39.3608,-287.1465"/>
+<polygon fill="#000000" stroke="#000000" points="42.09,-284.921 33.7239,-278.4203 36.2101,-288.7193 42.09,-284.921"/>
+</g>
+<!-- sourcefile~random.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_node4" class="node">
+<title>sourcefile~random.f90</title>
+<g id="a_sourcefile~~error.f90~~AfferentGraph_node4"><a xlink:href=".././sourcefile/random.f90.html" xlink:title="random.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="163.6427,-337.2317 98.412,-337.2317 98.412,-315.2208 163.6427,-315.2208 163.6427,-337.2317"/>
+<text text-anchor="middle" x="131.0273" y="-323.0763" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">random.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~random.f90&#45;&gt;sourcefile~error.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge4" class="edge">
+<title>sourcefile~random.f90&#45;&gt;sourcefile~error.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M111.4606,-315.1288C95.6229,-306.1463 73.1026,-293.3737 55.2989,-283.2762"/>
+<polygon fill="#000000" stroke="#000000" points="56.9041,-280.1629 46.479,-278.2739 53.4507,-286.2518 56.9041,-280.1629"/>
+</g>
+<!-- sourcefile~tensor_tools.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_node5" class="node">
+<title>sourcefile~tensor_tools.f90</title>
+<g id="a_sourcefile~~error.f90~~AfferentGraph_node5"><a xlink:href=".././sourcefile/tensor_tools.f90.html" xlink:title="tensor_tools.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="294.6278,-414.2317 208.1967,-414.2317 208.1967,-392.2208 294.6278,-392.2208 294.6278,-414.2317"/>
+<text text-anchor="middle" x="251.4122" y="-400.0763" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">tensor_tools.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~tensor_tools.f90&#45;&gt;sourcefile~error.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge5" class="edge">
+<title>sourcefile~tensor_tools.f90&#45;&gt;sourcefile~error.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M226.226,-391.9894C219.754,-388.2705 213.1794,-383.6647 208.0547,-378.2263 183.5187,-352.1881 197.7289,-331.1428 172.0547,-306.2263 157.6343,-292.2314 150.6673,-291.4774 131.0273,-287.2263"/>
+</g>
+<!-- sourcefile~tensor_tools.f90&#45;&gt;sourcefile~random.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge17" class="edge">
+<title>sourcefile~tensor_tools.f90&#45;&gt;sourcefile~random.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M230.1884,-392.0422C222.9817,-387.9712 215,-383.1529 208.0547,-378.2263 190.8329,-366.01 189.5762,-359.0086 172.0547,-347.2263 169.4817,-345.496 166.7476,-343.8085 163.9602,-342.1903"/>
+<polygon fill="#000000" stroke="#000000" points="165.4594,-339.0209 155.0068,-337.2906 162.0989,-345.1616 165.4594,-339.0209"/>
+</g>
+<!-- sourcefile~tensor_tools.f90&#45;&gt;sourcefile~string.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge23" class="edge">
+<title>sourcefile~tensor_tools.f90&#45;&gt;sourcefile~string.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M243.0328,-391.8666C234.0012,-379.4412 219.3974,-358.8137 208.0547,-340.2263 190.4459,-311.3706 195.3011,-297.7684 172.0547,-273.2263 169.1509,-270.1606 165.7911,-267.3297 162.2692,-264.7607"/>
+<polygon fill="#000000" stroke="#000000" points="164.1742,-261.8245 153.8958,-259.2543 160.328,-267.6732 164.1742,-261.8245"/>
+</g>
+<!-- sourcefile~timer.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_node6" class="node">
+<title>sourcefile~timer.f90</title>
+<g id="a_sourcefile~~error.f90~~AfferentGraph_node6"><a xlink:href=".././sourcefile/timer.f90.html" xlink:title="timer.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="395.2903,-63.2317 341.2903,-63.2317 341.2903,-41.2208 395.2903,-41.2208 395.2903,-63.2317"/>
+<text text-anchor="middle" x="368.2903" y="-49.0763" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">timer.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~timer.f90&#45;&gt;sourcefile~error.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge6" class="edge">
+<title>sourcefile~timer.f90&#45;&gt;sourcefile~error.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M345.6991,-41.0786C322.6495,-30.58 285.5212,-16.0521 251.4122,-13.2263"/>
+</g>
+<!-- sourcefile~timer.f90&#45;&gt;sourcefile~string.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge24" class="edge">
+<title>sourcefile~timer.f90&#45;&gt;sourcefile~string.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M251.4122,-132.2263C233.4572,-143.1925 224.7225,-138.3878 208.0547,-151.2263 193.1094,-162.738 162.4685,-204.0334 144.6665,-228.8799"/>
+<polygon fill="#000000" stroke="#000000" points="141.689,-227.0274 138.7416,-237.204 147.3919,-231.0866 141.689,-227.0274"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M357.0976,-63.2411C343.3128,-76.3798 318.7654,-98.4218 294.7698,-113.2263 276.8643,-124.2733 269.3673,-121.26 251.4122,-132.2263"/>
+</g>
+<!-- sourcefile~unidic.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_node12" class="node">
+<title>sourcefile~unidic.f90</title>
+<g id="a_sourcefile~~error.f90~~AfferentGraph_node12"><a xlink:href=".././sourcefile/unidic.f90.html" xlink:title="unidic.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="279.8603,-104.2317 222.9642,-104.2317 222.9642,-82.2208 279.8603,-82.2208 279.8603,-104.2317"/>
+<text text-anchor="middle" x="251.4122" y="-90.0763" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">unidic.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~timer.f90&#45;&gt;sourcefile~unidic.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge31" class="edge">
+<title>sourcefile~timer.f90&#45;&gt;sourcefile~unidic.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M341.1823,-61.7355C325.8492,-67.1143 306.4305,-73.9263 289.5789,-79.8377"/>
+<polygon fill="#000000" stroke="#000000" points="288.2815,-76.5836 280.0038,-83.1965 290.5987,-83.189 288.2815,-76.5836"/>
+</g>
+<!-- sourcefile~tn_tensor.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_node7" class="node">
+<title>sourcefile~tn_tensor.f90</title>
+<g id="a_sourcefile~~error.f90~~AfferentGraph_node7"><a xlink:href=".././sourcefile/tn_tensor.f90.html" xlink:title="tn_tensor.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="514.3891,-221.2317 441.951,-221.2317 441.951,-199.2208 514.3891,-199.2208 514.3891,-221.2317"/>
+<text text-anchor="middle" x="478.17" y="-207.0763" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">tn_tensor.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~tn_tensor.f90&#45;&gt;sourcefile~error.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge7" class="edge">
+<title>sourcefile~tn_tensor.f90&#45;&gt;sourcefile~error.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M441.8671,-213.3295C411.8717,-216.2697 368.2804,-221.4114 330.7698,-229.2263 319.4575,-231.583 142.321,-289.6708 131.0273,-287.2263"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M131.0273,-287.2263C109.0551,-281.4901 84.0774,-276.6345 64.1052,-273.1446"/>
+<polygon fill="#000000" stroke="#000000" points="64.6062,-269.6795 54.1598,-271.4466 63.4281,-276.5797 64.6062,-269.6795"/>
+</g>
+<!-- sourcefile~lattice.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_node15" class="node">
+<title>sourcefile~lattice.f90</title>
+<g id="a_sourcefile~~error.f90~~AfferentGraph_node15"><a xlink:href=".././sourcefile/lattice.f90.html" xlink:title="lattice.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="396.7332,-260.2317 339.8474,-260.2317 339.8474,-238.2208 396.7332,-238.2208 396.7332,-260.2317"/>
+<text text-anchor="middle" x="368.2903" y="-246.0763" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">lattice.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~tn_tensor.f90&#45;&gt;sourcefile~lattice.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge33" class="edge">
+<title>sourcefile~tn_tensor.f90&#45;&gt;sourcefile~lattice.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M446.9768,-221.2978C434.438,-225.7482 419.8556,-230.924 406.6754,-235.6021"/>
+<polygon fill="#000000" stroke="#000000" points="405.18,-232.4189 396.9268,-239.0622 407.5215,-239.0157 405.18,-232.4189"/>
+</g>
+<!-- sourcefile~lattice_clt.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_node8" class="node">
+<title>sourcefile~lattice_clt.f90</title>
+<g id="a_sourcefile~~error.f90~~AfferentGraph_node8"><a xlink:href=".././sourcefile/lattice_clt.f90.html" xlink:title="lattice_clt.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="623.9535,-221.2317 550.3875,-221.2317 550.3875,-199.2208 623.9535,-199.2208 623.9535,-221.2317"/>
+<text text-anchor="middle" x="587.1705" y="-207.0763" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">lattice_clt.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~lattice_clt.f90&#45;&gt;sourcefile~error.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge8" class="edge">
+<title>sourcefile~lattice_clt.f90&#45;&gt;sourcefile~error.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M251.4122,-13.2263C198.0905,-8.8087 177.7035,12.9282 131.0273,-13.2263"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M478.17,-132.2263C432.6132,-101.6627 453.0485,-60.1216 405.8108,-32.2263 346.2771,2.9301 320.3154,-18.9347 251.4122,-13.2263"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M572.6544,-199.1983C552.0357,-183.6831 512.9079,-154.7855 478.17,-132.2263"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M131.0273,-13.2263C87.8651,-37.4118 46.2781,-189.4867 32.1105,-246.0607"/>
+<polygon fill="#000000" stroke="#000000" points="28.6468,-245.4888 29.6502,-256.036 35.4431,-247.165 28.6468,-245.4888"/>
+</g>
+<!-- sourcefile~lattice_clt.f90&#45;&gt;sourcefile~tn_tensor.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge19" class="edge">
+<title>sourcefile~lattice_clt.f90&#45;&gt;sourcefile~tn_tensor.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M550.2679,-210.2263C542.1009,-210.2263 533.3434,-210.2263 524.845,-210.2263"/>
+<polygon fill="#000000" stroke="#000000" points="524.6646,-206.7264 514.6646,-210.2263 524.6645,-213.7264 524.6646,-206.7264"/>
+</g>
+<!-- sourcefile~lattice_clt.f90&#45;&gt;sourcefile~string.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge25" class="edge">
+<title>sourcefile~lattice_clt.f90&#45;&gt;sourcefile~string.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M478.17,-132.2263C435.4417,-105.5148 294.4163,-105.9609 251.4122,-132.2263"/>
+</g>
+<!-- sourcefile~lattice_clt.f90&#45;&gt;sourcefile~lattice.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge32" class="edge">
+<title>sourcefile~lattice_clt.f90&#45;&gt;sourcefile~lattice.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M550.8277,-221.3017C539.3018,-224.5253 526.4543,-227.8222 514.5293,-230.2263 478.4305,-237.5038 436.7311,-242.6015 407.1203,-245.6714"/>
+<polygon fill="#000000" stroke="#000000" points="406.3901,-242.2271 396.7908,-246.711 407.0911,-249.192 406.3901,-242.2271"/>
+</g>
+<!-- sourcefile~stack.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_node9" class="node">
+<title>sourcefile~stack.f90</title>
+<g id="a_sourcefile~~error.f90~~AfferentGraph_node9"><a xlink:href=".././sourcefile/stack.f90.html" xlink:title="stack.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="158.0479,-123.2317 104.0068,-123.2317 104.0068,-101.2208 158.0479,-101.2208 158.0479,-123.2317"/>
+<text text-anchor="middle" x="131.0273" y="-109.0763" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">stack.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~stack.f90&#45;&gt;sourcefile~error.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge14" class="edge">
+<title>sourcefile~stack.f90&#45;&gt;sourcefile~error.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M123.546,-123.3735C106.0016,-149.5145 62.0338,-215.0262 40.0049,-247.849"/>
+<polygon fill="#000000" stroke="#000000" points="37.0802,-245.9263 34.4136,-256.18 42.8925,-249.8272 37.0802,-245.9263"/>
+</g>
+<!-- sourcefile~string.f90&#45;&gt;sourcefile~error.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge9" class="edge">
+<title>sourcefile~string.f90&#45;&gt;sourcefile~error.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M103.423,-253.268C91.3591,-255.4714 77.0295,-258.0886 64.0567,-260.4581"/>
+<polygon fill="#000000" stroke="#000000" points="63.2211,-257.0527 54.0127,-262.2925 64.4789,-263.9388 63.2211,-257.0527"/>
+</g>
+<!-- sourcefile~statistics.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_node11" class="node">
+<title>sourcefile~statistics.f90</title>
+<g id="a_sourcefile~~error.f90~~AfferentGraph_node11"><a xlink:href=".././sourcefile/statistics.f90.html" xlink:title="statistics.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="286.1831,-63.2317 216.6413,-63.2317 216.6413,-41.2208 286.1831,-41.2208 286.1831,-63.2317"/>
+<text text-anchor="middle" x="251.4122" y="-49.0763" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">statistics.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~statistics.f90&#45;&gt;sourcefile~error.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge10" class="edge">
+<title>sourcefile~statistics.f90&#45;&gt;sourcefile~error.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M229.9461,-41.1551C200.2032,-26.5116 148.1807,-3.6145 131.0273,-13.2263"/>
+</g>
+<!-- sourcefile~statistics.f90&#45;&gt;sourcefile~string.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge26" class="edge">
+<title>sourcefile~statistics.f90&#45;&gt;sourcefile~string.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M221.0992,-63.4426C216.3378,-66.1338 211.7702,-69.373 208.0547,-73.2263 185.5869,-96.5273 152.6483,-185.8885 138.2317,-227.1364"/>
+<polygon fill="#000000" stroke="#000000" points="134.8714,-226.1443 134.9071,-236.7391 141.4862,-228.4345 134.8714,-226.1443"/>
+</g>
+<!-- sourcefile~unidic.f90&#45;&gt;sourcefile~error.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge11" class="edge">
+<title>sourcefile~unidic.f90&#45;&gt;sourcefile~error.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M230.6907,-104.2505C223.3757,-108.3815 215.1974,-113.2785 208.0547,-118.2263 146.0465,-161.1793 78.9471,-220.0147 46.6133,-249.2371"/>
+<polygon fill="#000000" stroke="#000000" points="44.2156,-246.6866 39.1662,-256.0008 48.9219,-251.8684 44.2156,-246.6866"/>
+</g>
+<!-- sourcefile~unidic.f90&#45;&gt;sourcefile~stack.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge20" class="edge">
+<title>sourcefile~unidic.f90&#45;&gt;sourcefile~stack.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M222.8827,-97.729C206.492,-100.3159 185.7225,-103.5939 168.0809,-106.3782"/>
+<polygon fill="#000000" stroke="#000000" points="167.4441,-102.9353 158.112,-107.9516 168.5354,-109.8497 167.4441,-102.9353"/>
+</g>
+<!-- sourcefile~unidic.f90&#45;&gt;sourcefile~string.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge27" class="edge">
+<title>sourcefile~unidic.f90&#45;&gt;sourcefile~string.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M225.996,-104.2531C219.523,-107.9711 213.0055,-112.6291 208.0547,-118.2263 180.8735,-148.9564 194.1917,-168.6848 172.0547,-203.2263 165.9794,-212.7058 157.8584,-222.0862 150.4452,-229.8093"/>
+<polygon fill="#000000" stroke="#000000" points="147.9408,-227.3641 143.3699,-236.9223 152.9037,-232.3007 147.9408,-227.3641"/>
+</g>
+<!-- sourcefile~paralist.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_node13" class="node">
+<title>sourcefile~paralist.f90</title>
+<g id="a_sourcefile~~error.f90~~AfferentGraph_node13"><a xlink:href=".././sourcefile/paralist.f90.html" xlink:title="paralist.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="400.1531,-375.2317 336.4274,-375.2317 336.4274,-353.2208 400.1531,-353.2208 400.1531,-375.2317"/>
+<text text-anchor="middle" x="368.2903" y="-361.0763" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">paralist.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~paralist.f90&#45;&gt;sourcefile~error.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge12" class="edge">
+<title>sourcefile~paralist.f90&#45;&gt;sourcefile~error.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M336.5154,-365.1843C312.9951,-365.6605 280.1809,-365.8367 251.4122,-364.2263"/>
+</g>
+<!-- sourcefile~paralist.f90&#45;&gt;sourcefile~dictionary.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge15" class="edge">
+<title>sourcefile~paralist.f90&#45;&gt;sourcefile~dictionary.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M353.3637,-353.0535C338.7044,-342.2289 315.5752,-325.5419 294.7698,-312.2263 290.2209,-309.3149 285.3249,-306.3436 280.5187,-303.5129"/>
+<polygon fill="#000000" stroke="#000000" points="281.9098,-300.2743 271.5013,-298.2958 278.4042,-306.3332 281.9098,-300.2743"/>
+</g>
+<!-- sourcefile~paralist.f90&#45;&gt;sourcefile~string.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge28" class="edge">
+<title>sourcefile~paralist.f90&#45;&gt;sourcefile~string.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M336.466,-357.0727C302.8398,-348.5911 249.1026,-332.3534 208.0547,-307.2263 189.2844,-295.7362 189.5474,-286.581 172.0547,-273.2263 168.197,-270.2811 163.9734,-267.3832 159.7495,-264.6633"/>
+<polygon fill="#000000" stroke="#000000" points="161.5417,-261.6564 151.1961,-259.372 157.859,-267.6094 161.5417,-261.6564"/>
+</g>
+<!-- sourcefile~cumulator.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_node14" class="node">
+<title>sourcefile~cumulator.f90</title>
+<g id="a_sourcefile~~error.f90~~AfferentGraph_node14"><a xlink:href=".././sourcefile/cumulator.f90.html" xlink:title="cumulator.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="405.8313,-434.2317 330.7493,-434.2317 330.7493,-412.2208 405.8313,-412.2208 405.8313,-434.2317"/>
+<text text-anchor="middle" x="368.2903" y="-420.0763" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">cumulator.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~cumulator.f90&#45;&gt;sourcefile~error.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge13" class="edge">
+<title>sourcefile~cumulator.f90&#45;&gt;sourcefile~error.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M330.5388,-429.919C271.9825,-438.0186 158.8509,-444.2447 90,-387.2263 58.4629,-361.109 40.69,-315.0477 32.5414,-288.2263"/>
+<polygon fill="#000000" stroke="#000000" points="35.8278,-286.9886 29.7106,-278.3382 29.0981,-288.9153 35.8278,-286.9886"/>
+</g>
+<!-- sourcefile~cumulator.f90&#45;&gt;sourcefile~tensor_tools.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge18" class="edge">
+<title>sourcefile~cumulator.f90&#45;&gt;sourcefile~tensor_tools.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M330.666,-416.788C322.4161,-415.3763 313.5297,-413.8557 304.795,-412.361"/>
+<polygon fill="#000000" stroke="#000000" points="305.1054,-408.8634 294.6583,-410.6265 303.9246,-415.7631 305.1054,-408.8634"/>
+</g>
+<!-- sourcefile~lattice.f90&#45;&gt;sourcefile~error.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge2" class="edge">
+<title>sourcefile~lattice.f90&#45;&gt;sourcefile~error.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M363.5499,-260.6149C350.3522,-290.2973 310.2461,-367.5197 251.4122,-364.2263"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M251.4122,-364.2263C207.7945,-361.7846 208.2267,-330.7223 172.0547,-306.2263 155.4162,-294.9585 150.6673,-291.4774 131.0273,-287.2263"/>
+</g>
+<!-- sourcefile~lattice.f90&#45;&gt;sourcefile~dictionary.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge16" class="edge">
+<title>sourcefile~lattice.f90&#45;&gt;sourcefile~dictionary.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M339.6987,-258.5221C326.2828,-262.884 309.998,-268.1785 295.0859,-273.0268"/>
+<polygon fill="#000000" stroke="#000000" points="293.9565,-269.7136 285.5287,-276.1341 296.1209,-276.3706 293.9565,-269.7136"/>
+</g>
+<!-- sourcefile~lattice.f90&#45;&gt;sourcefile~string.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge29" class="edge">
+<title>sourcefile~lattice.f90&#45;&gt;sourcefile~string.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M339.6708,-249.1056C296.9305,-248.9255 216.3757,-248.586 168.8353,-248.3856"/>
+<polygon fill="#000000" stroke="#000000" points="168.6607,-244.8849 158.646,-248.3427 168.6311,-251.8849 168.6607,-244.8849"/>
+</g>
+<!-- sourcefile~lattice.f90&#45;&gt;sourcefile~unidic.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge30" class="edge">
+<title>sourcefile~lattice.f90&#45;&gt;sourcefile~unidic.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M364.4051,-238.1247C355.4425,-213.8216 331.2543,-155.137 294.7698,-118.2263 291.7462,-115.1673 288.2708,-112.3567 284.6314,-109.8126"/>
+<polygon fill="#000000" stroke="#000000" points="286.3055,-106.7308 275.9773,-104.3689 282.5784,-112.6561 286.3055,-106.7308"/>
+</g>
+<!-- sourcefile~date_time.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_node16" class="node">
+<title>sourcefile~date_time.f90</title>
+<g id="a_sourcefile~~error.f90~~AfferentGraph_node16"><a xlink:href=".././sourcefile/date_time.f90.html" xlink:title="date_time.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="289.0386,-182.2317 213.7858,-182.2317 213.7858,-160.2208 289.0386,-160.2208 289.0386,-182.2317"/>
+<text text-anchor="middle" x="251.4122" y="-168.0763" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">date_time.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~date_time.f90&#45;&gt;sourcefile~string.f90 -->
+<g id="sourcefile~~error.f90~~AfferentGraph_edge22" class="edge">
+<title>sourcefile~date_time.f90&#45;&gt;sourcefile~string.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M231.3792,-182.3844C223.9811,-186.6076 215.5712,-191.5303 208.0547,-196.2263 189.9814,-207.5176 170.0537,-220.9995 154.996,-231.4059"/>
+<polygon fill="#000000" stroke="#000000" points="152.9603,-228.5584 146.7439,-237.1379 156.9537,-234.3076 152.9603,-228.5584"/>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="186pt" height="31pt"
+ viewBox="0.00 0.00 186.41 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-26.5 182.4064,-26.5 182.4064,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node">
+<title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="65.1576,-22.2554 -.0526,-22.2554 -.0526,-.2446 65.1576,-.2446 65.1576,-22.2554"/>
+<text text-anchor="middle" x="32.5525" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#ffffff">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="#000000" points="178.2607,-22.2554 82.8443,-22.2554 82.8443,-.2446 178.2607,-.2446 178.2607,-22.2554"/>
+<text text-anchor="middle" x="130.5525" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="#000000">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a file to a file which it depends on. A file
+    is dependent upon another if the latter must be compiled before the former
+    can be.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+      
+      <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#mods-1">Modules</a></h3></div>
+  <div id="mods-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/error.html">error</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/error.f90.html#src">error.f90</a>
+  </div>
+</div>
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    <section>
+      <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl"><pre><span></span><a name="ln-1"></a><span class="k">module </span><span class="n">error</span>
+<a name="ln-2"></a><span class="k">use </span><span class="n">tools</span>  <span class="c">! writemess</span>
+<a name="ln-3"></a><span class="k">use </span><span class="n">mod_mpi_info</span> 
+<a name="ln-4"></a><span class="k">implicit none</span>
+<a name="ln-5"></a>
+<a name="ln-6"></a><span class="kt">logical</span> <span class="kd">::</span> <span class="n">test_tag</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
+<a name="ln-7"></a>
+<a name="ln-8"></a><span class="k">interface </span><span class="n">wc_error_stop</span>
+<a name="ln-9"></a>	<span class="k">module procedure </span><span class="n">wc_error_stop_mess2</span>
+<a name="ln-10"></a>	<span class="k">module procedure </span><span class="n">wc_error_stop_mess1</span>
+<a name="ln-11"></a>	<span class="k">module procedure </span><span class="n">wc_error_stop_nomess</span>
+<a name="ln-12"></a><span class="k">end interface</span>
+<a name="ln-13"></a>
+<a name="ln-14"></a><span class="k">contains</span>
+<a name="ln-15"></a>
+<a name="ln-16"></a><span class="k">subroutine </span><span class="n">error_test_tag</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+<a name="ln-17"></a>
+<a name="ln-18"></a>	<span class="kt">logical</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">tag</span>
+<a name="ln-19"></a>
+<a name="ln-20"></a>	<span class="n">test_tag</span><span class="o">=</span><span class="n">tag</span>
+<a name="ln-21"></a>	
+<a name="ln-22"></a><span class="k">end subroutine</span>
+<a name="ln-23"></a>
+<a name="ln-24"></a><span class="k">subroutine </span><span class="n">wc_error_stop_mess2</span><span class="p">(</span><span class="n">error_pos</span><span class="p">,</span><span class="n">error_mess</span><span class="p">)</span>
+<a name="ln-25"></a>
+<a name="ln-26"></a>	<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="kd">::</span><span class="n">error_pos</span><span class="p">,</span><span class="n">error_mess</span>
+<a name="ln-27"></a>	<span class="kt">integer</span><span class="kd">::</span><span class="n">ierr</span>
+<a name="ln-28"></a>
+<a name="ln-29"></a>	<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;In &#39;</span><span class="o">//</span><span class="nb">trim</span><span class="p">(</span><span class="n">error_pos</span><span class="p">)</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
+<a name="ln-30"></a>	<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="n">error_mess</span><span class="p">)</span>
+<a name="ln-31"></a>	<span class="k">call </span><span class="n">wc_outpicture</span><span class="p">()</span>
+<a name="ln-32"></a>	<span class="k">if</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span> <span class="n">test_tag</span><span class="p">)</span><span class="k">then</span>
+<a name="ln-33"></a><span class="k">		if</span><span class="p">(</span><span class="n">nproc</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">)</span> <span class="k">call </span><span class="n">MPI_Finalize</span><span class="p">(</span><span class="n">ierr</span><span class="p">)</span>
+<a name="ln-34"></a>		<span class="k">stop</span>
+<a name="ln-35"></a><span class="k">	end if</span>
+<a name="ln-36"></a>
+<a name="ln-37"></a><span class="k">end subroutine</span>
+<a name="ln-38"></a>
+<a name="ln-39"></a><span class="k">subroutine </span><span class="n">wc_error_stop_mess1</span><span class="p">(</span><span class="n">error_mess</span><span class="p">)</span>
+<a name="ln-40"></a>
+<a name="ln-41"></a>	<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="kd">::</span><span class="n">error_mess</span>
+<a name="ln-42"></a>	<span class="kt">integer</span><span class="kd">::</span><span class="n">ierr</span>
+<a name="ln-43"></a>
+<a name="ln-44"></a>	<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="n">error_mess</span><span class="p">)</span>
+<a name="ln-45"></a>	<span class="k">call </span><span class="n">wc_outpicture</span><span class="p">()</span>
+<a name="ln-46"></a>	<span class="k">if</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span> <span class="n">test_tag</span><span class="p">)</span><span class="k">then</span>
+<a name="ln-47"></a><span class="k">		if</span><span class="p">(</span><span class="n">nproc</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">)</span> <span class="k">call </span><span class="n">MPI_Finalize</span><span class="p">(</span><span class="n">ierr</span><span class="p">)</span>
+<a name="ln-48"></a>		<span class="k">stop</span>
+<a name="ln-49"></a><span class="k">	end if</span>
+<a name="ln-50"></a>
+<a name="ln-51"></a><span class="k">end subroutine	</span>
+<a name="ln-52"></a>
+<a name="ln-53"></a><span class="k">subroutine </span><span class="n">wc_error_stop_nomess</span><span class="p">()</span>
+<a name="ln-54"></a>
+<a name="ln-55"></a>	<span class="kt">integer</span><span class="kd">::</span><span class="n">ierr</span>
+<a name="ln-56"></a>	
+<a name="ln-57"></a>	<span class="k">call </span><span class="n">wc_outpicture</span><span class="p">()</span>
+<a name="ln-58"></a>	<span class="k">if</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span> <span class="n">test_tag</span><span class="p">)</span><span class="k">then</span>
+<a name="ln-59"></a><span class="k">		if</span><span class="p">(</span><span class="n">nproc</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">)</span> <span class="k">call </span><span class="n">MPI_Finalize</span><span class="p">(</span><span class="n">ierr</span><span class="p">)</span>
+<a name="ln-60"></a>		<span class="k">stop</span>
+<a name="ln-61"></a><span class="k">	end if</span>
+<a name="ln-62"></a>
+<a name="ln-63"></a><span class="k">end subroutine	</span>
+<a name="ln-64"></a>
+<a name="ln-65"></a><span class="k">subroutine </span><span class="n">wc_outpicture</span><span class="p">()</span>
+<a name="ln-66"></a>
+<a name="ln-67"></a>	<span class="kt">integer</span><span class="kd">::</span><span class="n">pic</span>
+<a name="ln-68"></a>
+<a name="ln-69"></a>	<span class="k">call </span><span class="nb">system_clock</span><span class="p">(</span><span class="n">pic</span><span class="p">)</span> <span class="c">! millisecond</span>
+<a name="ln-70"></a>
+<a name="ln-71"></a>	<span class="k">select case</span><span class="p">(</span><span class="nb">modulo</span><span class="p">(</span><span class="n">pic</span><span class="p">,</span><span class="mi">7</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-72"></a>	<span class="k">case</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-73"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;                                                 &#39;</span><span class="p">)</span>
+<a name="ln-74"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;      __                                         &#39;</span><span class="p">)</span>
+<a name="ln-75"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;     #####                    ###                &#39;</span><span class="p">)</span>
+<a name="ln-76"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;    #########___---------____#####               &#39;</span><span class="p">)</span>
+<a name="ln-77"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;    ########                 #####               &#39;</span><span class="p">)</span>
+<a name="ln-78"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;     ######                   ###                &#39;</span><span class="p">)</span>
+<a name="ln-79"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;      ####                     ##                &#39;</span><span class="p">)</span>
+<a name="ln-80"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;       ##                       \     ________________________________   &#39;</span><span class="p">)</span>
+<a name="ln-81"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;       /        ##       ##      |   |you have bugs!!                 |  &#39;</span><span class="p">)</span>
+<a name="ln-82"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;       |       #0#       #0#      |  |Report ONLY bugs of the package |  &#39;</span><span class="p">)</span>
+<a name="ln-83"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;       |      ###         ###     |  /to wang1329@mail.ustc.edu.cn !  |  &#39;</span><span class="p">)</span>
+<a name="ln-84"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;       |      #            ##     | /_________________________________|  &#39;</span><span class="p">)</span>
+<a name="ln-85"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;       |             ####         |              &#39;</span><span class="p">)</span>
+<a name="ln-86"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;      /\         \    ##   /     /               &#39;</span><span class="p">)</span>
+<a name="ln-87"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;     /  \         \_______/     /                &#39;</span><span class="p">)</span>
+<a name="ln-88"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;    ###  \              \\     ##                &#39;</span><span class="p">)</span>
+<a name="ln-89"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;   ######################\\########              &#39;</span><span class="p">)</span>
+<a name="ln-90"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39; #########################\\########             &#39;</span><span class="p">)</span>
+<a name="ln-91"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;                           \\                    &#39;</span><span class="p">)</span>
+<a name="ln-92"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;                                                 &#39;</span><span class="p">)</span>
+<a name="ln-93"></a>	<span class="k">case</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<a name="ln-94"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;                                                &#39;</span><span class="p">)</span>
+<a name="ln-95"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;                      ________                  &#39;</span><span class="p">)</span>
+<a name="ln-96"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;                    _/__|__|__\_                &#39;</span><span class="p">)</span>
+<a name="ln-97"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;                   /     _      \               &#39;</span><span class="p">)</span>
+<a name="ln-98"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;                  /_   _(_)_   __\              &#39;</span><span class="p">)</span>
+<a name="ln-99"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;                 ||_| |____o| |_|_|             &#39;</span><span class="p">)</span>
+<a name="ln-100"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;             ____|================|___          &#39;</span><span class="p">)</span>
+<a name="ln-101"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;            |    |   __________   |   \         &#39;</span><span class="p">)</span>
+<a name="ln-102"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;            |    |  | WARNING! |  |    \        &#39;</span><span class="p">)</span>
+<a name="ln-103"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;            |   ||  | you      |  |\    \       &#39;</span><span class="p">)</span>
+<a name="ln-104"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;            |   ||  |  have    |  | \    \      &#39;</span><span class="p">)</span>
+<a name="ln-105"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;            |   ||  |    bugs  |  |  \    \     &#39;</span><span class="p">)</span>
+<a name="ln-106"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;            |   ||  |__________|  |   \    \    &#39;</span><span class="p">)</span>
+<a name="ln-107"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;            |   ||                |    \____\   &#39;</span><span class="p">)</span>
+<a name="ln-108"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;            |   ||________________|      | \    &#39;</span><span class="p">)</span>
+<a name="ln-109"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;            |___|      \     /           |  \   &#39;</span><span class="p">)</span>
+<a name="ln-110"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;             / \        \___/            |___\  &#39;</span><span class="p">)</span>
+<a name="ln-111"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;            /   \       /   \                   &#39;</span><span class="p">)</span>
+<a name="ln-112"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;           /_____\     /_____\                  &#39;</span><span class="p">)</span>
+<a name="ln-113"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;_____________________________________________________________ &#39;</span><span class="p">)</span>
+<a name="ln-114"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;|Report ONLY bugs of the package to wang1329@mail.ustc.edu.cn|&#39;</span><span class="p">)</span>
+<a name="ln-115"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;`~----------------------------------------------------------~`&#39;</span><span class="p">)</span>
+<a name="ln-116"></a>	<span class="k">case</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<a name="ln-117"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;                                  &#39;</span><span class="p">)</span>
+<a name="ln-118"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;                    |_|           &#39;</span><span class="p">)</span>
+<a name="ln-119"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;                  _P   P_         &#39;</span><span class="p">)</span>
+<a name="ln-120"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;           \___  /  \|/  \  ___/  &#39;</span><span class="p">)</span>
+<a name="ln-121"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;               \/    |    \/      &#39;</span><span class="p">)</span>
+<a name="ln-122"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;                |  0 |   0|       &#39;</span><span class="p">)</span>
+<a name="ln-123"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;             __/| 000|  00|\__    &#39;</span><span class="p">)</span>
+<a name="ln-124"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;            /   \  00|    /   \   &#39;</span><span class="p">)</span>
+<a name="ln-125"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;              __/\___|___/\__     &#39;</span><span class="p">)</span>
+<a name="ln-126"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;             /               \    &#39;</span><span class="p">)</span>
+<a name="ln-127"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39; _______________                  &#39;</span><span class="p">)</span>
+<a name="ln-128"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;|you have bugs! |____________________________________________ &#39;</span><span class="p">)</span>
+<a name="ln-129"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;|Report ONLY bugs of the package to wang1329@mail.ustc.edu.cn|&#39;</span><span class="p">)</span>
+<a name="ln-130"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;`~----------------------------------------------------------~`&#39;</span><span class="p">)</span>
+<a name="ln-131"></a>	<span class="k">case</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<a name="ln-132"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;                                          &#39;</span><span class="p">)</span>
+<a name="ln-133"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;                ______                    &#39;</span><span class="p">)</span>
+<a name="ln-134"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;               /__    \                   &#39;</span><span class="p">)</span>
+<a name="ln-135"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;              /\_/     \                  &#39;</span><span class="p">)</span>
+<a name="ln-136"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;            _/__       |                  &#39;</span><span class="p">)</span>
+<a name="ln-137"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;           / \_/       |                  &#39;</span><span class="p">)</span>
+<a name="ln-138"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;      _____|_____      |               ________________________________ &#39;</span><span class="p">)</span>
+<a name="ln-139"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;     |   |   |   |     |              |you have bugs!!                 |&#39;</span><span class="p">)</span>
+<a name="ln-140"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;     |   |   |   |     |              |Report ONLY bugs of the package |&#39;</span><span class="p">)</span>
+<a name="ln-141"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;     |   |   |   |     /              |to wang1329@mail.ustc.edu.cn !  |&#39;</span><span class="p">)</span>
+<a name="ln-142"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;     |___|___|___|_   /              /`-------------------------------- &#39;</span><span class="p">)</span>
+<a name="ln-143"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;    /  _  _   _    \_/             ()     &#39;</span><span class="p">)</span>
+<a name="ln-144"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;    | | || |.| | | |            --/|_/    &#39;</span><span class="p">)</span>
+<a name="ln-145"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;    | |_||_|.|_| | |            --\/      &#39;</span><span class="p">)</span>
+<a name="ln-146"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;    \______________/            --/-\     &#39;</span><span class="p">)</span>
+<a name="ln-147"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;     |   |   |   |               /  /     &#39;</span><span class="p">)</span>
+<a name="ln-148"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;     |   |   |   |                        &#39;</span><span class="p">)</span>
+<a name="ln-149"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;     |   |   |   |                        &#39;</span><span class="p">)</span>
+<a name="ln-150"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;     |   |   |   |                        &#39;</span><span class="p">)</span>
+<a name="ln-151"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;     |   |   |   |                        &#39;</span><span class="p">)</span>
+<a name="ln-152"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;     |___|___|___|                        &#39;</span><span class="p">)</span>
+<a name="ln-153"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;                                          &#39;</span><span class="p">)</span>
+<a name="ln-154"></a>	<span class="k">case</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<a name="ln-155"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;                                       &#39;</span><span class="p">)</span>
+<a name="ln-156"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;      _______ _______________          &#39;</span><span class="p">)</span>
+<a name="ln-157"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;     |       |_     _|       |         &#39;</span><span class="p">)</span>
+<a name="ln-158"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;     |        _| _ |_        |         &#39;</span><span class="p">)</span>
+<a name="ln-159"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;     |__   __|__| |__|__   __|         &#39;</span><span class="p">)</span>
+<a name="ln-160"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;     |  |_| _|       |_ |_|  |        _      &#39;</span><span class="p">)</span>
+<a name="ln-161"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;     |   _ |_         _| _   |     __| |__   &#39;</span><span class="p">)</span>
+<a name="ln-162"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;     |__| |__|__   __|__| |__|   _|      _|  &#39;</span><span class="p">)</span>
+<a name="ln-163"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;     |      _|  |_| _|       |  |_      |_   &#39;</span><span class="p">)</span>
+<a name="ln-164"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;     |     |_      |_        |    |_______|  &#39;</span><span class="p">)</span>
+<a name="ln-165"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;     |_______|       |_______|               &#39;</span><span class="p">)</span>
+<a name="ln-166"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;                                       &#39;</span><span class="p">)</span>
+<a name="ln-167"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39; _______________                       &#39;</span><span class="p">)</span>
+<a name="ln-168"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;|you have bugs! |____________________________________________ &#39;</span><span class="p">)</span>
+<a name="ln-169"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;|Report ONLY bugs of the package to wang1329@mail.ustc.edu.cn|&#39;</span><span class="p">)</span>
+<a name="ln-170"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;`~----------------------------------------------------------~`&#39;</span><span class="p">)</span>
+<a name="ln-171"></a>	<span class="k">case</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<a name="ln-172"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;                                                             &#39;</span><span class="p">)</span>
+<a name="ln-173"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;       ___    ___    ___    ___    ___    ___                &#39;</span><span class="p">)</span>
+<a name="ln-174"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;      |___|--|___|--|___|--|___|--|___|--|___|               &#39;</span><span class="p">)</span>
+<a name="ln-175"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;        |      |      |      |      |      |                 &#39;</span><span class="p">)</span>
+<a name="ln-176"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;       _|_    _|_    _|_           _|_    _|_    _|_         &#39;</span><span class="p">)</span>
+<a name="ln-177"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;      |___|--|___|--|___|---------|___|--|___|--|___|        &#39;</span><span class="p">)</span>
+<a name="ln-178"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;                                                             &#39;</span><span class="p">)</span>
+<a name="ln-179"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39; _______________                                              &#39;</span><span class="p">)</span>
+<a name="ln-180"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;|you have bugs! |____________________________________________ &#39;</span><span class="p">)</span>
+<a name="ln-181"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;|Report ONLY bugs of the package to wang1329@mail.ustc.edu.cn|&#39;</span><span class="p">)</span>
+<a name="ln-182"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;`~----------------------------------------------------------~`&#39;</span><span class="p">)</span>
+<a name="ln-183"></a>	<span class="k">case</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+<a name="ln-184"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;                                               &#39;</span><span class="p">)</span>
+<a name="ln-185"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;          ____             ____                &#39;</span><span class="p">)</span>
+<a name="ln-186"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;         /  \ \           / /  \               &#39;</span><span class="p">)</span>
+<a name="ln-187"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;        |###\| \         / |/###|              &#39;</span><span class="p">)</span>
+<a name="ln-188"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;        |###//  \_______/  \\###|              &#39;</span><span class="p">)</span>
+<a name="ln-189"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;         \__/               \__/               &#39;</span><span class="p">)</span>
+<a name="ln-190"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;         |                     |        ________________________________   &#39;</span><span class="p">)</span>
+<a name="ln-191"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;         \_____________________/       |you have bugs !!                |  &#39;</span><span class="p">)</span>
+<a name="ln-192"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;        / \                   / \      |Report ONLY bugs of the package |  &#39;</span><span class="p">)</span>
+<a name="ln-193"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;       /   \                 /   \     /to wang1329@mail.ustc.edu.cn !  |  &#39;</span><span class="p">)</span>
+<a name="ln-194"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;      /     \               /     \   /_________________________________|  &#39;</span><span class="p">)</span>
+<a name="ln-195"></a>		<span class="k">call </span><span class="n">writemess</span><span class="p">(</span><span class="s1">&#39;                                                 &#39;</span><span class="p">)</span>
+<a name="ln-196"></a>	<span class="k">end select</span>
+<a name="ln-197"></a><span class="k">end subroutine </span>
+<a name="ln-198"></a>
+<a name="ln-199"></a><span class="k">end module </span><span class="n">error</span>
+</pre></div>
+
+    </section>
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2019 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+                                          </p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+            
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> TNSG was developed by Wang Chao & Dong Shaojun</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

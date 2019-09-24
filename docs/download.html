@@ -1,7 +1,8 @@
 <html>
 <head>
-	<title>TNSPackage</title>
+	<title>TNSGit</title>
 	<link rel="stylesheet" type="text/css" href="./main.css" id="lnk">
+    <link rel="icon" href="./pic/icon.png">
 	<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 	<script src="archive.js"></script>
 	<script src="mob_view.js"></script>
@@ -60,26 +61,60 @@
 		</h2>
 		<div class="content-elem">
 			<p>
-				TNSG uses many features of the Fortran 2003 standard, and can be successfully compiled by <a href="https://gcc.gnu.org/">GNU fortran compiler</a> later than 5.4.0 version. In Debian/Unbuntu, it can be installed by
+				TNSG uses many features of the Fortran 2003 standard, and can be successfully compiled by <a href="https://gcc.gnu.org/">GNU fortran compiler</a> later than 5.4.0 version.
 			 </p>
-			<code>
-				apt-get install gfortran
-			</code>
 			<p>
-				TNSG uses MPI for parallel programming. A popular choice is <a href="https://www.open-mpi.org/">Openmpi</a>. In Debian/Ubuntu, it can be installed by
+				TNSG uses MPI for parallel programming. A popular choice is <a href="https://www.open-mpi.org/">Openmpi</a>. 
 			</p>
-			<code>
-			    apt-get install libopenmpi-dev
-			</code>
 			<p>
-				TNSG uses <a href="http://www.netlib.org/lapack/">Lapack</a> and <a href="http://www.openblas.net">Blas</a> as math library. In Debian/Unbuntu, they can be installed by
+				TNSG uses <a href="http://www.netlib.org/lapack/">Lapack</a> and <a href="http://www.openblas.net">Blas</a> as math library. Or you may use <a href="https://software.intel.com/en-us/mkl/">Intel Math Kernel Library</a> which integrets Lapack and Blas.
 			</p>
-			<code>
-				apt-get install liblapack-dev
-			</code>
+		</div>
+		<h3>
+			Debian/Unbuntu
+		</h3>
+		<div class="content-elem">
 			<p>
-				Or you may use <a href="https://software.intel.com/en-us/mkl/">Intel Math Kernel Library</a> which integrets Lapack and Blas.
-			</p>
+				In Debian/Unbuntu, the prerequisites can be installed by
+			 </p>
+			 <pre>
+				<code>apt-get install gfortran
+apt-get install libopenmpi-dev
+apt-get install libblas-dev liblapack-dev</code>
+			</pre>
+		</div>
+		<h3>
+			CentOS
+		</h3>
+		<div class="content-elem">
+			<p>
+				In CentOS, the prerequisites can be installed by
+			 </p>
+			 <pre>
+				<code>yum install gcc
+yum install openmpi openmpi-devel
+yum install blas blas-devel lapack lapack-devel</code>
+			</pre>
+			<p>
+				One may also need to load the module for openmpi
+			 </p>
+			 <pre>
+				<code>module add name_of_openmpi</code>
+			</pre>
+		</div>
+		<h3>
+			Mac Os
+		</h3>
+		<div class="content-elem">
+			<p>
+				In Mac Os, it would be conveniet to use a pack manager such as <a href="https://brew.sh">Homebrew</a>. Then the prerequisites can be installed by
+			 </p>
+			 <pre>
+				<code>brew install gcc
+brew install openmpi
+brew install openblas lapack</code>
+			</pre>
+			<p>
 		</div>
 		<h2>
 			Installation Guide
