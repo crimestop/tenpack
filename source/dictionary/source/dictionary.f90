@@ -1,5 +1,6 @@
 module mod_dictionary
 use error
+use mod_mpi_info
 use string
 use tensor_type
 implicit none
@@ -1228,7 +1229,7 @@ subroutine print(D,unit,end_tag_)
 			if(present(unit))then
 				write(unit,*) trim(formatl)
 			else
-				call writemess(formatl)
+				call write_message(formatl)
 			end if
 
 			select case(type_name(type))
@@ -1245,7 +1246,7 @@ subroutine print(D,unit,end_tag_)
 					if(present(unit))then
 						write(unit,*) trim(formatl)
 					else
-						call writemess(formatl)
+						call write_message(formatl)
 					end if
 				end do
 			case('dbl_ary')
@@ -1255,7 +1256,7 @@ subroutine print(D,unit,end_tag_)
 					if(present(unit))then
 						write(unit,*) trim(formatl)
 					else
-						call writemess(formatl)
+						call write_message(formatl)
 					end if
 				end do
 			case('char_ary')
@@ -1265,7 +1266,7 @@ subroutine print(D,unit,end_tag_)
 					if(present(unit))then
 						write(unit,*) trim(formatl)
 					else
-						call writemess(formatl)
+						call write_message(formatl)
 					end if
 				end do
 			case('logi_ary')
@@ -1275,7 +1276,7 @@ subroutine print(D,unit,end_tag_)
 					if(present(unit))then
 						write(unit,*) trim(formatl)
 					else
-						call writemess(formatl)
+						call write_message(formatl)
 					end if
 				end do
 			end select

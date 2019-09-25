@@ -248,9 +248,9 @@ subroutine get_info(T)
 	integer::L1,L2
 
 	call T%grp%get_info
-	call writemess('The dim of tensor is :')
+	call write_message('The dim of tensor is :')
 	call T%diminfo()
-	call writemess('The program has been paused. Please press any key to continue')
+	call write_message('The program has been paused. Please press any key to continue')
 	read(*,*)
 
 end subroutine

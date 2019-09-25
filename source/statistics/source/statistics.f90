@@ -1,7 +1,7 @@
 module statistics
 use string
 use error
-use tools
+use mod_mpi_info
 implicit none
 
 	private
@@ -334,15 +334,15 @@ contains
 		character(len=*)::sta_name
 
 		if(ST%empty)then
-			call writemess('Statistics on '//trim(sta_name)//' : empty')
+			call write_message('Statistics on '//trim(sta_name)//' : empty')
 		end if
 
 		tot_rep=sum(ST%repeats(1:ST%key_num))
 		tot_val=sum(ST%val(1:ST%key_num))
 
-		call writemess('Statistics on '//trim(sta_name)//' :')
+		call write_message('Statistics on '//trim(sta_name)//' :')
 		do i=1,ST%key_num
-			call writemess('   '//trim(sta_name)//' = '//trim(str(ST%key(:,i)))&
+			call write_message('   '//trim(sta_name)//' = '//trim(str(ST%key(:,i)))&
 				//' : '//trim(str(ST%val(i)))//' '//trim(str(ST%val(i)/tot_val)))
 		end do
 
@@ -356,7 +356,7 @@ contains
 		real,allocatable::ave_key(:)
 
 		if(ST%empty)then
-			call writemess('Statistics on '//trim(sta_name)//' : empty')
+			call write_message('Statistics on '//trim(sta_name)//' : empty')
 		end if
 
 		tot_rep=sum(ST%repeats(1:ST%key_num))
@@ -365,11 +365,11 @@ contains
 			ave_key(i)=sum(ST%key(i,:ST%key_num)*ST%repeats(:ST%key_num))/real(tot_rep)
 		end do
 
-		call writemess('Statistics on '//trim(sta_name)//' :')
+		call write_message('Statistics on '//trim(sta_name)//' :')
 		do i=1,ST%key_num
-			call writemess('   '//trim(sta_name)//' = '//trim(str(ST%key(:,i)))//' :'//trim(str(real(ST%repeats(i))/real(tot_rep))))
+			call write_message('   '//trim(sta_name)//' = '//trim(str(ST%key(:,i)))//' :'//trim(str(real(ST%repeats(i))/real(tot_rep))))
 		end do
-		call writemess('Average '//trim(sta_name)//' is: '//trim(str(ave_key)))
+		call write_message('Average '//trim(sta_name)//' is: '//trim(str(ave_key)))
 
 	end subroutine
 

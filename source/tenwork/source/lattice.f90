@@ -522,7 +522,7 @@ subroutine generate_ten(L,D,datatype,type_)
 			do k=1,nb_num
 				call L%sites(i)%tensor%setName(k,L%sites(i)%bonds(k)%ind)
 			end do
-			if(phy_dim>0) call L%sites(i)%tensor%setName(nb_num+1,L%sites(i)%name+'.phy')
+			if(phy_dim>0) call L%sites(i)%tensor%setName(nb_num+1,trim(L%sites(i)%name)//'.phy')
 		end if
 	end do
 
@@ -703,7 +703,7 @@ subroutine check_empty_whole(L)
 	class(lattice),intent(in) ::L
 
 	if(.not. L%empty_tag) then
-		call writemess('Lattice is not empty!')
+		call write_message('Lattice is not empty!')
 		call wc_error_stop
 	end if
 	
@@ -717,7 +717,7 @@ subroutine check_empty_site_pos(L,pos)
 	call L%check_unempty()
 	call L%check_boundary(pos)
 	if(L%raw_pos(pos(1),pos(2))>0)then
-		call writemess(trim(str(pos))//' is not empty in Lattice '//trim(L%name))
+		call write_message(trim(str(pos))//' is not empty in Lattice '//trim(L%name))
 		call wc_error_stop
 	end if
 	
@@ -730,7 +730,7 @@ subroutine check_empty_site_name(L,name)
 
 	call L%check_unempty()
 	if(L%get_rawpos(name)>0)then
-		call writemess(trim(name)//' is not empty in Lattice '//trim(L%name))
+		call write_message(trim(name)//' is not empty in Lattice '//trim(L%name))
 		call wc_error_stop
 	end if
 	
@@ -741,7 +741,7 @@ subroutine check_unempty_whole(L)
 	class(lattice),intent(in) ::L
 
 	if(L%empty_tag) then
-		call writemess('Lattice is empty!')
+		call write_message('Lattice is empty!')
 		call wc_error_stop
 	end if
 	
@@ -755,7 +755,7 @@ subroutine check_unempty_site_pos(L,pos)
 	call L%check_boundary(pos)
 	call L%check_unempty()
 	if(L%raw_pos(pos(1),pos(2))==0)then
-		call writemess(trim(str(pos))//' is empty in Lattice '//trim(L%name))
+		call write_message(trim(str(pos))//' is empty in Lattice '//trim(L%name))
 		call wc_error_stop
 	end if
 	
@@ -768,7 +768,7 @@ subroutine check_unempty_site_name(L,name)
 
 	call L%check_unempty()
 	if(L%get_rawpos(name)==0)then
-		call writemess(trim(name)//' is empty in Lattice '//trim(L%name))
+		call write_message(trim(name)//' is empty in Lattice '//trim(L%name))
 		call wc_error_stop
 	end if
 	
@@ -781,7 +781,7 @@ subroutine check_boundary(L,pos)
 
 	call L%check_unempty()
 	if(pos(1)<1.or.pos(1)>L%L1.or.pos(2)<1.or.pos(2)>L%L2) then
-		call writemess('Site ('+pos(1)+','+pos(2)+') is out of boundary of a_'+L%L1+'X'+L%L2+'_lattice:'+L%name)
+		call write_message('Site ('//str(pos)//') is out of boundary of a_'//str(L%L1)//'X'//str(L%L2)//'_lattice:'//trim(L%name))
 		call wc_error_stop
 	end if
 	
@@ -794,8 +794,8 @@ subroutine check_consistency(L)
 	integer::i,k,nb_rawpos,nb_no,nb_nb_rawpos,nb_nb_no
 	logical::pass(4)=.true.,pass2=.true.
 
-	call writemess('=======================================')
-	call writemess('check_consistency')
+	call write_message('=======================================')
+	call write_message('check_consistency')
 
 	if(L%empty_tag)then
 
@@ -806,9 +806,9 @@ subroutine check_consistency(L)
 		pass2=pass2.and.(.not.allocated(L%sites))
 		pass2=pass2.and.(.not.allocated(L%raw_pos))
 		if(pass2)then
-			call writemess('Everything is consistent')
+			call write_message('Everything is consistent')
 		else
-			call writemess('Something is inconsistent for empty lattice')
+			call write_message('Something is inconsistent for empty lattice')
 		end if
 	else
 
@@ -848,14 +848,14 @@ subroutine check_consistency(L)
 					nb_no=L%sites(i)%bonds(k)%nb_no
 					if(nb_rawpos==i)then
 						pass(4)=.false.
-						call writemess('site ('+i+'-'+k+') links to itself')
+						call write_message('site ('//str(i)//'-'//str(k)//') links to itself')
 					end if
 					if(nb_rawpos>i)then
 						nb_nb_rawpos=L%sites(nb_rawpos)%bonds(nb_no)%nb_rawpos
 						nb_nb_no=L%sites(nb_rawpos)%bonds(nb_no)%nb_no
 						if(.not.(nb_nb_rawpos==i .and. nb_nb_no==k))then
 							pass(4)=.false.
-							call writemess('site ('+i+'-'+k+') has wrong return')
+							call write_message('site ('//str(i)//'-'//str(k)//') has wrong return')
 						end if
 					end if
 				end do
@@ -866,10 +866,10 @@ subroutine check_consistency(L)
 		end if
 
 		if(all(pass))then
-			call writemess('Everything is consistent')
+			call write_message('Everything is consistent')
 		end if
 	end if
-	call writemess('=======================================')
+	call write_message('=======================================')
 
 end subroutine
 
@@ -1678,11 +1678,11 @@ subroutine mirror_con(L,L_old,line2,nline)
 	call L_old%get_size(L1_old,L2_old)
 
 	if(.not.(1<=line2.and.line2+nline-1<=L1_old)) then
-		call writemess('Input for lattice:'+L_old%get_name()+'_do not statisfy 1<=line2<=line2+nline-1<=height')
+		call write_message('Input for lattice:'//trim(L_old%get_name())//'_do not statisfy 1<=line2<=line2+nline-1<=height')
 		call wc_error_stop
 	end if
 
-	call L%initialize(L_old%name+'_mirror',2*L_old%L1,L_old%L2,L_old%max_nb_num)
+	call L%initialize(L_old%name//trim('_mirror'),2*L_old%L1,L_old%L2,L_old%max_nb_num)
 
 	tn_num=0
 	do i=1,L_old%max_site_num
@@ -1692,8 +1692,8 @@ subroutine mirror_con(L,L_old,line2,nline)
 				tn_num=tn_num+1
 				call L%add([pos(1)-line2+1,pos(2)],L_old%sites(i)%name,L_old%sites(i)%tensor,.false.)
 				call L%set_contag(L_old%sites(i)%name,L_old%sites(i)%con_tag)
-				call L%add([line2+2*nline-pos(1),pos(2)],'mir_'+L_old%sites(i)%name,L_old%sites(i)%tensor,.true.)
-				call L%set_contag('mir_'+L_old%sites(i)%name,.not. L_old%sites(i)%con_tag)
+				call L%add([line2+2*nline-pos(1),pos(2)],'mir_'//trim(L_old%sites(i)%name),L_old%sites(i)%tensor,.true.)
+				call L%set_contag('mir_'//trim(L_old%sites(i)%name),.not. L_old%sites(i)%con_tag)
 			end if
 		end if
 	end do
@@ -1712,15 +1712,15 @@ subroutine mirror_con(L,L_old,line2,nline)
 					ind2=L_old%sites(nb_rawpos)%bonds(nb_no)%ind
 					if(nb_rawpos>i .and. nb_pos(1)>=line2 .and. nb_pos(1)<=line2+nline-1) then
 						call L%set_bond(name,name2,ind,ind2)
-						call L%set_bond('mir_'+name,'mir_'+name2,'mir_'+ind,'mir_'+ind2)
-						call L%get_tensor_link('mir_'+name,tn_pointer)
-						call tn_pointer%setname(ind,'mir_'+ind)
-						call L%get_tensor_link('mir_'+name2,tn_pointer)
-						call tn_pointer%setname(ind2,'mir_'+ind2)
+						call L%set_bond('mir_'//trim(name),'mir_'//trim(name2),'mir_'//trim(ind),'mir_'//trim(ind2))
+						call L%get_tensor_link('mir_'//trim(name),tn_pointer)
+						call tn_pointer%setname(ind,'mir_'//trim(ind))
+						call L%get_tensor_link('mir_'//trim(name2),tn_pointer)
+						call tn_pointer%setname(ind2,'mir_'//trim(ind2))
 					else if (nb_pos(1)>line2+nline-1 .or. nb_pos(1)<line2) then
-						call L%get_tensor_link('mir_'+name,tn_pointer)
-						call tn_pointer%setname(ind,'mir_'+ind)
-						call L%set_bond(name,'mir_'+name,ind,'mir_'+ind)
+						call L%get_tensor_link('mir_'//trim(name),tn_pointer)
+						call tn_pointer%setname(ind,'mir_'//trim(ind))
+						call L%set_bond(name,'mir_'//trim(name),ind,'mir_'//trim(ind))
 					end if
 				end do
 			end if
@@ -1858,7 +1858,7 @@ integer function get_rawpos_pos(L,pos)
 	call L%check_boundary(pos)
 	get_rawpos_pos=L%raw_pos(pos(1),pos(2))
 	if(get_rawpos_pos<=0)then
-		call writemess(trim(str(pos))//' is empty in Lattice '//trim(L%name))
+		call write_message(trim(str(pos))//' is empty in Lattice '//trim(L%name))
 		call wc_error_stop
 	end if
 
@@ -1872,7 +1872,7 @@ integer function get_rawpos_name(L,name)
 	call L%check_unempty()
 	get_rawpos_name=L%name_dic%val(name)
 	if(get_rawpos_name<=0)then
-		call writemess(trim(name)//' is empty in Lattice '//trim(L%name))
+		call write_message(trim(name)//' is empty in Lattice '//trim(L%name))
 		call wc_error_stop
 	end if
 
@@ -2273,20 +2273,20 @@ subroutine set_bond_pos(L,pos,pos2,dir_,dir2_)
 	if(present(dir_))then
 		dir=dir_
 	else
-		dir=trim(L%sites(rawpos)%name+'.'+L%sites(rawpos2)%name)
+		dir=trim(L%sites(rawpos)%name)//'.'//trim(L%sites(rawpos2)%name)
 	end if
 
 	if(present(dir2_))then
 		dir2=dir2_
 	else
-		dir2=trim(L%sites(rawpos2)%name+'.'+L%sites(rawpos)%name)
+		dir2=trim(trimL%sites(rawpos2)%name)//'.'//trim(L%sites(rawpos)%name)
 	end if
 
 	call set_bond_rawpos(L,rawpos,dir,rawpos2,dir2,exist,exist2)
 
-	if(exist) call wc_error_stop('set_bond',dir+'_existed at ('+pos(1)+','+pos(2)+') for lattice_'+L%name)
+	if(exist) call wc_error_stop('set_bond',trim(dir)//'_existed at ('//str(pos)//') for lattice_'//trim(L%name))
 
-	if(exist2) call wc_error_stop('set_bond',dir2+'_existed at ('+pos2(1)+','+pos2(2)+') for lattice_'+L%name)
+	if(exist2) call wc_error_stop('set_bond',trim(dir2)//'_existed at ('//str(pos2)//') for lattice_'//trim(L%name))
 
 end subroutine
 
@@ -2301,23 +2301,23 @@ subroutine set_bond_name(L,name,name2,dir_,dir2_)
 	
 	rawpos=L%get_rawpos(name)
 	if(rawpos<=0)then
-		call wc_error_stop('set_bond_name','site: '+name+' donot exist')
+		call wc_error_stop('set_bond_name','site: '//trim(name)//' do not exist')
 	end if
 	rawpos2=L%get_rawpos(name2)
 	if(rawpos2<=0)then
-		call wc_error_stop('set_bond_name','site: '+name2+' donot exist')
+		call wc_error_stop('set_bond_name','site: '//trim(name2)//' do not exist')
 	end if
 
 	if(present(dir_))then
 		dir=dir_
 	else
-		dir=trim(L%sites(rawpos)%name+'.'+L%sites(rawpos2)%name)
+		dir=trim(L%sites(rawpos)%name)//'.'//trim(L%sites(rawpos2)%name)
 	end if
 
 	if(present(dir2_))then
 		dir2=dir2_
 	else
-		dir2=trim(L%sites(rawpos2)%name+'.'+L%sites(rawpos)%name)
+		dir2=trim(L%sites(rawpos2)%name)//'.'//trim(L%sites(rawpos)%name)
 	end if
 
 	call set_bond_rawpos(L,rawpos,dir,rawpos2,dir2,exist,exist2)
@@ -2422,7 +2422,7 @@ character(len=max_char_length) function ind_name(L,pos,no) result(ind)
 	
 	rawpos=L%get_rawpos(pos)
 	if(no>L%sites(rawpos)%nb_num) then
-		call wc_error_stop('ind_name','Bond NO.'+no+' at ('+pos(1)+','+pos(2)+') does not exist.')
+		call wc_error_stop('ind_name','Bond NO.'//str(no)//' at ('//str(pos)//') does not exist.')
 	end if
 	ind=L%sites(rawpos)%bonds(no)%ind
 
@@ -2497,7 +2497,7 @@ subroutine get_bond_pos(L,pos,no,ind,nb_pos,nb_no,nb_ind)
 		end if
 	end do 
 
-	call wc_error_stop('get_bond_pos','Bond from ('+pos(1)+','+pos(2)+') to ('+nb_pos(1)+','+nb_pos(2)+') does not exist.')
+	call wc_error_stop('get_bond_pos','Bond from ('//str(pos)//') to ('//str(nb_pos)//') does not exist.')
 
 end subroutine
 
@@ -2521,7 +2521,7 @@ subroutine get_bond_name(L,name,no,ind,nb_name,nb_no,nb_ind)
 		end if
 	end do 
 
-	call wc_error_stop('get_bond_name','Bond from '+name+' to '+nb_name+' does not exist.')
+	call wc_error_stop('get_bond_name','Bond from '//trim(name)//' to '//trim(nb_name)//' does not exist.')
 
 end subroutine
 
@@ -2601,7 +2601,7 @@ subroutine get_bond_no_pos(L,pos,no,ind,nb_pos,nb_no,nb_ind)
 	
 	rawpos=L%get_rawpos(pos)
 	if(no>L%sites(rawpos)%nb_num) then
-		call wc_error_stop('get_bond_no','Bond NO.'+no+' at ('+pos(1)+','+pos(2)+') does not exist.')
+		call wc_error_stop('get_bond_no','Bond NO.'//str(no)//' at ('//str(pos)//') does not exist.')
 	end if
 
 	nb_rawpos=L%sites(rawpos)%bonds(no)%nb_rawpos
@@ -2624,7 +2624,7 @@ subroutine get_bond_no_name(L,name,no,ind,nb_name,nb_no,nb_ind)
 	
 	rawpos=L%get_rawpos(name)
 	if(no>L%sites(rawpos)%nb_num) then
-		call wc_error_stop('get_bond_no','Bond NO.'+no+' at ('+name+') does not exist.')
+		call wc_error_stop('get_bond_no','Bond NO.'//str(no)//' at ('//str(name)//') does not exist.')
 	end if
 
 	nb_rawpos=L%sites(rawpos)%bonds(no)%nb_rawpos
@@ -3579,14 +3579,14 @@ subroutine move_nb(L,rawpos,nb_rawpos1,nb_rawpos2)
 			bond_num=L%bonds_num_rawpos(rawpos,nb_rawpos2)
 
 			old_name=this_bond%ind
-			new_name=L%sites(rawpos)%name+'.'+L%sites(nb_rawpos2)%name
-			if(bond_num>1) new_name=new_name+(bond_num+1)
+			new_name=trim(L%sites(rawpos)%name)//'.'//trim(L%sites(nb_rawpos2)%name)
+			if(bond_num>1) new_name=trim(new_name)//str(bond_num+1)
 			call L%sites(rawpos)%tensor%setName(old_name,new_name)
 			this_bond%ind=new_name
 
 			old_name2=nb_bond2%ind
-			new_name2=L%sites(nb_rawpos2)%name+'.'+L%sites(rawpos)%name
-			if(bond_num>1) new_name2=new_name2+(bond_num+1)
+			new_name2=trim(L%sites(nb_rawpos2)%name)//'.'//trim(L%sites(rawpos)%name)
+			if(bond_num>1) new_name2=trim(new_name2)//str(bond_num+1)
 			call L%sites(nb_rawpos2)%tensor%setName(old_name2,new_name2)
 			nb_bond2%ind=new_name2
 		end if
@@ -3710,9 +3710,9 @@ use mod_mpi_info
 	end if
 
 	if(L%empty_tag) then
-		call writemess('-----------------------------------------------')
-		call writemess('empty lattice, do not draw anything')
-		call writemess('-----------------------------------------------')
+		call write_message('-----------------------------------------------')
+		call write_message('empty lattice, do not draw anything')
+		call write_message('-----------------------------------------------')
 		call L%check_consistency()
 		return
 	end if
@@ -3729,25 +3729,25 @@ use mod_mpi_info
 		!write(*,*)includes
 		do i=1,L%max_site_num
 			if(L%sites(i)%exist_tag) then
-				command='  node_'+i+' ['
+				command='  node_'//str(i)//' ['
 				if(L%sites(i)%con_tag) then
-					command=command+'style = "filled,solid", fillcolor = "lemonchiffon", '
+					command=trim(command)//'style = "filled,solid", fillcolor = "lemonchiffon", '
 				end if
 				if(includes(i))then
-					command=command+'color="red"'
+					command=trim(command)//'color="red"'
 				else
-					command=command+'color="black"'
+					command=trim(command)//'color="black"'
 				end if
-				command=command+', label = "'+L%sites(i)%name+'"'
+				command=trim(command)//', label = "'//trim(L%sites(i)%name)//'"'
 				pos=L%sites(i)%pos
 
 				!write(*,*)L%sites(i)%name,'---',L%sites(i)%pos
 
 				if(all(pos>0))then
 					if(fixed)then
-						command=command+', pos = "'+(3*pos(2))+','+(-pos(1))+'" ,pin="true"]'
+						command=trim(command)//', pos = "'//str(3*pos(2))//','//str(-pos(1))//'" ,pin="true"]'
 					else
-						command=command+']'
+						command=trim(command)//']'
 					end if
 				end if
 				write(7878,'(A)')trim(command)
@@ -3762,23 +3762,23 @@ use mod_mpi_info
 					nb_no=L%sites(i)%bonds(k)%nb_no
 					if(nb>i)then
 						nattr=0
-						command='  node_'+i+' -> node_'+nb+' ['
+						command='  node_'//str(i)//' -> node_'//str(nb)//' ['
 						if(label_bond)then
-							command=command+'taillabel = "'+after_dot(L%sites(i)%bonds(k)%ind) &
-							+'",headlabel ="'+after_dot(L%sites(nb)%bonds(nb_no)%ind)+'"'
+							command=trim(command)//'taillabel = "'//after_dot(L%sites(i)%bonds(k)%ind) &
+							//'",headlabel ="'//after_dot(L%sites(nb)%bonds(nb_no)%ind)//'"'
 							nattr=nattr+1
 						end if
 						if(includes(i).and.includes(nb)) then
-							if (nattr>0) command=command+', '
-							command=command+'color="red"'
+							if (nattr>0) command=trim(command)//', '
+							command=trim(command)//'color="red"'
 							nattr=nattr+1
 						end if
 						if(.not. fixed)then
-							if (nattr>0) command=command+', '
-							command=command+'len=3'
+							if (nattr>0) command=trim(command)//', '
+							command=trim(command)//'len=3'
 							nattr=nattr+1
 						end if
-						command=command+']'
+						command=trim(command)//']'
 						write(7878,'(A)')trim(command)
 					end if
 				end do
@@ -3789,7 +3789,7 @@ use mod_mpi_info
 
 		do i=1,count(path>0)-1
 			nattr=0
-			command='  node_'+path(i)+' -> node_'+path(i+1)+' [color="blue",style="dashed",penwidth=2.0]'
+			command='  node_'//str(path(i))//' -> node_'//str(path(i+1))//' [color="blue",style="dashed",penwidth=2.0]'
 			write(7878,'(A)')trim(command)
 		end do
 		write(7878,*)'}'
@@ -3807,7 +3807,7 @@ use mod_mpi_info
 		!call system('rm ./'//trim(filename)//'.dot')
 		if(check_tag) call L%check_consistency()
 		if(stop_tag) then
-			call writemess('The program has been paused. Please press enter to continue')
+			call write_message('The program has been paused. Please press enter to continue')
 			read(*,*)
 		end if
 	end if
@@ -4063,9 +4063,9 @@ subroutine draw_grp(G,filename,tnname,label_bond,fixed,check_tag)
 	integer::i
 
 	if(.not.associated(G%lat)) then
-		call writemess('-------------------------------------------------------')
-		call writemess('Group not belong to any lattice, do not draw anything')
-		call writemess('-------------------------------------------------------')
+		call write_message('-------------------------------------------------------')
+		call write_message('Group not belong to any lattice, do not draw anything')
+		call write_message('-------------------------------------------------------')
 		return
 	end if
 	call G%lat%draw(filename,tnname,G%includes,[(-1,i=1,G%lat%max_site_num)],label_bond,fixed,check_tag)
@@ -4078,8 +4078,8 @@ subroutine get_info(G)
 	integer::L1,L2
 
 	call G%lat%get_size(L1,L2)
-	call writemess('The group is in lattice :'+G%lat%get_name())
-	call writemess('with sites included are')
+	call write_message('The group is in lattice :'//trim(G%lat%get_name()))
+	call write_message('with sites included are')
 	write(*,'(L2)') G%includes
 
 end subroutine
@@ -4635,9 +4635,9 @@ subroutine draw_path(P,filename,label_bond,fixed,check_tag)
 	integer::i
 
 	if(.not.associated(P%lat)) then
-		call writemess('-------------------------------------------------------')
-		call writemess('Path not belong to any lattice, do not draw anything')
-		call writemess('-------------------------------------------------------')
+		call write_message('-------------------------------------------------------')
+		call write_message('Path not belong to any lattice, do not draw anything')
+		call write_message('-------------------------------------------------------')
 		return
 	end if
 

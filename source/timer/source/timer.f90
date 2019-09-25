@@ -86,18 +86,18 @@ subroutine timer_print()
 	integer::i
 	character(len=15)::item_name
 	
-	call writemess('')
-	call writemess('================================')
+	call write_message('')
+	call write_message('================================')
 	item_name='Timer'
-	call writemess(item_name//'Total time(s)')
+	call write_message(item_name//'Total time(s)')
 	do i=1, max_elem
 		if (state(i)>0) then
 			item_name=names(i)
-			call writemess(item_name//str(cumu_time(i)))
+			call write_message(item_name//str(cumu_time(i)))
 		end if
 	end do
-	call writemess('================================')
-	call writemess('')
+	call write_message('================================')
+	call write_message('')
 
 end subroutine
 
