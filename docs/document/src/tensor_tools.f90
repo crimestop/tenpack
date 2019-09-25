@@ -86,18 +86,18 @@ subroutine HOSVD(T,uni,env,cen,names,Dc)
 		do j=1,rank 
 			if(T%outTensorName(j)/=names(i))then
 				name_bac(j)=T%outName(j)
-				call T%setname(j,'temp^_^.'+j)
+				call T%setname(j,'temp^_^.'//str(j))
 			end if
 		end do
 		call T%SVDroutine(uni(i),env_temp,useless,names(i),'temp^_^',Dc)
 		env(i)=eye(env_temp)
-		call uni(i)%setname(uni(i)%getrank(),names(i)+'.hosvd')
+		call uni(i)%setname(uni(i)%getrank(),trim(names(i))//'.hosvd')
 		call env(i)%setname(1,'env.in')
 		call env(i)%setname(2,'env.out')
 
 		do j=1,rank 
 			if(len_trim(name_bac(j))/=0)then
-				call T%setname('temp^_^.'+j,name_bac(j))
+				call T%setname('temp^_^.'//str(j),name_bac(j))
 				name_bac(j)=''
 			end if
 		end do
@@ -111,8 +111,8 @@ subroutine HOSVD(T,uni,env,cen,names,Dc)
 		do j=1,dim_env
 			call invenv%setvalue([j,j],1/invenv%di([j,j]))
 		end do
-		invten=contract(invten,names(i)+'.hosvd',invenv,'env.in')
-		call invten%setname('env.out','center.hosvd'+i)
+		invten=contract(invten,trim(names(i))//'.hosvd',invenv,'env.in')
+		call invten%setname('env.out','center.hosvd'//str(i))
 		cen=contract(cen,invten)
 		env(i)=env(i)
 	end do
@@ -395,18 +395,15 @@ subroutine wc_allreduce_Tensor(inTensor,outTensor,OP,MPIcommon,ierr)
 	call mpi_comm_size(mpi_comm,proNum,ierr )
 	
 	if(test_not_empty(inTensor,mpi_comm)==0)then	! if the Tensor is empty
-		call writemess('ERROR in ALLREDUCE_Tensor,the is no date in one or some Tensors')
-		call error_stop
+		call wc_error_stop('wc_allreduce_Tensor','There is no data in one or some Tensors')
 	end if
 	
 	if(test_same_type(inTensor,mpi_comm)==0)then	! if the Tensor is the same data type
-		call writemess('ERROR in ALLREDUCE_Tensor,the Data type in the Tensors are not the sames')
-		call error_stop
+		call wc_error_stop('wc_allreduce_Tensor','The Data type in the Tensors are not the sames')
 	end if
 
 	if(test_same_length(inTensor,mpi_comm)==0)then	! if the length of the Tensor is the same
-		call writemess('ERROR in ALLREDUCE_Tensor,the length od the Tensor is not the same')
-		call error_stop
+		call wc_error_stop('wc_allreduce_Tensor','The length of the Tensor is not the same')
 	end if
 
 	in_place=test_same_tensor(inTensor,outTensor)
@@ -509,23 +506,19 @@ subroutine wc_reduce_Tensor(inTensor,outTensor,OP,root,MPIcommon,ierr)
 	call mpi_comm_rank(mpi_comm,proID,ierr)
 	call mpi_comm_size(mpi_comm,proNum,ierr )
 	if(root>=proNum .or. root<0)then
-		call writemess('ERROR in REDUCE_Tensor,input root is illegal')
-		call error_stop
+		call wc_error_stop('wc_reduce_Tensor','The input root is illegal')
 	end if
 	
 	if(test_not_empty(inTensor,mpi_comm)==0)then	! if the Tensor is empty
-		call writemess('ERROR in REDUCE_Tensor,the is no date in one or some Tensors')
-		call error_stop
+		call wc_error_stop('wc_reduce_Tensor','There is no data in one or some Tensors')
 	end if
 	
 	if(test_same_type(inTensor,mpi_comm)==0)then	! if the Tensor is the same data type
-		call writemess('ERROR in REDUCE_Tensor,the Data type in the Tensors are not the sames')
-		call error_stop
+		call wc_error_stop('wc_reduce_Tensor','The Data type in the Tensors are not the sames')
 	end if
 
 	if(test_same_length(inTensor,mpi_comm)==0)then	! if the length of the Tensor is the same
-		call writemess('ERROR in REDUCE_Tensor,the length od the Tensor is not the same')
-		call error_stop
+		call wc_error_stop('wc_reduce_Tensor','The length od the Tensor is not the same')
 	end if
 
 	in_place=test_same_tensor(inTensor,outTensor)

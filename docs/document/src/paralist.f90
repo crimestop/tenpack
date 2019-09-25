@@ -1,6 +1,7 @@
 module parameter_list
 use string
 use error
+use mod_mpi_info
 use mod_dictionary
 implicit none
 private
@@ -288,7 +289,7 @@ subroutine print_class(D,class_name,unit)
 	if(present(unit))then
 		write(unit,*) '# Class '// trim(class_name)
 	else
-		call writemess('# Class '// class_name)
+		call write_message('# Class '// class_name)
 	end if
 
 	sub_para=D%subpara_class(class_name)
@@ -298,8 +299,8 @@ subroutine print_class(D,class_name,unit)
 		write(unit,*)'#'
 		write(unit,*)
 	else
-		call writemess('#')
-		call writemess('')
+		call write_message('#')
+		call write_message('')
 	end if
 
 end subroutine

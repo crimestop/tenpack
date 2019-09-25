@@ -17,8 +17,6 @@
     <link href="./css/font-awesome.min.css" rel="stylesheet">
     <link href="./css/local.css" rel="stylesheet">
     
-    <link  href="./tipuesearch/tipuesearch.css" rel="stylesheet">
-    
     
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -91,15 +89,6 @@
 
           </ul>
         
-        <form action="./search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-        </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
-        
         </div><!--/.nav-collapse -->
       </div>
     </nav>
@@ -128,41 +117,48 @@
 </ul>
 </li>
 <li>ltnsp_ext (<span style="color:#c91b00">rely on</span> ltnsp lrandom lkernel)<ul>
-<li>tnsp_ext: some extra tensor functions</li>
+<li><a href='./module/tnsp_ext.html'>tnsp_ext</a>: some extra tensor functions</li>
 </ul>
 </li>
 <li>ltenwork (<span style="color:#c91b00">rely on</span> ltnsp ldic lkernel)<ul>
-<li>tensor_network: a class to operate on tensor networks</li>
-<li>tn_tensor_type: a class to deal with tensor contraction</li>
-<li>tensor_network_nesting: a class to operate on nested tensor networks</li>
+<li><a href='./module/tensor_network.html'>tensor_network</a>: a class to operate on tensor networks</li>
+<li><a href='./module/tn_tensor_type.html'>tn_tensor_type</a>: a class to deal with tensor contraction</li>
+<li><a href='./module/tensor_network_nesting.html'>tensor_network_nesting</a>: a class to operate on nested tensor networks</li>
 </ul>
 </li>
 <li>ltimer (<span style="color:#c91b00">rely on</span> lkernel)<ul>
-<li>timer: a class to benchmark the program</li>
+<li><a href='./module/timer.html'>timer</a>: a class to benchmark the program</li>
 </ul>
 </li>
 <li>lparalist (<span style="color:#c91b00">rely on</span> lkernel ldic)<ul>
-<li>parameter_list: a class to manage the parameters</li>
+<li><a href='./module/parameter_list.html'>parameter_list</a>: a class to manage the parameters</li>
 </ul>
 </li>
 <li>lcumu (<span style="color:#c91b00">rely on</span> ltnsp ltnsp_ext lkernel)<ul>
-<li>mod_cumu: a class to cumulate a value</li>
+<li><a href='./module/mod_cumu.html'>mod_cumu</a>: a class to cumulate a value</li>
 </ul>
 </li>
 <li>lrandom (<span style="color:#c91b00">rely on</span> lkernel)<ul>
-<li>mod_rand: a class to generate random numbers</li>
+<li><a href='./module/mod_rand.html'>mod_rand</a>: a class to generate random numbers</li>
 </ul>
 </li>
 <li>ldic (<span style="color:#c91b00">rely on</span> lkernel ltnsp)<ul>
-<li>mod_dictionary: a class to define python-type dictionary</li>
+<li><a href='./module/mod_dictionary.html'>mod_dictionary</a>: a class to define python-type dictionary</li>
 </ul>
 </li>
-<li>lkernel (<span style="color:#c91b00">rely on</span> ltnsp)<ul>
-<li>string and all other modules: some kernel modules</li>
+<li>lkernel (<span style="color:#c91b00">rely on</span>)<ul>
+<li><a href='./module/string.html'>string</a> and all other modules: some kernel modules</li>
 </ul>
 </li>
 </ul>
 <p>All the libraries are documented here except <strong>ltnsp</strong>, which deserves its own documentation page.</p>
+<p>You may browse:</p>
+<ul>
+<li><a href='./lists/files.html'>source files</a></li>
+<li><a href='./lists/modules.html'>modules</a></li>
+<li><a href='./lists/procedures.html'>procedures</a></li>
+<li><a href='./lists/types.html'>types</a></li>
+</ul>
         </div>
 		  
         <div class="col-md-4">
@@ -473,6 +469,12 @@
                 
                   
                 
+                  
+                
+                  
+                
+                  
+                
               </ul>
           </div>
           
@@ -577,10 +579,6 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    
-    <script src="./tipuesearch/tipuesearch_content.js"></script>
-    <script src="./tipuesearch/tipuesearch_set.js"></script>
-    <script src="./tipuesearch/tipuesearch.js"></script>
     
     
   </body>

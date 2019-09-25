@@ -2,7 +2,6 @@ module tensor_network_nesting
 use tensor_network
 use tensor_type
 use error 
-use tools
 use string
 use tn_tensor_type
 implicit none
@@ -75,14 +74,13 @@ subroutine generate(LC)
 	integer::L1,L2,i,j,m,n
 
 	call LC%lat_pre%get_size(L1,L2)
-	call LC%lattice%initialize(LC%lat_pre%get_name()+'_nest',L1,L2,LC%lat_pre%get_max_nb_num())
+	call LC%lattice%initialize(trim(LC%lat_pre%get_name())//'_nest',L1,L2,LC%lat_pre%get_max_nb_num())
 	do i=1,L1
 		do j=1,L2
 			if (LC%cluster(i,j)%get_num()>0) then
 				call calc_cluster(LC,[i,j])
-				call LC%lattice%add([i,j],LC%lattice%get_name()+i+'_'+j,LC%ten_res(i,j))
-				call LC%cluster(i,j)%set_name(LC%lattice%get_name()+i+'_'+j)
-				!call LC%cluster(i,j)%draw('cl'+i+j)
+				call LC%lattice%add([i,j],trim(LC%lattice%get_name())//str(i)//'_'//str(j),LC%ten_res(i,j))
+				call LC%cluster(i,j)%set_name(trim(LC%lattice%get_name())//str(i)//'_'//str(j))
 			end if
 		end do
 	end do
