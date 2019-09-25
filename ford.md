@@ -10,8 +10,8 @@ docmark_alt: #
 predocmark_alt: <
 display: public
 source: false
-graph: false
-search: false
+graph: true
+search: true
 macro: TEST
        LOGIC=.true.
 extra_mods: json_module: http://jacobwilliams.github.io/json-fortran/
@@ -52,4 +52,4 @@ You may browse:
 - <a href='./lists/files.html'>source files</a>
 - <a href='./lists/modules.html'>modules</a>
 - <a href='./lists/procedures.html'>procedures</a>
-- <a href='./lists/types.html'>types</a>
+- <a href='./lists/types.html'>derived types</a>
