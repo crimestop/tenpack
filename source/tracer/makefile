@@ -1,14 +1,9 @@
 include ../../make.inc
 
-libname=libtracer
-
 file := \
 tracer.o 
 
-all:	run.out
-
-run.out:$(file)
-	$(FC) $(FFLAGS) -o $@ $^ 
+all:	$(file)
 
 %.o:	source/%.f90
 	$(FC) $(FFLAGS) -o $@ -c $(<)

@@ -4,12 +4,13 @@ implicit none
 	integer::nproc=1
 	integer::my_rank=0
 	integer::log_unit=-1
+	integer::ierr
 
 contains
 
 subroutine set_output_log_TNSG(log,file)
 	integer,intent(in) :: log
-	character(len=*),intent(in) :: message
+	character(len=*),intent(in) :: file
 
 	if(log<=0)then
 		call write_message('Error in set_output_log_TNSG, log_unit <= 0!')
