@@ -1,11 +1,13 @@
 module mod_mpi_info
 implicit none
+private
 
 	integer::nproc=1
 	integer::my_rank=0
 	integer::log_unit=-1
-	integer::ierr
+	integer::ierror
 
+public nproc,my_rank,ierror,set_output_log_TNSG,unset_output_log_TNSG,write_message
 contains
 
 subroutine set_output_log_TNSG(log,file)
@@ -14,7 +16,7 @@ subroutine set_output_log_TNSG(log,file)
 
 	if(log<=0)then
 		call write_message('Error in set_output_log_TNSG, log_unit <= 0!')
-		if(nproc>1) call MPI_Finalize(ierr)
+		if(nproc>1) call MPI_Finalize(ierror)
 		stop
 	else 
 		log_unit=log
@@ -32,8 +34,8 @@ end subroutine
 subroutine write_message(message)
 	character(len=*),intent(in) :: message
 
-	write(*,*)message
-	if(my_rank==0 .and. log_unit>0) write(log_unit,*)message
+	write(*,*)trim(message)
+	if(my_rank==0 .and. log_unit>0) write(log_unit,*)trim(message)
     
 end subroutine 
 
