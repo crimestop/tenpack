@@ -34,8 +34,10 @@ end subroutine
 subroutine write_message(message)
 	character(len=*),intent(in) :: message
 
-	write(*,*)trim(message)
-	if(my_rank==0 .and. log_unit>0) write(log_unit,*)trim(message)
+	if(my_rank==0) then
+		write(*,*)trim(message)
+		if(log_unit>0) write(log_unit,*)trim(message)
+	end if
     
 end subroutine 
 
