@@ -11,9 +11,28 @@ private
 	integer::log_unit=-1
 	integer::ierror
 	!! mpi error information
+	integer::message_replacing_status=0
 
-public nproc,my_rank,ierror,set_output_log_TNSG,unset_output_log_TNSG,write_message
+public nproc,my_rank,ierror,set_output_log_TNSG,unset_output_log_TNSG,write_message,&
+	write_message_replacing,write_message_replacing_end
 contains
+
+subroutine minimal_error_stop(message)
+	character(len=*),intent(in) :: message
+	integer,pointer::t
+
+	if(my_rank==0) then
+		write(*,*)trim(message)
+		if(log_unit>0)then
+			write(log_unit,'(a)')trim(message)
+			flush(log_unit)
+		end if
+		t=0
+		if(nproc>1) call MPI_Finalize(ierror)
+		stop
+	end if
+
+end subroutine
 
 subroutine set_output_log_TNSG(log,file)
 	!! func write_message will also print in the log file
@@ -21,11 +40,10 @@ subroutine set_output_log_TNSG(log,file)
 	!! the unit of the log file
 	character(len=*),intent(in) :: file
 	!! the path of the log file
+	integer,pointer::t
 
 	if(log<=0)then
-		call write_message('Error in set_output_log_TNSG, log_unit <= 0!')
-		if(nproc>1) call MPI_Finalize(ierror)
-		stop
+		call minimal_error_stop('Error in set_output_log_TNSG, log_unit <= 0!')
 	else 
 		log_unit=log
 		open(unit=log_unit,file=file)
@@ -47,7 +65,52 @@ subroutine write_message(message)
 
 	if(my_rank==0) then
 		write(*,*)trim(message)
-		if(log_unit>0) write(log_unit,*)trim(message)
+		if(log_unit>0)then
+			write(log_unit,'(a)')trim(message)
+			flush(log_unit)
+		end if
+	end if
+    
+end subroutine 
+
+subroutine write_message_replacing(message)
+	!! write message in the core with rank = 0
+	character(len=*),intent(in) :: message
+	!! the message to write
+
+	if(my_rank==0) then
+		if (message_replacing_status==0) then
+			message_replacing_status=1
+			write(*,'(a,$)') char(13)//message
+			if(log_unit>0)then
+				write(log_unit,'(a)') message
+				flush(log_unit)
+			end if
+		else
+			write(*,'(a,$)') char(13)//message
+			if(log_unit>0)then
+				backspace(log_unit)
+				write(log_unit,'(a)') message
+				flush(log_unit)
+			end if
+		end if
+	end if
+    
+end subroutine 
+
+subroutine write_message_replacing_end(message)
+	!! write message in the core with rank = 0
+	character(len=*),intent(in) :: message
+	!! the message to write
+
+	if(my_rank==0) then
+		message_replacing_status=0
+		write(*,'(a)') char(13)//message
+		if(log_unit>0)then
+			backspace(log_unit)
+			write(log_unit,'(a)') message
+			flush(log_unit)
+		end if
 	end if
     
 end subroutine 

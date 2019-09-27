@@ -27,14 +27,10 @@ subroutine percent(words_in,perc_in,step_)
 	if(len_trim(words_in)+1>line_length)then
 		call wc_error_stop('percent','input words are too long.')
 	end if
-	words=''
-	words(1:1)=char(13)
-	words(2:)=words_in
+	words=words_in
 
 	if(abs(perc_in-perc_save)>=step)then
-		if(my_rank==0)then
-			write(*,'(a,$)') words
-		end if
+		call write_message_replacing(words)
 		perc_save=perc_in
 	end if
 
@@ -48,13 +44,9 @@ subroutine percent_end(words_in)
 	if(len_trim(words_in)+1>line_length)then
 		call wc_error_stop('percent','input words are too long.')
 	end if
-	words=''
-	words(1:1)=char(13)
-	words(2:)=words_in
+	words=words_in
 	
-	if(my_rank==0) then
-		write(*,'(a)')words
-	end if
+	call write_message_replacing_end(words)
 	perc_save=0d0
 
 end subroutine
