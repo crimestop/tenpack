@@ -2279,7 +2279,7 @@ subroutine set_bond_pos(L,pos,pos2,dir_,dir2_)
 	if(present(dir2_))then
 		dir2=dir2_
 	else
-		dir2=trim(trimL%sites(rawpos2)%name)//'.'//trim(L%sites(rawpos)%name)
+		dir2=trim(L%sites(rawpos2)%name)//'.'//trim(L%sites(rawpos)%name)
 	end if
 
 	call set_bond_rawpos(L,rawpos,dir,rawpos2,dir2,exist,exist2)
@@ -2624,7 +2624,7 @@ subroutine get_bond_no_name(L,name,no,ind,nb_name,nb_no,nb_ind)
 	
 	rawpos=L%get_rawpos(name)
 	if(no>L%sites(rawpos)%nb_num) then
-		call wc_error_stop('get_bond_no','Bond NO.'//str(no)//' at ('//str(name)//') does not exist.')
+		call wc_error_stop('get_bond_no','Bond NO.'//str(no)//' at ('//trim(name)//') does not exist.')
 	end if
 
 	nb_rawpos=L%sites(rawpos)%bonds(no)%nb_rawpos

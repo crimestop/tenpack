@@ -10,8 +10,8 @@ docmark_alt: #
 predocmark_alt: <
 display: public
 source: false
-graph: true
-search: true
+graph: false
+search: false
 macro: TEST
        LOGIC=.true.
 extra_mods: json_module: http://jacobwilliams.github.io/json-fortran/

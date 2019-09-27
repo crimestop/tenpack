@@ -540,6 +540,7 @@ contains
 		stop
 	end subroutine
 	subroutine error_stop()! bug , stop
+		integer,pointer::t
 		if(MPI_running)then
 			if(seed_flag)call writemess('The random seed is'+initial_randomseed)
 			if(seed_flag)call writemess('The random seed in cpu is'+initial_mpi_randomseed_in_cpus,-1)
@@ -549,12 +550,14 @@ contains
 			call outpicture()
 			call sleep(2)
 			if(error_backtrace_Flag) CALL BACKTRACE
+			t=0
 			!call MPI_FINALIZE( output_ierr )
 			stop
 		end if
 		if(seed_flag)call writemess('The random seed is,seed='+initial_randomseed)
 		call outpicture()
 		if(error_backtrace_Flag)CALL BACKTRACE 
+		t=0
 		stop
 	end subroutine	
 	
