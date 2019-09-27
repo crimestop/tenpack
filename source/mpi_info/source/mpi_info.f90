@@ -61,7 +61,7 @@ end subroutine
 subroutine write_message(message)
 	!! write message in the core with rank = 0
 	character(len=*),intent(in) :: message
-	!! the message to write
+	!! the message to write, to trim
 
 	if(my_rank==0) then
 		write(*,*)trim(message)
@@ -74,9 +74,9 @@ subroutine write_message(message)
 end subroutine 
 
 subroutine write_message_replacing(message)
-	!! write message in the core with rank = 0
+	!! write message in the core with rank = 0, keep replacing a line by a new message
 	character(len=*),intent(in) :: message
-	!! the message to write
+	!! the message to write, not to trim
 
 	if(my_rank==0) then
 		if (message_replacing_status==0) then
@@ -99,9 +99,9 @@ subroutine write_message_replacing(message)
 end subroutine 
 
 subroutine write_message_replacing_end(message)
-	!! write message in the core with rank = 0
+	!! write message in the core with rank = 0, stop replacing a line by a new message
 	character(len=*),intent(in) :: message
-	!! the message to write
+	!! the message to write, not to trim
 
 	if(my_rank==0) then
 		message_replacing_status=0

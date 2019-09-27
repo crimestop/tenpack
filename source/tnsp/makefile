@@ -7,6 +7,7 @@ print_in_TData.o \
 element_in_TData.o \
 modify_in_TData.o \
 permutation_in_TData.o  \
+zdotu.o      \
 TData.o      \
 Tensor.o      \
 parameter.o	\

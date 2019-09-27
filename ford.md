@@ -42,7 +42,7 @@ The following are the libraries TNSG provides and the modules they contain
     - <a href='./module/mod_rand.html'>mod_rand</a>: a class to generate random numbers
 - ldic (<span style="color:#c91b00">rely on</span> lkernel ltnsp)
     - <a href='./module/mod_dictionary.html'>mod_dictionary</a>: a class to define python-type dictionary
-- lkernel (<span style="color:#c91b00">rely on</span>)
+- lkernel (<span style="color:#c91b00">rely on</span> none)
     - <a href='./module/string.html'>string</a> and all other modules: some kernel modules
 
 All the libraries are documented here except **ltnsp**, which deserves its own documentation page.

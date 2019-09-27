@@ -1,6 +1,5 @@
 mpi_info
 tnsp
-symtnsp
 error
 stack
 random
@@ -9,13 +8,9 @@ statistics
 tnsp-extension
 dictionary
 paralist
-ecp_handler
-tracer
 unidic
 time
 timer
 tenwork
 percentage
 cumulator
-date_time
-zdotu
