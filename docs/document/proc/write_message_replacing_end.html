@@ -10,7 +10,7 @@
     <meta name="author" content="Wang Chao & Dong Shaojun" >
     <link rel="icon" href="../favicon.png">
 
-    <title>print_trace &ndash; TNSG</title>
+    <title>write_message_replacing_end &ndash; TNSG</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
@@ -97,7 +97,7 @@
     
   
   <div class="row">
-    <h1>print_trace
+    <h1>write_message_replacing_end
       <small>Subroutine</small>
     
     </h1>
@@ -115,24 +115,24 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.9% of total for procedures.">11 statements</a>
+    title=" 1.1% of total for procedures.">12 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/tracer.f90"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/mpi_info.f90"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/tracer.f90.html'>tracer.f90</a></li>
+     <li><a href='../sourcefile/mpi_info.f90.html'>mpi_info.f90</a></li>
     
-     <li><a href='../module/tracer.html'>tracer</a></li>
+     <li><a href='../module/mod_mpi_info.html'>mod_mpi_info</a></li>
     
   
-     <li class="active">print_trace</li>
+     <li class="active">write_message_replacing_end</li>
   </ol>
 </div>
 </div>
@@ -182,7 +182,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-public subroutine print_trace()
+public subroutine write_message_replacing_end(message)
     
     
    
@@ -192,11 +192,39 @@ public subroutine print_trace()
 
 
     
+    <p>write message in the core with rank = 0, stop replacing a line by a new message</p>
+    
 
     <h3>Arguments</h3>
     
-    <em>None</em>
-    <br>
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-message~3"></span>character(len=*),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>message</strong></td><td><p>the message to write, not to trim</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
     
     
     

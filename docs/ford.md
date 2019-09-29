@@ -1,6 +1,6 @@
-src_dir: ./doc_files
-favicon: ./docs/pic/icon.png
-output_dir: ./docs/document
+src_dir: ../doc_files
+favicon: ./pic/icon.png
+output_dir: ./document
 author: Wang Chao & Dong Shaojun
 project: TNSG
 fpp_extensions: fpp

@@ -12,9 +12,10 @@ private
 	integer::ierror
 	!! mpi error information
 	integer::message_replacing_status=0
+	integer::line_length=80
 
 public nproc,my_rank,ierror,set_output_log_TNSG,unset_output_log_TNSG,write_message,&
-	write_message_replacing,write_message_replacing_end
+	dynamic_message,dynamic_message_end
 contains
 
 subroutine minimal_error_stop(message)
@@ -73,44 +74,40 @@ subroutine write_message(message)
     
 end subroutine 
 
-subroutine write_message_replacing(message)
+subroutine dynamic_message(message)
 	!! write message in the core with rank = 0, keep replacing a line by a new message
 	character(len=*),intent(in) :: message
 	!! the message to write, not to trim
+	character(len=line_length)::words
 
 	if(my_rank==0) then
-		if (message_replacing_status==0) then
-			message_replacing_status=1
-			write(*,'(a,$)') char(13)//message
-			if(log_unit>0)then
-				write(log_unit,'(a)') message
-				flush(log_unit)
-			end if
-		else
-			write(*,'(a,$)') char(13)//message
-			if(log_unit>0)then
-				backspace(log_unit)
-				write(log_unit,'(a)') message
-				flush(log_unit)
-			end if
+		words=message
+		write(*,'(a,$)') char(13)//words
+		if(log_unit>0)then
+			if (message_replacing_status==1) backspace(log_unit)
+			write(log_unit,'(a)') message
+			flush(log_unit)
 		end if
+		if (message_replacing_status==0) message_replacing_status=1
 	end if
     
 end subroutine 
 
-subroutine write_message_replacing_end(message)
+subroutine dynamic_message_end(message)
 	!! write message in the core with rank = 0, stop replacing a line by a new message
 	character(len=*),intent(in) :: message
 	!! the message to write, not to trim
+	character(len=line_length)::words
 
 	if(my_rank==0) then
-		message_replacing_status=0
-		write(*,'(a)') char(13)//message
+		words=message
+		write(*,'(a)') char(13)//words
 		if(log_unit>0)then
-			backspace(log_unit)
+			if (message_replacing_status==1) backspace(log_unit)
 			write(log_unit,'(a)') message
 			flush(log_unit)
 		end if
+		message_replacing_status=0
 	end if
     
 end subroutine 

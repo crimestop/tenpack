@@ -1,7 +1,7 @@
 include ../../make.inc
 
 file := \
-percentage.o
+discrete.o
 
 all:	$(file)
 

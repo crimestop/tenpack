@@ -115,7 +115,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.4% of total for source files.">32 statements</a>
+    title=" 1.0% of total for source files.">81 statements</a>
      </li> 
      
      
@@ -263,48 +263,111 @@
 <a name="ln-11"></a>	<span class="kt">integer</span><span class="kd">::</span><span class="n">log_unit</span><span class="o">=-</span><span class="mi">1</span>
 <a name="ln-12"></a>	<span class="kt">integer</span><span class="kd">::</span><span class="n">ierror</span>
 <a name="ln-13"></a>	<span class="c">!! mpi error information</span>
-<a name="ln-14"></a>
-<a name="ln-15"></a><span class="k">public </span><span class="n">nproc</span><span class="p">,</span><span class="n">my_rank</span><span class="p">,</span><span class="n">ierror</span><span class="p">,</span><span class="n">set_output_log_TNSG</span><span class="p">,</span><span class="n">unset_output_log_TNSG</span><span class="p">,</span><span class="n">write_message</span>
-<a name="ln-16"></a><span class="k">contains</span>
-<a name="ln-17"></a>
-<a name="ln-18"></a><span class="k">subroutine </span><span class="n">set_output_log_TNSG</span><span class="p">(</span><span class="nb">log</span><span class="p">,</span><span class="k">file</span><span class="p">)</span>
-<a name="ln-19"></a>	<span class="c">!! func write_message will also print in the log file</span>
-<a name="ln-20"></a>	<span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="nb">log</span>
-<a name="ln-21"></a>	<span class="c">!! the unit of the log file</span>
-<a name="ln-22"></a>	<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="k">file</span>
-<a name="ln-23"></a>	<span class="c">!! the path of the log file</span>
-<a name="ln-24"></a>
-<a name="ln-25"></a>	<span class="k">if</span><span class="p">(</span><span class="nb">log</span><span class="o">&lt;=</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
-<a name="ln-26"></a><span class="k">		call </span><span class="n">write_message</span><span class="p">(</span><span class="s1">&#39;Error in set_output_log_TNSG, log_unit &lt;= 0!&#39;</span><span class="p">)</span>
-<a name="ln-27"></a>		<span class="k">if</span><span class="p">(</span><span class="n">nproc</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">)</span> <span class="k">call </span><span class="n">MPI_Finalize</span><span class="p">(</span><span class="n">ierror</span><span class="p">)</span>
-<a name="ln-28"></a>		<span class="k">stop</span>
-<a name="ln-29"></a><span class="k">	else </span>
-<a name="ln-30"></a><span class="k">		</span><span class="n">log_unit</span><span class="o">=</span><span class="nb">log</span>
-<a name="ln-31"></a><span class="nb">		</span><span class="k">open</span><span class="p">(</span><span class="n">unit</span><span class="o">=</span><span class="n">log_unit</span><span class="p">,</span><span class="k">file</span><span class="o">=</span><span class="k">file</span><span class="p">)</span>
-<a name="ln-32"></a>	<span class="k">end if</span>
-<a name="ln-33"></a>
-<a name="ln-34"></a><span class="k">end subroutine</span>
-<a name="ln-35"></a>
-<a name="ln-36"></a><span class="k">subroutine </span><span class="n">unset_output_log_TNSG</span><span class="p">()</span>
-<a name="ln-37"></a>	<span class="c">!! func write_message will not print in the log file</span>
-<a name="ln-38"></a>
-<a name="ln-39"></a>	<span class="n">log_unit</span><span class="o">=-</span><span class="mi">1</span>
-<a name="ln-40"></a>
-<a name="ln-41"></a><span class="k">end subroutine</span>
-<a name="ln-42"></a>
-<a name="ln-43"></a><span class="k">subroutine </span><span class="n">write_message</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-<a name="ln-44"></a>	<span class="c">!! write message in the core with rank = 0</span>
-<a name="ln-45"></a>	<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">message</span>
-<a name="ln-46"></a>	<span class="c">!! the message to write</span>
-<a name="ln-47"></a>
-<a name="ln-48"></a>	<span class="k">if</span><span class="p">(</span><span class="n">my_rank</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
-<a name="ln-49"></a><span class="k">		write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="nb">trim</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-<a name="ln-50"></a>		<span class="k">if</span><span class="p">(</span><span class="n">log_unit</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="n">log_unit</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="nb">trim</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-<a name="ln-51"></a>	<span class="k">end if</span>
-<a name="ln-52"></a><span class="k">    </span>
-<a name="ln-53"></a><span class="k">end subroutine </span>
-<a name="ln-54"></a>
-<a name="ln-55"></a><span class="k">end module</span>
+<a name="ln-14"></a>	<span class="kt">integer</span><span class="kd">::</span><span class="n">message_replacing_status</span><span class="o">=</span><span class="mi">0</span>
+<a name="ln-15"></a>
+<a name="ln-16"></a><span class="k">public </span><span class="n">nproc</span><span class="p">,</span><span class="n">my_rank</span><span class="p">,</span><span class="n">ierror</span><span class="p">,</span><span class="n">set_output_log_TNSG</span><span class="p">,</span><span class="n">unset_output_log_TNSG</span><span class="p">,</span><span class="n">write_message</span><span class="p">,&amp;</span>
+<a name="ln-17"></a>	<span class="n">write_message_replacing</span><span class="p">,</span><span class="n">write_message_replacing_end</span>
+<a name="ln-18"></a><span class="k">contains</span>
+<a name="ln-19"></a>
+<a name="ln-20"></a><span class="k">subroutine </span><span class="n">minimal_error_stop</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+<a name="ln-21"></a>	<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">message</span>
+<a name="ln-22"></a>	<span class="kt">integer</span><span class="p">,</span><span class="k">pointer</span><span class="kd">::</span><span class="n">t</span>
+<a name="ln-23"></a>
+<a name="ln-24"></a>	<span class="k">if</span><span class="p">(</span><span class="n">my_rank</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+<a name="ln-25"></a><span class="k">		write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="nb">trim</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+<a name="ln-26"></a>		<span class="k">if</span><span class="p">(</span><span class="n">log_unit</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
+<a name="ln-27"></a><span class="k">			write</span><span class="p">(</span><span class="n">log_unit</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="nb">trim</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+<a name="ln-28"></a>			<span class="nb">flush</span><span class="p">(</span><span class="n">log_unit</span><span class="p">)</span>
+<a name="ln-29"></a>		<span class="k">end if</span>
+<a name="ln-30"></a><span class="k">		</span><span class="n">t</span><span class="o">=</span><span class="mi">0</span>
+<a name="ln-31"></a>		<span class="k">if</span><span class="p">(</span><span class="n">nproc</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">)</span> <span class="k">call </span><span class="n">MPI_Finalize</span><span class="p">(</span><span class="n">ierror</span><span class="p">)</span>
+<a name="ln-32"></a>		<span class="k">stop</span>
+<a name="ln-33"></a><span class="k">	end if</span>
+<a name="ln-34"></a>
+<a name="ln-35"></a><span class="k">end subroutine</span>
+<a name="ln-36"></a>
+<a name="ln-37"></a><span class="k">subroutine </span><span class="n">set_output_log_TNSG</span><span class="p">(</span><span class="nb">log</span><span class="p">,</span><span class="k">file</span><span class="p">)</span>
+<a name="ln-38"></a>	<span class="c">!! func write_message will also print in the log file</span>
+<a name="ln-39"></a>	<span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="nb">log</span>
+<a name="ln-40"></a>	<span class="c">!! the unit of the log file</span>
+<a name="ln-41"></a>	<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="k">file</span>
+<a name="ln-42"></a>	<span class="c">!! the path of the log file</span>
+<a name="ln-43"></a>	<span class="kt">integer</span><span class="p">,</span><span class="k">pointer</span><span class="kd">::</span><span class="n">t</span>
+<a name="ln-44"></a>
+<a name="ln-45"></a>	<span class="k">if</span><span class="p">(</span><span class="nb">log</span><span class="o">&lt;=</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
+<a name="ln-46"></a><span class="k">		call </span><span class="n">minimal_error_stop</span><span class="p">(</span><span class="s1">&#39;Error in set_output_log_TNSG, log_unit &lt;= 0!&#39;</span><span class="p">)</span>
+<a name="ln-47"></a>	<span class="k">else </span>
+<a name="ln-48"></a><span class="k">		</span><span class="n">log_unit</span><span class="o">=</span><span class="nb">log</span>
+<a name="ln-49"></a><span class="nb">		</span><span class="k">open</span><span class="p">(</span><span class="n">unit</span><span class="o">=</span><span class="n">log_unit</span><span class="p">,</span><span class="k">file</span><span class="o">=</span><span class="k">file</span><span class="p">)</span>
+<a name="ln-50"></a>	<span class="k">end if</span>
+<a name="ln-51"></a>
+<a name="ln-52"></a><span class="k">end subroutine</span>
+<a name="ln-53"></a>
+<a name="ln-54"></a><span class="k">subroutine </span><span class="n">unset_output_log_TNSG</span><span class="p">()</span>
+<a name="ln-55"></a>	<span class="c">!! func write_message will not print in the log file</span>
+<a name="ln-56"></a>
+<a name="ln-57"></a>	<span class="n">log_unit</span><span class="o">=-</span><span class="mi">1</span>
+<a name="ln-58"></a>
+<a name="ln-59"></a><span class="k">end subroutine</span>
+<a name="ln-60"></a>
+<a name="ln-61"></a><span class="k">subroutine </span><span class="n">write_message</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+<a name="ln-62"></a>	<span class="c">!! write message in the core with rank = 0</span>
+<a name="ln-63"></a>	<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">message</span>
+<a name="ln-64"></a>	<span class="c">!! the message to write, to trim</span>
+<a name="ln-65"></a>
+<a name="ln-66"></a>	<span class="k">if</span><span class="p">(</span><span class="n">my_rank</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+<a name="ln-67"></a><span class="k">		write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="nb">trim</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+<a name="ln-68"></a>		<span class="k">if</span><span class="p">(</span><span class="n">log_unit</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
+<a name="ln-69"></a><span class="k">			write</span><span class="p">(</span><span class="n">log_unit</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="nb">trim</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+<a name="ln-70"></a>			<span class="nb">flush</span><span class="p">(</span><span class="n">log_unit</span><span class="p">)</span>
+<a name="ln-71"></a>		<span class="k">end if</span>
+<a name="ln-72"></a><span class="k">	end if</span>
+<a name="ln-73"></a><span class="k">    </span>
+<a name="ln-74"></a><span class="k">end subroutine </span>
+<a name="ln-75"></a>
+<a name="ln-76"></a><span class="k">subroutine </span><span class="n">write_message_replacing</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+<a name="ln-77"></a>	<span class="c">!! write message in the core with rank = 0, keep replacing a line by a new message</span>
+<a name="ln-78"></a>	<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">message</span>
+<a name="ln-79"></a>	<span class="c">!! the message to write, not to trim</span>
+<a name="ln-80"></a>
+<a name="ln-81"></a>	<span class="k">if</span><span class="p">(</span><span class="n">my_rank</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+<a name="ln-82"></a><span class="k">		if</span> <span class="p">(</span><span class="n">message_replacing_status</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+<a name="ln-83"></a><span class="k">			</span><span class="n">message_replacing_status</span><span class="o">=</span><span class="mi">1</span>
+<a name="ln-84"></a>			<span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(a,$)&#39;</span><span class="p">)</span> <span class="nb">char</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span><span class="o">//</span><span class="n">message</span>
+<a name="ln-85"></a>			<span class="k">if</span><span class="p">(</span><span class="n">log_unit</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
+<a name="ln-86"></a><span class="k">				write</span><span class="p">(</span><span class="n">log_unit</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span> <span class="n">message</span>
+<a name="ln-87"></a>				<span class="nb">flush</span><span class="p">(</span><span class="n">log_unit</span><span class="p">)</span>
+<a name="ln-88"></a>			<span class="k">end if</span>
+<a name="ln-89"></a><span class="k">		else</span>
+<a name="ln-90"></a><span class="k">			write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(a,$)&#39;</span><span class="p">)</span> <span class="nb">char</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span><span class="o">//</span><span class="n">message</span>
+<a name="ln-91"></a>			<span class="k">if</span><span class="p">(</span><span class="n">log_unit</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
+<a name="ln-92"></a><span class="k">				backspace</span><span class="p">(</span><span class="n">log_unit</span><span class="p">)</span>
+<a name="ln-93"></a>				<span class="k">write</span><span class="p">(</span><span class="n">log_unit</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span> <span class="n">message</span>
+<a name="ln-94"></a>				<span class="nb">flush</span><span class="p">(</span><span class="n">log_unit</span><span class="p">)</span>
+<a name="ln-95"></a>			<span class="k">end if</span>
+<a name="ln-96"></a><span class="k">		end if</span>
+<a name="ln-97"></a><span class="k">	end if</span>
+<a name="ln-98"></a><span class="k">    </span>
+<a name="ln-99"></a><span class="k">end subroutine </span>
+<a name="ln-100"></a>
+<a name="ln-101"></a><span class="k">subroutine </span><span class="n">write_message_replacing_end</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+<a name="ln-102"></a>	<span class="c">!! write message in the core with rank = 0, stop replacing a line by a new message</span>
+<a name="ln-103"></a>	<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">message</span>
+<a name="ln-104"></a>	<span class="c">!! the message to write, not to trim</span>
+<a name="ln-105"></a>
+<a name="ln-106"></a>	<span class="k">if</span><span class="p">(</span><span class="n">my_rank</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+<a name="ln-107"></a><span class="k">		</span><span class="n">message_replacing_status</span><span class="o">=</span><span class="mi">0</span>
+<a name="ln-108"></a>		<span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span> <span class="nb">char</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span><span class="o">//</span><span class="n">message</span>
+<a name="ln-109"></a>		<span class="k">if</span><span class="p">(</span><span class="n">log_unit</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
+<a name="ln-110"></a><span class="k">			backspace</span><span class="p">(</span><span class="n">log_unit</span><span class="p">)</span>
+<a name="ln-111"></a>			<span class="k">write</span><span class="p">(</span><span class="n">log_unit</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span> <span class="n">message</span>
+<a name="ln-112"></a>			<span class="nb">flush</span><span class="p">(</span><span class="n">log_unit</span><span class="p">)</span>
+<a name="ln-113"></a>		<span class="k">end if</span>
+<a name="ln-114"></a><span class="k">	end if</span>
+<a name="ln-115"></a><span class="k">    </span>
+<a name="ln-116"></a><span class="k">end subroutine </span>
+<a name="ln-117"></a>
+<a name="ln-118"></a><span class="k">end module</span>
 </pre></div>
 
     </section>

@@ -10,7 +10,7 @@
     <meta name="author" content="Wang Chao & Dong Shaojun" >
     <link rel="icon" href="../favicon.png">
 
-    <title>ZDOTU1 &ndash; TNSG</title>
+    <title>write_message_replacing &ndash; TNSG</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
@@ -97,8 +97,8 @@
     
   
   <div class="row">
-    <h1>ZDOTU1
-      <small>Function</small>
+    <h1>write_message_replacing
+      <small>Subroutine</small>
     
     </h1>
     
@@ -115,22 +115,24 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 1.2% of total for procedures.">15 statements</a>
+    title=" 1.9% of total for procedures.">20 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/zdotu.f90"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/mpi_info.f90"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/zdotu.f90.html'>zdotu.f90</a></li>
+     <li><a href='../sourcefile/mpi_info.f90.html'>mpi_info.f90</a></li>
+    
+     <li><a href='../module/mod_mpi_info.html'>mod_mpi_info</a></li>
     
   
-     <li class="active">ZDOTU1</li>
+     <li class="active">write_message_replacing</li>
   </ol>
 </div>
 </div>
@@ -180,7 +182,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-function ZDOTU1(N, ZX, INCX, ZY, INCY)
+public subroutine write_message_replacing(message)
     
     
    
@@ -189,6 +191,8 @@ function ZDOTU1(N, ZX, INCX, ZY, INCY)
   
 
 
+    
+    <p>write message in the core with rank = 0, keep replacing a line by a new message</p>
     
 
     <h3>Arguments</h3>
@@ -209,87 +213,18 @@ function ZDOTU1(N, ZX, INCX, ZY, INCY)
   
 <tr>
   
-  <td><span class="anchor" id="variable-n"></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>N</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-zx"></span>complex(kind=8)</td>
-  <td></td>
+  <td><span class="anchor" id="variable-message~2"></span>character(len=*),</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>ZX</strong>((N-1)*INCX+1)</td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-incx"></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>INCX</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-zy"></span>complex(kind=8)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>ZY</strong>((N-1)*INCY+1)</td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-incy"></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>INCY</strong></td><td></td>
+  <td><strong>message</strong></td><td><p>the message to write, not to trim</p></td>
   
 </tr>
 
 </tbody>
 </table>
 
-    
-    
-    
-    
-    
-    
-    
-   <h3>Return Value <small><span class="anchor" id="variable-zdotu1"></span>complex(kind=8)
-  </small></h3>
     
     
     

@@ -27,11 +27,7 @@ subroutine wc_error_stop_mess2(error_pos,error_mess)
 
 	call write_message('In '//trim(error_pos)//':')
 	call write_message(error_mess)
-	call wc_outpicture()
-	if(.not. test_tag)then
-		if(nproc>1) call MPI_Finalize(ierr)
-		stop
-	end if
+	call wc_error_stop_nomess()
 
 end subroutine
 
@@ -41,20 +37,18 @@ subroutine wc_error_stop_mess1(error_mess)
 	integer::ierr
 
 	call write_message(error_mess)
-	call wc_outpicture()
-	if(.not. test_tag)then
-		if(nproc>1) call MPI_Finalize(ierr)
-		stop
-	end if
+	call wc_error_stop_nomess()
 
 end subroutine	
 
 subroutine wc_error_stop_nomess()
 
 	integer::ierr
+	integer,pointer::t
 	
 	call wc_outpicture()
 	if(.not. test_tag)then
+		t=0
 		if(nproc>1) call MPI_Finalize(ierr)
 		stop
 	end if
