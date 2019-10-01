@@ -115,7 +115,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 4.4% of total for derived types.</p>Including implementation: 263 statements,  2.0% of total for derived types.">22 statements</a>
+    title="<p> 4.8% of total for derived types.</p>Including implementation: 318 statements,  2.4% of total for derived types.">24 statements</a>
      </li> 
      
      
@@ -206,6 +206,8 @@
       
       <a class="list-group-item" href="../type/unidic.html#boundprocedure-read~5">read</a>
       
+      <a class="list-group-item" href="../type/unidic.html#boundprocedure-iterate">iterate</a>
+      
       <a class="list-group-item" href="../type/unidic.html#boundprocedure-assignment%28%3D%29~3">assignment(=)</a>
       
     </div>
@@ -285,6 +287,8 @@
       <a class="list-group-item" href="../type/unidic.html#boundprocedure-print~3">print</a>
       
       <a class="list-group-item" href="../type/unidic.html#boundprocedure-read~5">read</a>
+      
+      <a class="list-group-item" href="../type/unidic.html#boundprocedure-iterate">iterate</a>
       
       <a class="list-group-item" href="../type/unidic.html#boundprocedure-assignment%28%3D%29~3">assignment(=)</a>
       
@@ -1144,6 +1148,117 @@ private subroutine read(U, f_unit)
 
       
     
+    
+
+        
+      
+      </li>
+    
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-iterate"></span><h3>procedure, public :: <strong>iterate</strong>  
+    
+  </h3></div>
+  
+  <div class="panel-body">
+    
+
+
+    <p>iterate a unidic.
+ Use it in this way: do while(U%iterate(key,val))</p>
+  </div>
+  
+  <ul class="list-group">
+    
+      <li class="list-group-item">
+      
+        
+          
+    
+    <h3>
+private function iterate(U, key, val) result(res)
+    
+    
+   
+</h3>
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/unidic.html'>unidic</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>U</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>character(len=max_char_length),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>key</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>val</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>logical
+  </small></h4>
+  
     
 
         

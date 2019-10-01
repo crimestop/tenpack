@@ -59,15 +59,16 @@ subroutine unset_output_log_TNSG()
 
 end subroutine
 
-subroutine write_message(message)
+subroutine write_message(message, advance)
 	!! write message in the core with rank = 0
 	character(len=*),intent(in) :: message
+	character(len=*),optional,intent(in) :: advance
 	!! the message to write, to trim
 
 	if(my_rank==0) then
-		write(*,*)trim(message)
+		write(*,'(a)',advance=advance)trim(message)
 		if(log_unit>0)then
-			write(log_unit,'(a)')trim(message)
+			write(log_unit,'(a)',advance=advance)trim(message)
 			flush(log_unit)
 		end if
 	end if

@@ -115,7 +115,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.9% of total for source files.">78 statements</a>
+    title=" 0.9% of total for source files.">79 statements</a>
      </li> 
      
      
@@ -311,60 +311,61 @@
 <a name="ln-59"></a>
 <a name="ln-60"></a><span class="k">end subroutine</span>
 <a name="ln-61"></a>
-<a name="ln-62"></a><span class="k">subroutine </span><span class="n">write_message</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+<a name="ln-62"></a><span class="k">subroutine </span><span class="n">write_message</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">advance</span><span class="p">)</span>
 <a name="ln-63"></a>	<span class="c">!! write message in the core with rank = 0</span>
 <a name="ln-64"></a>	<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">message</span>
-<a name="ln-65"></a>	<span class="c">!! the message to write, to trim</span>
-<a name="ln-66"></a>
-<a name="ln-67"></a>	<span class="k">if</span><span class="p">(</span><span class="n">my_rank</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
-<a name="ln-68"></a><span class="k">		write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="nb">trim</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-<a name="ln-69"></a>		<span class="k">if</span><span class="p">(</span><span class="n">log_unit</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
-<a name="ln-70"></a><span class="k">			write</span><span class="p">(</span><span class="n">log_unit</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="nb">trim</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-<a name="ln-71"></a>			<span class="nb">flush</span><span class="p">(</span><span class="n">log_unit</span><span class="p">)</span>
-<a name="ln-72"></a>		<span class="k">end if</span>
-<a name="ln-73"></a><span class="k">	end if</span>
-<a name="ln-74"></a><span class="k">    </span>
-<a name="ln-75"></a><span class="k">end subroutine </span>
-<a name="ln-76"></a>
-<a name="ln-77"></a><span class="k">subroutine </span><span class="n">dynamic_message</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-<a name="ln-78"></a>	<span class="c">!! write message in the core with rank = 0, keep replacing a line by a new message</span>
-<a name="ln-79"></a>	<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">message</span>
-<a name="ln-80"></a>	<span class="c">!! the message to write, not to trim</span>
-<a name="ln-81"></a>	<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">line_length</span><span class="p">)</span><span class="kd">::</span><span class="n">words</span>
-<a name="ln-82"></a>
-<a name="ln-83"></a>	<span class="k">if</span><span class="p">(</span><span class="n">my_rank</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
-<a name="ln-84"></a><span class="k">		</span><span class="n">words</span><span class="o">=</span><span class="n">message</span>
-<a name="ln-85"></a>		<span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(a,$)&#39;</span><span class="p">)</span> <span class="nb">char</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span><span class="o">//</span><span class="n">words</span>
-<a name="ln-86"></a>		<span class="k">if</span><span class="p">(</span><span class="n">log_unit</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
-<a name="ln-87"></a><span class="k">			if</span> <span class="p">(</span><span class="n">message_replacing_status</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span> <span class="k">backspace</span><span class="p">(</span><span class="n">log_unit</span><span class="p">)</span>
-<a name="ln-88"></a>			<span class="k">write</span><span class="p">(</span><span class="n">log_unit</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span> <span class="n">message</span>
-<a name="ln-89"></a>			<span class="nb">flush</span><span class="p">(</span><span class="n">log_unit</span><span class="p">)</span>
-<a name="ln-90"></a>		<span class="k">end if</span>
-<a name="ln-91"></a><span class="k">		if</span> <span class="p">(</span><span class="n">message_replacing_status</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="n">message_replacing_status</span><span class="o">=</span><span class="mi">1</span>
-<a name="ln-92"></a>	<span class="k">end if</span>
-<a name="ln-93"></a><span class="k">    </span>
-<a name="ln-94"></a><span class="k">end subroutine </span>
-<a name="ln-95"></a>
-<a name="ln-96"></a><span class="k">subroutine </span><span class="n">dynamic_message_end</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-<a name="ln-97"></a>	<span class="c">!! write message in the core with rank = 0, stop replacing a line by a new message</span>
-<a name="ln-98"></a>	<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">message</span>
-<a name="ln-99"></a>	<span class="c">!! the message to write, not to trim</span>
-<a name="ln-100"></a>	<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">line_length</span><span class="p">)</span><span class="kd">::</span><span class="n">words</span>
-<a name="ln-101"></a>
-<a name="ln-102"></a>	<span class="k">if</span><span class="p">(</span><span class="n">my_rank</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
-<a name="ln-103"></a><span class="k">		</span><span class="n">words</span><span class="o">=</span><span class="n">message</span>
-<a name="ln-104"></a>		<span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span> <span class="nb">char</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span><span class="o">//</span><span class="n">words</span>
-<a name="ln-105"></a>		<span class="k">if</span><span class="p">(</span><span class="n">log_unit</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
-<a name="ln-106"></a><span class="k">			if</span> <span class="p">(</span><span class="n">message_replacing_status</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span> <span class="k">backspace</span><span class="p">(</span><span class="n">log_unit</span><span class="p">)</span>
-<a name="ln-107"></a>			<span class="k">write</span><span class="p">(</span><span class="n">log_unit</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span> <span class="n">message</span>
-<a name="ln-108"></a>			<span class="nb">flush</span><span class="p">(</span><span class="n">log_unit</span><span class="p">)</span>
-<a name="ln-109"></a>		<span class="k">end if</span>
-<a name="ln-110"></a><span class="k">		</span><span class="n">message_replacing_status</span><span class="o">=</span><span class="mi">0</span>
-<a name="ln-111"></a>	<span class="k">end if</span>
-<a name="ln-112"></a><span class="k">    </span>
-<a name="ln-113"></a><span class="k">end subroutine </span>
-<a name="ln-114"></a>
-<a name="ln-115"></a><span class="k">end module</span>
+<a name="ln-65"></a>	<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">optional</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">advance</span>
+<a name="ln-66"></a>	<span class="c">!! the message to write, to trim</span>
+<a name="ln-67"></a>
+<a name="ln-68"></a>	<span class="k">if</span><span class="p">(</span><span class="n">my_rank</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+<a name="ln-69"></a><span class="k">		write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">,</span><span class="n">advance</span><span class="o">=</span><span class="n">advance</span><span class="p">)</span><span class="nb">trim</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+<a name="ln-70"></a>		<span class="k">if</span><span class="p">(</span><span class="n">log_unit</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
+<a name="ln-71"></a><span class="k">			write</span><span class="p">(</span><span class="n">log_unit</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">,</span><span class="n">advance</span><span class="o">=</span><span class="n">advance</span><span class="p">)</span><span class="nb">trim</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+<a name="ln-72"></a>			<span class="nb">flush</span><span class="p">(</span><span class="n">log_unit</span><span class="p">)</span>
+<a name="ln-73"></a>		<span class="k">end if</span>
+<a name="ln-74"></a><span class="k">	end if</span>
+<a name="ln-75"></a><span class="k">    </span>
+<a name="ln-76"></a><span class="k">end subroutine </span>
+<a name="ln-77"></a>
+<a name="ln-78"></a><span class="k">subroutine </span><span class="n">dynamic_message</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+<a name="ln-79"></a>	<span class="c">!! write message in the core with rank = 0, keep replacing a line by a new message</span>
+<a name="ln-80"></a>	<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">message</span>
+<a name="ln-81"></a>	<span class="c">!! the message to write, not to trim</span>
+<a name="ln-82"></a>	<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">line_length</span><span class="p">)</span><span class="kd">::</span><span class="n">words</span>
+<a name="ln-83"></a>
+<a name="ln-84"></a>	<span class="k">if</span><span class="p">(</span><span class="n">my_rank</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+<a name="ln-85"></a><span class="k">		</span><span class="n">words</span><span class="o">=</span><span class="n">message</span>
+<a name="ln-86"></a>		<span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(a,$)&#39;</span><span class="p">)</span> <span class="nb">char</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span><span class="o">//</span><span class="n">words</span>
+<a name="ln-87"></a>		<span class="k">if</span><span class="p">(</span><span class="n">log_unit</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
+<a name="ln-88"></a><span class="k">			if</span> <span class="p">(</span><span class="n">message_replacing_status</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span> <span class="k">backspace</span><span class="p">(</span><span class="n">log_unit</span><span class="p">)</span>
+<a name="ln-89"></a>			<span class="k">write</span><span class="p">(</span><span class="n">log_unit</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span> <span class="n">message</span>
+<a name="ln-90"></a>			<span class="nb">flush</span><span class="p">(</span><span class="n">log_unit</span><span class="p">)</span>
+<a name="ln-91"></a>		<span class="k">end if</span>
+<a name="ln-92"></a><span class="k">		if</span> <span class="p">(</span><span class="n">message_replacing_status</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="n">message_replacing_status</span><span class="o">=</span><span class="mi">1</span>
+<a name="ln-93"></a>	<span class="k">end if</span>
+<a name="ln-94"></a><span class="k">    </span>
+<a name="ln-95"></a><span class="k">end subroutine </span>
+<a name="ln-96"></a>
+<a name="ln-97"></a><span class="k">subroutine </span><span class="n">dynamic_message_end</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+<a name="ln-98"></a>	<span class="c">!! write message in the core with rank = 0, stop replacing a line by a new message</span>
+<a name="ln-99"></a>	<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">message</span>
+<a name="ln-100"></a>	<span class="c">!! the message to write, not to trim</span>
+<a name="ln-101"></a>	<span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">line_length</span><span class="p">)</span><span class="kd">::</span><span class="n">words</span>
+<a name="ln-102"></a>
+<a name="ln-103"></a>	<span class="k">if</span><span class="p">(</span><span class="n">my_rank</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+<a name="ln-104"></a><span class="k">		</span><span class="n">words</span><span class="o">=</span><span class="n">message</span>
+<a name="ln-105"></a>		<span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span> <span class="nb">char</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span><span class="o">//</span><span class="n">words</span>
+<a name="ln-106"></a>		<span class="k">if</span><span class="p">(</span><span class="n">log_unit</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span>
+<a name="ln-107"></a><span class="k">			if</span> <span class="p">(</span><span class="n">message_replacing_status</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span> <span class="k">backspace</span><span class="p">(</span><span class="n">log_unit</span><span class="p">)</span>
+<a name="ln-108"></a>			<span class="k">write</span><span class="p">(</span><span class="n">log_unit</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span> <span class="n">message</span>
+<a name="ln-109"></a>			<span class="nb">flush</span><span class="p">(</span><span class="n">log_unit</span><span class="p">)</span>
+<a name="ln-110"></a>		<span class="k">end if</span>
+<a name="ln-111"></a><span class="k">		</span><span class="n">message_replacing_status</span><span class="o">=</span><span class="mi">0</span>
+<a name="ln-112"></a>	<span class="k">end if</span>
+<a name="ln-113"></a><span class="k">    </span>
+<a name="ln-114"></a><span class="k">end subroutine </span>
+<a name="ln-115"></a>
+<a name="ln-116"></a><span class="k">end module</span>
 </pre></div>
 
     </section>
