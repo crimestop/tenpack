@@ -1,33 +1,49 @@
 module mod_stack
+!! (in libkernel)
+!! the module to realize a stack with integer elements
 use error
 implicit none
 private
 
 type node
+	private
 	type(node),pointer::previous
 	integer::val
 end type
 
 type stack
+	!! the class of stack with integer elements
 	private
 	integer::stack_num=0
 	type(node),pointer::last=>null()
 
 	contains
+	private
 	procedure,public::push
+	!! push an integer into a stack
 	procedure,public::pop
+	!! pop an integer out of a stack
 	procedure,public::top
+	!! return the top of a stack
 	procedure,public::num
+	!! return the number of elements in a stack
 	procedure,public::clean
+	!! clean a stack
 	procedure,public::read
+	!! read a stack from a file
 	procedure,public::write
+	!! save a stack to a file
 	procedure::real_length
 	procedure,public::consistent
-	procedure,public::items ! public only for test, don't use
+	!! check if a stack is consistent
+	procedure,public::items
+	!! public only for test, don't use
 	procedure::copy
 	generic,public :: assignment(=) => copy
+	!! assignment of a stack
 	procedure::compare
 	generic,public :: operator(==) => compare
+	!! check if two stacks are equal
 end type
 
 public stack

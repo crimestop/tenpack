@@ -10,7 +10,7 @@
     <meta name="author" content="Wang Chao & Dong Shaojun" >
     <link rel="icon" href="../favicon.png">
 
-    <title>percent &ndash; TNSG</title>
+    <title>mod_discrete &ndash; TNSG</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
@@ -97,8 +97,8 @@
     
   
   <div class="row">
-    <h1>percent
-      <small>Subroutine</small>
+    <h1>mod_discrete 
+    <small>Module</small>
     
     </h1>
     
@@ -115,24 +115,22 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 1.9% of total for procedures.">20 statements</a>
+    title=" 0.9% of total for modules and submodules.">77 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/percentage.f90"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/discrete.f90"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/percentage.f90.html'>percentage.f90</a></li>
-    
-     <li><a href='../module/mod_percent.html'>mod_percent</a></li>
+     <li><a href='../sourcefile/discrete.f90.html'>discrete.f90</a></li>
     
   
-     <li class="active">percent</li>
+     <li class="active">mod_discrete</li>
   </ol>
 </div>
 </div>
@@ -164,6 +162,16 @@
 
 
 
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#types-0">Derived Types</a></h3></div>
+  <div id="types-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/mod_discrete.html#type-discreter">discreter</a>
+      
+    </div>
+  </div>
+</div>
 
 
 
@@ -173,7 +181,7 @@
 
 
 
-<em>None</em>
+
 
 
 </div>
@@ -181,83 +189,15 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>
-public subroutine percent(words_in, perc_in, step_)
-    
-    
-   
-</h2>
-    
-  
-
-
-    
-
-    <h3>Arguments</h3>
-    
+    <p>(in libkernel)
+ the module to test if a variable has changed by a fixed amount</p>
       
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
+    
   
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-words_in"></span>character(len=*),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>words_in</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-perc_in"></span>real(kind=8),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>perc_in</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-step_"></span>real(kind=8),</td>
-  <td>intent(in),</td>
-  <td>optional</td>
-  
-  <td></td><td>::</td>
-  <td><strong>step_</strong></td><td></td>
-  
-</tr>
-
-</tbody>
-</table>
 
     
     
-    
-    
-     
+
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
@@ -276,6 +216,16 @@ public subroutine percent(words_in, perc_in, step_)
 
 
 
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#types-1">Derived Types</a></h3></div>
+  <div id="types-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/mod_discrete.html#type-discreter">discreter</a>
+      
+    </div>
+  </div>
+</div>
 
 
 
@@ -285,7 +235,7 @@ public subroutine percent(words_in, perc_in, step_)
 
 
 
-<em>None</em>
+
 
 
     </section>
@@ -302,18 +252,53 @@ public subroutine percent(words_in, perc_in, step_)
     
     
     
+    <section>
+     <h2>Derived Types</h2>
+   
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="type-discreter"></span><h3>type, public :: <a href='../type/discreter.html'>discreter</a>
+    
+  </h3></div>
+  <div class="panel-body">
+    
+     
+     
+          
+     
+     <h4>Type-Bound Procedures</h4>
+      <table class="table table-striped varlist">
+      <tbody>
+      
+       <tr><td>generic, public :: <strong><a href='../type/discreter.html#boundprocedure-set_interval'>set_interval</a></strong>  => set_interval_int, set_interval_dbl </td>
+       <td><p>set the interval</p></td></tr>
+      
+       <tr><td>generic, public :: <strong><a href='../type/discreter.html#boundprocedure-set_val'>set_val</a></strong>  => set_val_int, set_val_dbl </td>
+       <td><p>set last value</p></td></tr>
+      
+       <tr><td>generic, public :: <strong><a href='../type/discreter.html#boundprocedure-test'>test</a></strong>  => test_int, test_dbl </td>
+       <td><p>test if value and last value differ by interval, set value -&gt; last value</p></td></tr>
+      
+       </tbody>
+       </table>
+     
+  </div>
+</div>
+
+     
+    </section>
+  <br>
+    
     
     
 
-
-    
     
     
     
     </div>
   </div>
 
-
+  
     <hr>    
     </div> <!-- /container -->
     <footer>

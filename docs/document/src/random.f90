@@ -1,4 +1,6 @@
 module mod_rand
+!! (in libkernel)
+!! the module to generate random number
 use error
 implicit none
 private
@@ -13,6 +15,7 @@ private
 	real(8),parameter::rnmx=1.0-1.2e-7
 
 	type randomer
+	!! the class to generate random number
 		private
 		integer::seed
 		integer::this_seed
@@ -23,14 +26,21 @@ private
 	contains
 		private
 		procedure,public::check_uninited
+		!! check if the randomer is initiated
 		procedure,public::clean
+		!! clean the randomer
 		procedure::initialize1
 		procedure::initialize2
 		generic,public::initialize=>initialize1,initialize2
+		!! initialize the randomer
 		procedure,public::randreal
+		!! return a random double number
 		procedure,public::randInteger
+		!! return a random integer
 		procedure,public::get_seed
+		!! return the random seed
 		procedure,public::get_subseed
+		!! return the random seed of this core
 
 	end type
 
@@ -39,6 +49,7 @@ public randomer
 contains
 
 logical function check_uninited(myrand)
+	!! check if the randomer is initiated
 
 	class(randomer),intent(inout)::myrand
 
@@ -47,6 +58,7 @@ logical function check_uninited(myrand)
 end function
 
 subroutine clean(myrand)
+	!! clean the randomer
 
 	class(randomer),intent(inout)::myrand
 
@@ -54,7 +66,8 @@ subroutine clean(myrand)
 
 end subroutine
 
-subroutine initialize1(myrand,myseed,my_rank)  ! all procs has different random number
+subroutine initialize1(myrand,myseed,my_rank)
+	!! initialize the randomer, if parallel all procs have different random seeds
 
 	class(randomer),intent(inout)::myrand
 	integer,intent(in)::my_rank
@@ -89,7 +102,8 @@ subroutine initialize1(myrand,myseed,my_rank)  ! all procs has different random 
 
 end subroutine
 
-subroutine initialize2(myrand,myseed)  ! all procs has same random number
+subroutine initialize2(myrand,myseed)
+	!! initialize the randomer, if parallel all procs has the same random seed
 
 	class(randomer),intent(inout)::myrand
 	integer,intent(in)::myseed
@@ -145,6 +159,7 @@ subroutine next_state(state)
 end subroutine
 
 real(8) function randreal(myrand)
+	!! return a random double number form 0.0 to 1.0
 
 	class(randomer),intent(inout)::myrand
 	integer::pos
@@ -167,6 +182,7 @@ real(8) function randreal(myrand)
 end function
 
 integer function randInteger(myrand,iMin, iMax)
+	!! return a random double number form iMin to iMax
 
 	class(randomer),intent(inout)::myrand
 	integer, intent(in)::iMin, iMax
@@ -181,6 +197,7 @@ integer function randInteger(myrand,iMin, iMax)
 end function 
 
 integer function get_seed(myrand)
+	!! return the random seed
 
 	class(randomer),intent(inout)::myrand
 
@@ -189,6 +206,7 @@ integer function get_seed(myrand)
 end function 
 
 integer function get_subseed(myrand)
+	!! return the random seed of this core
 
 	class(randomer),intent(inout)::myrand
 

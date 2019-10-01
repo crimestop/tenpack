@@ -10,7 +10,7 @@
     <meta name="author" content="Wang Chao & Dong Shaojun" >
     <link rel="icon" href="../favicon.png">
 
-    <title>wc_error_stop_mess1 &ndash; TNSG</title>
+    <title>dynamic_message_end &ndash; TNSG</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
@@ -97,7 +97,7 @@
     
   
   <div class="row">
-    <h1>wc_error_stop_mess1
+    <h1>dynamic_message_end
       <small>Subroutine</small>
     
     </h1>
@@ -115,24 +115,24 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.6% of total for procedures.">6 statements</a>
+    title=" 1.6% of total for procedures.">14 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/error.f90"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/mpi_info.f90"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/error.f90.html'>error.f90</a></li>
+     <li><a href='../sourcefile/mpi_info.f90.html'>mpi_info.f90</a></li>
     
-     <li><a href='../module/error.html'>error</a></li>
+     <li><a href='../module/mod_mpi_info.html'>mod_mpi_info</a></li>
     
   
-     <li class="active">wc_error_stop_mess1</li>
+     <li class="active">dynamic_message_end</li>
   </ol>
 </div>
 </div>
@@ -182,7 +182,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-public subroutine wc_error_stop_mess1(error_mess)
+public subroutine dynamic_message_end(message)
     
     
    
@@ -191,6 +191,8 @@ public subroutine wc_error_stop_mess1(error_mess)
   
 
 
+    
+    <p>write message in the core with rank = 0, stop replacing a line by a new message</p>
     
 
     <h3>Arguments</h3>
@@ -211,12 +213,12 @@ public subroutine wc_error_stop_mess1(error_mess)
   
 <tr>
   
-  <td><span class="anchor" id="variable-error_mess~2"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-message~3"></span>character(len=*),</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>error_mess</strong></td><td></td>
+  <td><strong>message</strong></td><td><p>the message to write, not to trim</p></td>
   
 </tr>
 

@@ -1,4 +1,6 @@
 module type_unidic
+!! (in libkernel)
+!! the module to return a unidic positive int for each string
 use error
 use string
 use mod_stack
@@ -20,6 +22,7 @@ type node_head
 end type node_head
 
 type unidic
+	!! the class to hold key-index pairs, keys are strings, indices are unique ints
 	private
 	type(node_head)::hash_ary(hash_size)
 	integer::item_num=0
@@ -27,20 +30,31 @@ type unidic
 	contains
 	private
 	procedure,public::num
+	!! the number of items in a unidic
 	procedure,public::add
+	!! add a key to a unidic, return its index
 	procedure::add_with_val
 	procedure,public::del
+	!! delete a key in a unidic, return its index
 	procedure::del_with_val
 	procedure,public::val
+	!! find a key in a unidic, return its index
 	procedure,public::show
+	!! show a unidic
 	procedure,public::rename
+	!! rename a key in a unidic
 	procedure,public:: clean
+	!! clean a unidic
 	procedure,public:: print
+	!! print a unidic to a file
 	procedure,public:: read
+	!! read a unidic from a file
 	procedure::copy
 	generic,public :: assignment(=) => copy
+	!! assignment of a unidic
 	!procedure,public::check_consistency
 	final:: clean_dic
+	!! clean the object to avoid memory leak
 
 end type unidic
 

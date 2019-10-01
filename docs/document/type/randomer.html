@@ -115,7 +115,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 4.1% of total for derived types.</p>Including implementation: 168 statements,  1.3% of total for derived types.">20 statements</a>
+    title="<p> 4.0% of total for derived types.</p>Including implementation: 168 statements,  1.3% of total for derived types.">20 statements</a>
      </li> 
      
      
@@ -204,7 +204,7 @@
     
     <div class="col-md-9" id='text'>
       <h2>type, public :: randomer</h2>
-    
+    <p>the class to generate random number</p>
     
     
     
@@ -279,6 +279,13 @@
     
   </h3></div>
   
+  <div class="panel-body">
+    
+
+
+    <p>check if the randomer is initiated</p>
+  </div>
+  
   <ul class="list-group">
     
       <li class="list-group-item">
@@ -293,6 +300,10 @@ private function check_uninited(myrand)
    
 </h3>
     
+
+
+
+<p>check if the randomer is initiated</p>
     
     <h4>Arguments</h4>
     
@@ -352,6 +363,13 @@ private function check_uninited(myrand)
     
   </h3></div>
   
+  <div class="panel-body">
+    
+
+
+    <p>clean the randomer</p>
+  </div>
+  
   <ul class="list-group">
     
       <li class="list-group-item">
@@ -366,6 +384,10 @@ private subroutine clean(myrand)
    
 </h3>
     
+
+
+
+<p>clean the randomer</p>
     
     <h4>Arguments</h4>
     
@@ -416,6 +438,13 @@ private subroutine clean(myrand)
     
   </h3></div>
   
+  <div class="panel-body">
+    
+
+
+    <p>initialize the randomer</p>
+  </div>
+  
   <ul class="list-group">
     
       <li class="list-group-item">
@@ -430,6 +459,10 @@ private subroutine initialize1(myrand, myseed, my_rank)
    
 </h3>
     
+
+
+
+<p>initialize the randomer, if parallel all procs have different random seeds</p>
     
     <h4>Arguments</h4>
     
@@ -512,6 +545,10 @@ private subroutine initialize2(myrand, myseed)
    
 </h3>
     
+
+
+
+<p>initialize the randomer, if parallel all procs has the same random seed</p>
     
     <h4>Arguments</h4>
     
@@ -577,6 +614,13 @@ private subroutine initialize2(myrand, myseed)
     
   </h3></div>
   
+  <div class="panel-body">
+    
+
+
+    <p>return a random double number</p>
+  </div>
+  
   <ul class="list-group">
     
       <li class="list-group-item">
@@ -591,6 +635,10 @@ private function randreal(myrand)
    
 </h3>
     
+
+
+
+<p>return a random double number form 0.0 to 1.0</p>
     
     <h4>Arguments</h4>
     
@@ -650,6 +698,13 @@ private function randreal(myrand)
     
   </h3></div>
   
+  <div class="panel-body">
+    
+
+
+    <p>return a random integer</p>
+  </div>
+  
   <ul class="list-group">
     
       <li class="list-group-item">
@@ -664,6 +719,10 @@ private function randInteger(myrand, iMin, iMax)
    
 </h3>
     
+
+
+
+<p>return a random double number form iMin to iMax</p>
     
     <h4>Arguments</h4>
     
@@ -753,6 +812,13 @@ private function randInteger(myrand, iMin, iMax)
     
   </h3></div>
   
+  <div class="panel-body">
+    
+
+
+    <p>return the random seed</p>
+  </div>
+  
   <ul class="list-group">
     
       <li class="list-group-item">
@@ -767,6 +833,10 @@ private function get_seed(myrand)
    
 </h3>
     
+
+
+
+<p>return the random seed</p>
     
     <h4>Arguments</h4>
     
@@ -826,6 +896,13 @@ private function get_seed(myrand)
     
   </h3></div>
   
+  <div class="panel-body">
+    
+
+
+    <p>return the random seed of this core</p>
+  </div>
+  
   <ul class="list-group">
     
       <li class="list-group-item">
@@ -840,6 +917,10 @@ private function get_subseed(myrand)
    
 </h3>
     
+
+
+
+<p>return the random seed of this core</p>
     
     <h4>Arguments</h4>
     

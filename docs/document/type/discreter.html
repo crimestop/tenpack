@@ -10,7 +10,7 @@
     <meta name="author" content="Wang Chao & Dong Shaojun" >
     <link rel="icon" href="../favicon.png">
 
-    <title>statis &ndash; TNSG </title>
+    <title>discreter &ndash; TNSG </title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
@@ -97,7 +97,7 @@
     
   
   <div class="row">
-    <h1>statis
+    <h1>discreter
     <small>Derived Type</small>
     
     </h1>
@@ -115,24 +115,24 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 4.8% of total for derived types.</p>Including implementation: 331 statements,  2.5% of total for derived types.">24 statements</a>
+    title="<p> 3.0% of total for derived types.</p>Including implementation: 127 statements,  1.0% of total for derived types.">15 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/statistics.f90"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/discrete.f90"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/statistics.f90.html'>statistics.f90</a></li>
+     <li><a href='../sourcefile/discrete.f90.html'>discrete.f90</a></li>
     
-     <li><a href='../module/statistics.html'>statistics</a></li>
+     <li><a href='../module/mod_discrete.html'>mod_discrete</a></li>
     
   
-     <li class="active">statis</li>
+     <li class="active">discreter</li>
   </ol>
 </div>
 </div>
@@ -176,21 +176,11 @@
   <div id="boundprocs-0" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../type/statis.html#boundprocedure-add">add</a>
+      <a class="list-group-item" href="../type/discreter.html#boundprocedure-set_interval">set_interval</a>
       
-      <a class="list-group-item" href="../type/statis.html#boundprocedure-get_perc">get_perc</a>
+      <a class="list-group-item" href="../type/discreter.html#boundprocedure-set_val">set_val</a>
       
-      <a class="list-group-item" href="../type/statis.html#boundprocedure-get_ave_val">get_ave_val</a>
-      
-      <a class="list-group-item" href="../type/statis.html#boundprocedure-clean">clean</a>
-      
-      <a class="list-group-item" href="../type/statis.html#boundprocedure-show">show</a>
-      
-      <a class="list-group-item" href="../type/statis.html#boundprocedure-show2">show2</a>
-      
-      <a class="list-group-item" href="../type/statis.html#boundprocedure-sort_key">sort_key</a>
-      
-      <a class="list-group-item" href="../type/statis.html#boundprocedure-sort_val">sort_val</a>
+      <a class="list-group-item" href="../type/discreter.html#boundprocedure-test">test</a>
       
     </div>
   </div>
@@ -205,7 +195,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>type, public :: statis</h2>
+      <h2>type, public :: discreter</h2>
     
     
     
@@ -240,21 +230,11 @@
   <div id="boundprocs-1" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../type/statis.html#boundprocedure-add">add</a>
+      <a class="list-group-item" href="../type/discreter.html#boundprocedure-set_interval">set_interval</a>
       
-      <a class="list-group-item" href="../type/statis.html#boundprocedure-get_perc">get_perc</a>
+      <a class="list-group-item" href="../type/discreter.html#boundprocedure-set_val">set_val</a>
       
-      <a class="list-group-item" href="../type/statis.html#boundprocedure-get_ave_val">get_ave_val</a>
-      
-      <a class="list-group-item" href="../type/statis.html#boundprocedure-clean">clean</a>
-      
-      <a class="list-group-item" href="../type/statis.html#boundprocedure-show">show</a>
-      
-      <a class="list-group-item" href="../type/statis.html#boundprocedure-show2">show2</a>
-      
-      <a class="list-group-item" href="../type/statis.html#boundprocedure-sort_key">sort_key</a>
-      
-      <a class="list-group-item" href="../type/statis.html#boundprocedure-sort_val">sort_val</a>
+      <a class="list-group-item" href="../type/discreter.html#boundprocedure-test">test</a>
       
     </div>
   </div>
@@ -279,9 +259,16 @@
     
      
 <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-add"></span><h3>generic, public :: <strong>add</strong>  => add_sig, add_ary 
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_interval"></span><h3>generic, public :: <strong>set_interval</strong>  => set_interval_int, set_interval_dbl 
     
   </h3></div>
+  
+  <div class="panel-body">
+    
+
+
+    <p>set the interval</p>
+  </div>
   
   <ul class="list-group">
     
@@ -291,12 +278,16 @@
             
     
     <h3>
-private subroutine add_sig(ST, new_key, val)
+private subroutine set_interval_int(D, interval)
     
     
    
 </h3>
     
+
+
+
+<p>set the integer interval</p>
     
     <h4>Arguments</h4>
     
@@ -317,12 +308,12 @@ private subroutine add_sig(ST, new_key, val)
   
 <tr>
   
-  <td><span class="anchor" ></span>class(<a href='../type/statis.html'>statis</a>),</td>
+  <td><span class="anchor" ></span>class(<a href='../type/discreter.html'>discreter</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>ST</strong></td><td></td>
+  <td><strong>D</strong></td><td></td>
   
 </tr>
 
@@ -337,7 +328,63 @@ private subroutine add_sig(ST, new_key, val)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>new_key</strong></td><td></td>
+  <td><strong>interval</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+         
+      
+      </li>
+    
+      <li class="list-group-item">
+      
+         
+            
+    
+    <h3>
+private subroutine set_interval_dbl(D, interval)
+    
+    
+   
+</h3>
+    
+
+
+
+<p>set the double interval</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/discreter.html'>discreter</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>D</strong></td><td></td>
   
 </tr>
 
@@ -348,8 +395,98 @@ private subroutine add_sig(ST, new_key, val)
 <tr>
   
   <td><span class="anchor" ></span>real(kind=8),</td>
-  <td>intent(in),</td>
-  <td>optional</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>interval</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+         
+      
+      </li>
+    
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_val"></span><h3>generic, public :: <strong>set_val</strong>  => set_val_int, set_val_dbl 
+    
+  </h3></div>
+  
+  <div class="panel-body">
+    
+
+
+    <p>set last value</p>
+  </div>
+  
+  <ul class="list-group">
+    
+      <li class="list-group-item">
+      
+         
+            
+    
+    <h3>
+private subroutine set_val_int(D, val)
+    
+    
+   
+</h3>
+    
+
+
+
+<p>set last integer value</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/discreter.html'>discreter</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>D</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
   
   <td></td><td>::</td>
   <td><strong>val</strong></td><td></td>
@@ -373,12 +510,16 @@ private subroutine add_sig(ST, new_key, val)
             
     
     <h3>
-private subroutine add_ary(ST, new_key, val_)
+private subroutine set_val_dbl(D, val)
     
     
    
 </h3>
     
+
+
+
+<p>set last double value</p>
     
     <h4>Arguments</h4>
     
@@ -399,27 +540,12 @@ private subroutine add_ary(ST, new_key, val_)
   
 <tr>
   
-  <td><span class="anchor" ></span>class(<a href='../type/statis.html'>statis</a>),</td>
+  <td><span class="anchor" ></span>class(<a href='../type/discreter.html'>discreter</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>ST</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>new_key</strong>(:)</td><td></td>
+  <td><strong>D</strong></td><td></td>
   
 </tr>
 
@@ -430,11 +556,11 @@ private subroutine add_ary(ST, new_key, val_)
 <tr>
   
   <td><span class="anchor" ></span>real(kind=8),</td>
-  <td>intent(in),</td>
-  <td>optional</td>
+  <td>intent(in)</td>
+  <td></td>
   
   <td></td><td>::</td>
-  <td><strong>val_</strong></td><td></td>
+  <td><strong>val</strong></td><td></td>
   
 </tr>
 
@@ -455,9 +581,16 @@ private subroutine add_ary(ST, new_key, val_)
     
      
 <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_perc"></span><h3>generic, public :: <strong>get_perc</strong>  => get_perc_sig, get_perc_ary 
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-test"></span><h3>generic, public :: <strong>test</strong>  => test_int, test_dbl 
     
   </h3></div>
+  
+  <div class="panel-body">
+    
+
+
+    <p>test if value and last value differ by interval, set value -&gt; last value</p>
+  </div>
   
   <ul class="list-group">
     
@@ -467,12 +600,16 @@ private subroutine add_ary(ST, new_key, val_)
             
     
     <h3>
-private function get_perc_sig(ST, new_key)
+private function test_int(D, val) result(res)
     
     
    
 </h3>
     
+
+
+
+<p>test if integer value and last value differ by interval, set integer value -&gt; last value</p>
     
     <h4>Arguments</h4>
     
@@ -493,12 +630,12 @@ private function get_perc_sig(ST, new_key)
   
 <tr>
   
-  <td><span class="anchor" ></span>class(<a href='../type/statis.html'>statis</a>),</td>
+  <td><span class="anchor" ></span>class(<a href='../type/discreter.html'>discreter</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>ST</strong></td><td></td>
+  <td><strong>D</strong></td><td></td>
   
 </tr>
 
@@ -513,7 +650,7 @@ private function get_perc_sig(ST, new_key)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>new_key</strong></td><td></td>
+  <td><strong>val</strong></td><td></td>
   
 </tr>
 
@@ -528,7 +665,7 @@ private function get_perc_sig(ST, new_key)
   
   
   
-     <h4>Return Value <small>real(kind=8)
+     <h4>Return Value <small>logical
   </small></h4>
   
     
@@ -543,12 +680,16 @@ private function get_perc_sig(ST, new_key)
             
     
     <h3>
-private function get_perc_ary(ST, new_key)
+private function test_dbl(D, val) result(res)
     
     
    
 </h3>
     
+
+
+
+<p>test if double value and last value differ by interval, set double value -&gt; last value</p>
     
     <h4>Arguments</h4>
     
@@ -569,12 +710,12 @@ private function get_perc_ary(ST, new_key)
   
 <tr>
   
-  <td><span class="anchor" ></span>class(<a href='../type/statis.html'>statis</a>),</td>
+  <td><span class="anchor" ></span>class(<a href='../type/discreter.html'>discreter</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>ST</strong></td><td></td>
+  <td><strong>D</strong></td><td></td>
   
 </tr>
 
@@ -584,12 +725,12 @@ private function get_perc_ary(ST, new_key)
   
 <tr>
   
-  <td><span class="anchor" ></span>integer,</td>
+  <td><span class="anchor" ></span>real(kind=8),</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>new_key</strong>(:)</td><td></td>
+  <td><strong>val</strong></td><td></td>
   
 </tr>
 
@@ -604,526 +745,12 @@ private function get_perc_ary(ST, new_key)
   
   
   
-     <h4>Return Value <small>real(kind=8)
+     <h4>Return Value <small>logical
   </small></h4>
   
     
 
          
-      
-      </li>
-    
-  </ul>
-</div>
-
-    
-     
-<div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_ave_val"></span><h3>generic, public :: <strong>get_ave_val</strong>  => get_ave_val_sig, get_ave_val_ary 
-    
-  </h3></div>
-  
-  <ul class="list-group">
-    
-      <li class="list-group-item">
-      
-         
-            
-    
-    <h3>
-private function get_ave_val_sig(ST, new_key)
-    
-    
-   
-</h3>
-    
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>class(<a href='../type/statis.html'>statis</a>),</td>
-  <td>intent(inout)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>ST</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>new_key</strong></td><td></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-  
-  
-  
-  
-     <h4>Return Value <small>real(kind=8)
-  </small></h4>
-  
-    
-
-         
-      
-      </li>
-    
-      <li class="list-group-item">
-      
-         
-            
-    
-    <h3>
-private function get_ave_val_ary(ST, new_key)
-    
-    
-   
-</h3>
-    
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>class(<a href='../type/statis.html'>statis</a>),</td>
-  <td>intent(inout)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>ST</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>new_key</strong>(:)</td><td></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-  
-  
-  
-  
-     <h4>Return Value <small>real(kind=8)
-  </small></h4>
-  
-    
-
-         
-      
-      </li>
-    
-  </ul>
-</div>
-
-    
-     
-<div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-clean"></span><h3>procedure, public :: <strong>clean</strong>  
-    
-  </h3></div>
-  
-  <ul class="list-group">
-    
-      <li class="list-group-item">
-      
-        
-          
-    
-    <h3>
-private subroutine clean(ST)
-    
-    
-   
-</h3>
-    
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>class(<a href='../type/statis.html'>statis</a>),</td>
-  <td>intent(inout)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>ST</strong></td><td></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-        
-      
-      </li>
-    
-  </ul>
-</div>
-
-    
-     
-<div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-show"></span><h3>procedure, public :: <strong>show</strong>  
-    
-  </h3></div>
-  
-  <ul class="list-group">
-    
-      <li class="list-group-item">
-      
-        
-          
-    
-    <h3>
-private subroutine show(ST, sta_name)
-    
-    
-   
-</h3>
-    
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>class(<a href='../type/statis.html'>statis</a>),</td>
-  <td>intent(inout)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>ST</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>character(len=*)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>sta_name</strong></td><td></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-        
-      
-      </li>
-    
-  </ul>
-</div>
-
-    
-     
-<div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-show2"></span><h3>procedure, public :: <strong>show2</strong>  
-    
-  </h3></div>
-  
-  <ul class="list-group">
-    
-      <li class="list-group-item">
-      
-        
-          
-    
-    <h3>
-private subroutine show2(ST, sta_name)
-    
-    
-   
-</h3>
-    
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>class(<a href='../type/statis.html'>statis</a>),</td>
-  <td>intent(inout)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>ST</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>character(len=*)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>sta_name</strong></td><td></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-        
-      
-      </li>
-    
-  </ul>
-</div>
-
-    
-     
-<div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-sort_key"></span><h3>procedure, public :: <strong>sort_key</strong>  
-    
-  </h3></div>
-  
-  <ul class="list-group">
-    
-      <li class="list-group-item">
-      
-        
-          
-    
-    <h3>
-private subroutine sort_key(ST)
-    
-    
-   
-</h3>
-    
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>class(<a href='../type/statis.html'>statis</a>),</td>
-  <td>intent(inout)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>ST</strong></td><td></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-        
-      
-      </li>
-    
-  </ul>
-</div>
-
-    
-     
-<div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-sort_val"></span><h3>procedure, public :: <strong>sort_val</strong>  
-    
-  </h3></div>
-  
-  <ul class="list-group">
-    
-      <li class="list-group-item">
-      
-        
-          
-    
-    <h3>
-private subroutine sort_val(ST)
-    
-    
-   
-</h3>
-    
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>class(<a href='../type/statis.html'>statis</a>),</td>
-  <td>intent(inout)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>ST</strong></td><td></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-        
       
       </li>
     

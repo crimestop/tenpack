@@ -115,7 +115,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 4.6% of total for derived types.</p>Including implementation: 263 statements,  2.0% of total for derived types.">22 statements</a>
+    title="<p> 4.4% of total for derived types.</p>Including implementation: 263 statements,  2.0% of total for derived types.">22 statements</a>
      </li> 
      
      
@@ -222,7 +222,7 @@
     
     <div class="col-md-9" id='text'>
       <h2>type, public :: unidic</h2>
-    
+    <p>the class to hold key-index pairs, keys are strings, indices are unique ints</p>
     
     
     
@@ -315,7 +315,7 @@
     
 
 
-    
+    <p>clean the object to avoid memory leak</p>
   </div>
   <ul class="list-group">
      <li class="list-group-item">
@@ -382,6 +382,13 @@ private subroutine clean_dic(U)
   <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-num~2"></span><h3>procedure, public :: <strong>num</strong>  
     
   </h3></div>
+  
+  <div class="panel-body">
+    
+
+
+    <p>the number of items in a unidic</p>
+  </div>
   
   <ul class="list-group">
     
@@ -455,6 +462,13 @@ private function num(U) result(res)
   <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-add~4"></span><h3>procedure, public :: <strong>add</strong>  
     
   </h3></div>
+  
+  <div class="panel-body">
+    
+
+
+    <p>add a key to a unidic, return its index</p>
+  </div>
   
   <ul class="list-group">
     
@@ -550,6 +564,13 @@ private subroutine add(U, key, val)
     
   </h3></div>
   
+  <div class="panel-body">
+    
+
+
+    <p>delete a key in a unidic, return its index</p>
+  </div>
+  
   <ul class="list-group">
     
       <li class="list-group-item">
@@ -628,6 +649,13 @@ private subroutine del(U, key)
   <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-val"></span><h3>procedure, public :: <strong>val</strong>  
     
   </h3></div>
+  
+  <div class="panel-body">
+    
+
+
+    <p>find a key in a unidic, return its index</p>
+  </div>
   
   <ul class="list-group">
     
@@ -717,6 +745,13 @@ private function val(U, key)
     
   </h3></div>
   
+  <div class="panel-body">
+    
+
+
+    <p>show a unidic</p>
+  </div>
+  
   <ul class="list-group">
     
       <li class="list-group-item">
@@ -780,6 +815,13 @@ private subroutine show(U)
   <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-rename~4"></span><h3>procedure, public :: <strong>rename</strong>  
     
   </h3></div>
+  
+  <div class="panel-body">
+    
+
+
+    <p>rename a key in a unidic</p>
+  </div>
   
   <ul class="list-group">
     
@@ -875,6 +917,13 @@ private subroutine rename(U, key1, key2)
     
   </h3></div>
   
+  <div class="panel-body">
+    
+
+
+    <p>clean a unidic</p>
+  </div>
+  
   <ul class="list-group">
     
       <li class="list-group-item">
@@ -938,6 +987,13 @@ private subroutine clean(U)
   <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-print~3"></span><h3>procedure, public :: <strong>print</strong>  
     
   </h3></div>
+  
+  <div class="panel-body">
+    
+
+
+    <p>print a unidic to a file</p>
+  </div>
   
   <ul class="list-group">
     
@@ -1018,6 +1074,13 @@ private subroutine print(U, f_unit)
     
   </h3></div>
   
+  <div class="panel-body">
+    
+
+
+    <p>read a unidic from a file</p>
+  </div>
+  
   <ul class="list-group">
     
       <li class="list-group-item">
@@ -1096,6 +1159,13 @@ private subroutine read(U, f_unit)
   <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-assignment%28%3D%29~3"></span><h3>generic, public :: <strong>assignment(=)</strong>  => copy 
     
   </h3></div>
+  
+  <div class="panel-body">
+    
+
+
+    <p>assignment of a unidic</p>
+  </div>
   
   <ul class="list-group">
     

@@ -115,7 +115,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 1.9% of total for modules and submodules.">155 statements</a>
+    title=" 1.9% of total for modules and submodules.">157 statements</a>
      </li> 
      
      
@@ -189,7 +189,8 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    
+    <p>(in libkernel)
+ the module to realize a stack with integer elements</p>
       <br>
     
   
@@ -280,6 +281,9 @@
   </h3></div>
   <div class="panel-body">
     
+    
+    <p>the class of stack with integer elements</p>
+    
      
      
           
@@ -289,46 +293,37 @@
       <tbody>
       
        <tr><td>procedure, public :: <strong><a href='../type/stack.html#boundprocedure-push'>push</a></strong>  </td>
-       <td></td></tr>
+       <td><p>push an integer into a stack</p></td></tr>
       
        <tr><td>procedure, public :: <strong><a href='../type/stack.html#boundprocedure-pop'>pop</a></strong>  </td>
-       <td></td></tr>
+       <td><p>pop an integer out of a stack</p></td></tr>
       
        <tr><td>procedure, public :: <strong><a href='../type/stack.html#boundprocedure-top'>top</a></strong>  </td>
-       <td></td></tr>
+       <td><p>return the top of a stack</p></td></tr>
       
        <tr><td>procedure, public :: <strong><a href='../type/stack.html#boundprocedure-num'>num</a></strong>  </td>
-       <td></td></tr>
+       <td><p>return the number of elements in a stack</p></td></tr>
       
        <tr><td>procedure, public :: <strong><a href='../type/stack.html#boundprocedure-clean~4'>clean</a></strong>  </td>
-       <td></td></tr>
+       <td><p>clean a stack</p></td></tr>
       
        <tr><td>procedure, public :: <strong><a href='../type/stack.html#boundprocedure-read~2'>read</a></strong>  </td>
-       <td></td></tr>
+       <td><p>read a stack from a file</p></td></tr>
       
        <tr><td>procedure, public :: <strong><a href='../type/stack.html#boundprocedure-write'>write</a></strong>  </td>
-       <td></td></tr>
-      
-       <tr><td>procedure, public :: <strong><a href='../type/stack.html#boundprocedure-real_length'>real_length</a></strong>  </td>
-       <td></td></tr>
+       <td><p>save a stack to a file</p></td></tr>
       
        <tr><td>procedure, public :: <strong><a href='../type/stack.html#boundprocedure-consistent'>consistent</a></strong>  </td>
-       <td></td></tr>
+       <td><p>check if a stack is consistent</p></td></tr>
       
        <tr><td>procedure, public :: <strong><a href='../type/stack.html#boundprocedure-items'>items</a></strong>  </td>
-       <td></td></tr>
-      
-       <tr><td>procedure, public :: <strong><a href='../type/stack.html#boundprocedure-copy'>copy</a></strong>  </td>
-       <td></td></tr>
+       <td><p>public only for test, don't use</p></td></tr>
       
        <tr><td>generic, public :: <strong><a href='../type/stack.html#boundprocedure-assignment%28%3D%29'>assignment(=)</a></strong>  => copy </td>
-       <td></td></tr>
-      
-       <tr><td>procedure, public :: <strong><a href='../type/stack.html#boundprocedure-compare'>compare</a></strong>  </td>
-       <td></td></tr>
+       <td><p>assignment of a stack</p></td></tr>
       
        <tr><td>generic, public :: <strong><a href='../type/stack.html#boundprocedure-operator%28%3D%3D%29'>operator(==)</a></strong>  => compare </td>
-       <td></td></tr>
+       <td><p>check if two stacks are equal</p></td></tr>
       
        </tbody>
        </table>

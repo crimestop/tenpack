@@ -10,7 +10,7 @@
     <meta name="author" content="Wang Chao & Dong Shaojun" >
     <link rel="icon" href="../favicon.png">
 
-    <title>wc_outpicture &ndash; TNSG</title>
+    <title>dynamic_message &ndash; TNSG</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
@@ -97,7 +97,7 @@
     
   
   <div class="row">
-    <h1>wc_outpicture
+    <h1>dynamic_message
       <small>Subroutine</small>
     
     </h1>
@@ -115,24 +115,24 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="12.2% of total for procedures.">130 statements</a>
+    title=" 1.6% of total for procedures.">14 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/error.f90"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/mpi_info.f90"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/error.f90.html'>error.f90</a></li>
+     <li><a href='../sourcefile/mpi_info.f90.html'>mpi_info.f90</a></li>
     
-     <li><a href='../module/error.html'>error</a></li>
+     <li><a href='../module/mod_mpi_info.html'>mod_mpi_info</a></li>
     
   
-     <li class="active">wc_outpicture</li>
+     <li class="active">dynamic_message</li>
   </ol>
 </div>
 </div>
@@ -182,7 +182,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-public subroutine wc_outpicture()
+public subroutine dynamic_message(message)
     
     
    
@@ -192,11 +192,39 @@ public subroutine wc_outpicture()
 
 
     
+    <p>write message in the core with rank = 0, keep replacing a line by a new message</p>
+    
 
     <h3>Arguments</h3>
     
-    <em>None</em>
-    <br>
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-message~2"></span>character(len=*),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>message</strong></td><td><p>the message to write, not to trim</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
     
     
     

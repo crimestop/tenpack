@@ -1,4 +1,6 @@
 module type_unidic
+!! (in libkernel)
+!! the module to return a unidic positive int for each string
 use error
 use string
 use mod_stack
@@ -10,37 +12,60 @@ type node
 	type(node),pointer::next=>null()
 	character(len=max_char_length)::key=''
 	integer::val=0
-end type node
+end type
 
 integer,parameter::hash_size=787
 
 type node_head
 	private
 	type(node),pointer::first=>null()
-end type node_head
+end type
+
+type iterate_state
+	private
+	type(node),pointer::pos=>null()
+	integer::head_pos=0
+	logical::iterate_tag=.false.
+end type
 
 type unidic
+	!! the class to hold key-index pairs, keys are strings, indices are unique ints
 	private
 	type(node_head)::hash_ary(hash_size)
 	integer::item_num=0
 	type(stack)::avail_stack
+	type(iterate_state)::state
 	contains
 	private
 	procedure,public::num
+	!! the number of items in a unidic
 	procedure,public::add
+	!! add a key to a unidic, return its index
 	procedure::add_with_val
 	procedure,public::del
+	!! delete a key in a unidic, return its index
 	procedure::del_with_val
 	procedure,public::val
+	!! find a key in a unidic, return its index
 	procedure,public::show
+	!! show a unidic
 	procedure,public::rename
+	!! rename a key in a unidic
 	procedure,public:: clean
+	!! clean a unidic
 	procedure,public:: print
+	!! print a unidic to a file
 	procedure,public:: read
+	!! read a unidic from a file
+	procedure,public:: iterate
+	!! iterate a unidic.
+	!! Use it in this way: do while(U%iterate(key,val))
 	procedure::copy
 	generic,public :: assignment(=) => copy
+	!! assignment of a unidic
 	!procedure,public::check_consistency
 	final:: clean_dic
+	!! clean the object to avoid memory leak
 
 end type unidic
 
@@ -70,9 +95,12 @@ subroutine clean(U)
 	type(node),pointer::p,p_n
 	integer::i
 
+	if(U%state%iterate_tag) call wc_error_stop('unidic.rename','in iteration')
 	U%item_num=0
 	call U%avail_stack%clean()
-
+	U%state%pos=>null()
+	U%state%head_pos=0
+	U%state%iterate_tag=.false.
 	do i=1,hash_size
 		if(associated(U%hash_ary(i)%first))then
 			p=>U%hash_ary(i)%first			!first node
@@ -126,24 +154,29 @@ subroutine show(U)
 	integer::i
 
 	if(U%item_num==0)then
-		write(*,*)'Empty dictionary.'
+		call write_message('Empty dictionary.')
 	else
-		write(*,*)'Dictionary with '//trim(str(U%item_num))//' items:'
+		call write_message('Dictionary with '//trim(str(U%item_num))//' items:')
 		do i=1,hash_size
 			if(associated(U%hash_ary(i)%first))then
 				p=>U%hash_ary(i)%first
-				write(*,'(A)',advance='no')'  hash('//trim(str(i))//'):'
+				call write_message('  hash('//trim(str(i))//'):','no')
 				do while(associated(p))
-					write(*,'(A)',advance='no')' ('//trim(p%key)//':'//trim(str(p%val))//')'
+					call write_message(' ('//trim(p%key)//':'//trim(str(p%val))//')','no')
 					if (associated(p%next))then
-						write(*,'(A)',advance='no')','
+						call write_message(',','no')
 					else
-						write(*,'(A)')''
+						call write_message('')
 					end if
 					p=>p%next
 				end do
 			end if
 		end do
+		if(U%state%iterate_tag) then
+			call write_message(' In iteration mode')
+		else
+			call write_message(' Not in iteration mode')
+		end if
 	end if
 
 end subroutine
@@ -177,6 +210,7 @@ subroutine read(U,f_unit)
 	integer::i,val
 	character(len=max_char_length)::key
 
+	call clean(U)
 	read(f_unit,*)U%item_num
 	call U%avail_stack%read(f_unit)
 	do i=1,U%item_num
@@ -192,14 +226,14 @@ subroutine add(U,key,val)
 	character(len=*),intent(in)::key
 	integer,intent(out)::val
 
-	U%item_num=U%item_num+1
+	if(U%state%iterate_tag) call wc_error_stop('unidic.add','in iteration')
 
+	U%item_num=U%item_num+1
 	if(U%avail_stack%num()==0)then
 		val=U%item_num
 	else
 		val=U%avail_stack%pop()
 	end if
-
 	call U%add_with_val(key,val)
 
 end subroutine
@@ -213,7 +247,6 @@ subroutine add_with_val(U,key,val)
 	integer::pos
 
 	pos=hash_func(U,key)
-
 	if(.not.associated(U%hash_ary(pos)%first))then
 		allocate(U%hash_ary(pos)%first)
 		U%hash_ary(pos)%first%key=key
@@ -246,7 +279,6 @@ subroutine del_with_val(U,key,val)
 	logical::found
 
 	pos=hash_func(U,key)
-
 	found=.false.
 	if(associated(U%hash_ary(pos)%first))then
 		p=>U%hash_ary(pos)%first			!first node
@@ -281,6 +313,7 @@ subroutine del(U,key)
 	type(node),pointer::p,q
 	integer::val
 
+	if(U%state%iterate_tag) call wc_error_stop('unidic.del','in iteration')
 	call U%del_with_val(key,val)
 	U%item_num=U%item_num-1
 	call U%avail_stack%push(val)
@@ -320,6 +353,7 @@ subroutine rename(U,key1,key2)
 	character(len=*),intent(in)::key1,key2
 	integer::val
 
+	if(U%state%iterate_tag) call wc_error_stop('unidic.rename','in iteration')
 	call U%del_with_val(key1,val)
 	call U%add_with_val(key2,val)
 
@@ -337,6 +371,50 @@ integer function hash_func(U,key)
 	end do
 	hash_func=mod(hash_func,hash_size)+1
 		
+end function
+
+function iterate(U,key,val) result(res)
+
+	class(unidic),intent(inout)::U
+	character(len=max_char_length),intent(out)::key
+	integer,intent(out)::val
+	logical::res
+	type(node),pointer::p
+
+	key=''
+	val=0
+	res=.false.
+	if (.not. (U%state%iterate_tag))then
+		U%state%head_pos=0
+		do while(U%state%head_pos<hash_size)
+			U%state%head_pos=U%state%head_pos+1
+			if(associated(U%hash_ary(U%state%head_pos)%first))then
+				U%state%pos=>U%hash_ary(U%state%head_pos)%first
+				key=U%state%pos%key
+				val=U%state%pos%val
+				res=.true.
+				exit
+			end if
+		end do
+	else if (associated(U%state%pos%next))then
+		U%state%pos=>U%state%pos%next
+		key=U%state%pos%key
+		val=U%state%pos%val
+		res=.true.
+	else if(U%state%head_pos<hash_size) then
+		do while(U%state%head_pos<hash_size)
+			U%state%head_pos=U%state%head_pos+1
+			if(associated(U%hash_ary(U%state%head_pos)%first))then
+				U%state%pos=>U%hash_ary(U%state%head_pos)%first
+				key=U%state%pos%key
+				val=U%state%pos%val
+				res=.true.
+				exit
+			end if
+		end do
+	end if
+	U%state%iterate_tag=res
+
 end function
 
 end module type_unidic

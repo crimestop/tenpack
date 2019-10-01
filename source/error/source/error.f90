@@ -1,6 +1,7 @@
 module error
 use mod_mpi_info 
 implicit none
+private
 
 logical :: test_tag=.false.
 
@@ -9,6 +10,8 @@ interface wc_error_stop
 	module procedure wc_error_stop_mess1
 	module procedure wc_error_stop_nomess
 end interface
+
+public error_test_tag,wc_error_stop
 
 contains
 
